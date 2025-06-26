@@ -13,9 +13,8 @@ router.get('/', async (req, res) => {
   return res.status(200).json({ data: 'hello,llmRouter' });
 });
 
-
 router.post('/questions', async (req, res) => {
-    const {message} = req.body;
+  const { message } = req.body;
   const returnObj = await client.chat.completions.create({
     model,
     messages: [
