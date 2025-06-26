@@ -5,6 +5,7 @@
     "dev": "nodemon index.js",
     "migrate-latest": "npx knex migrate:latest --knexfile db/knexfile.js",
     "migrate-down": "npx knex migrate:down --knexfile db/knexfile.js",
+    "migrate-rollback": "npx knex migrate:rollback --all --knexfile db/knexfile.js",
     "migrate-make": "npx knex migrate:make --knexfile db/knexfile.js",
     "seed-data": "npx knex seed:run --knexfile db/knexfile.js",
     "seed-make": "npx knex seed:make --knexfile db/knexfile.js",
