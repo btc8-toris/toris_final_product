@@ -7,35 +7,69 @@ import RehearsalInPage from '../features/rehearsal/rehearsalInput/rehearsalInPag
 import RehearsalOutPage from '../features/rehearsal/rehearsalOutput/rehearsalOutPage';
 import ListenConversationPage from '../features/actual/listen/ListenConversation';
 import SuggestionPage from '../features/actual/suggestion/SuggestionPage';
+import { UIProvider } from '@yamada-ui/react';
+import customTheme from '../theme/theme';
 
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
+      <UIProvider theme={customTheme}>
+        <BrowserRouter>
+          <Routes>
+            {/* トライ中のものを最初に表示させるようにしてます */}
+            <Route
+              path="/"
+              element={<Navigate to="/try" />}
+            />
 
-{/* トライ中のものを最初に表示させるようにしてます */}
-          <Route path="/" element={<Navigate to="/try" />} />
+            {/* デモで最低限必要 */}
+            <Route
+              path="/try"
+              element={<MediaRecorer />}
+            />
+            <Route
+              path="/home"
+              element={<HomePage />}
+            />
+            <Route
+              path="/partner"
+              element={<PartnerPage />}
+            />
+            <Route path="/rehearsal">
+              <Route
+                path="input"
+                element={<RehearsalInPage />}
+              />
+              <Route
+                path="output"
+                element={<RehearsalOutPage />}
+              />
+            </Route>
 
-{/* デモで最低限必要 */}
-          <Route path="/try" element={<MediaRecorer />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/partner" element={<PartnerPage />} />
-          <Route path="/rehearsal">
-            <Route path="input" element={<RehearsalInPage />} />
-            <Route path="output" element={<RehearsalOutPage />} />
-          </Route>
+            {/* アプリとしてここまでやりたい。 */}
+            <Route path="/actual">
+              <Route
+                path="listen"
+                element={<ListenConversationPage />}
+              />
+              <Route
+                path="suggestion"
+                element={<SuggestionPage />}
+              />
+            </Route>
+            <Route
+              path="/login"
+              element={<LoginPage />}
+            />
 
-{/* アプリとしてここまでやりたい。 */}
-          <Route path="/actual">
-            <Route path="listen" element={<ListenConversationPage />} />
-            <Route path="suggestion" element={<SuggestionPage />} />
-          </Route>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/*" element={<Navigate to="/try" />} />
-
-        </Routes>
-      </BrowserRouter>
+            {/* 無効なURL叩いた時ようのナビゲーション */}
+            <Route
+              path="/*"
+              element={<Navigate to="/try" />}
+            />
+          </Routes>
+        </BrowserRouter>
+      </UIProvider>
     </>
   );
 }
