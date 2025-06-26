@@ -1,14 +1,15 @@
 {
   "scripts": {
+    "test": "mocha --require test/setup.js",
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "db:init": "knex init",
-    "db:migrate": "knex migrate:latest",
-    "db:migrate-make": "knex migrate:make",
-    "db:seed": "knex seed:run",
-    "db:seed-make": "knex seed:make",
-    "db:reset": "knex migrate:rollback --all && knex migrate:latest && knex seed:run",
-    "db:rollback": "knex migrate:rollback --all"
+    "migrate-latest": "npx knex migrate:latest --knexfile db/knexfile.js",
+    "migrate-down": "npx knex migrate:down --knexfile db/knexfile.js",
+    "migrate-make": "npx knex migrate:make --knexfile db/knexfile.js",
+    "seed-data": "npx knex seed:run --knexfile db/knexfile.js",
+    "seed-make": "npx knex seed:make --knexfile db/knexfile.js",
+    "db:reset": "npx knex migrate:rollback --all --knexfile db/knexfile.js && npm run migrate-latest && npm run seed-data",
+    "build": "npm install && npm run db:reset && cd client && npm install && npm run build && rm -rf ../public && cp -r dist ../public"
   },
   "dependencies": {
     "dotenv": "^16.5.0",
