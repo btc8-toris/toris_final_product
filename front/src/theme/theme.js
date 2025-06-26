@@ -3,6 +3,9 @@ import { extendTheme } from "@yamada-ui/react";
 const customTheme = extendTheme({
     semantics: {
       colors: {
+        primary: 'hibiscusDelight.500',
+        secondary:'cabbage.500',
+        tertiary:'cavalry.500',
         hibiscusDelight: {
           50: '#fff4f0',
           100: '#ffece5',
@@ -52,6 +55,13 @@ const customTheme = extendTheme({
         mintGreen: '#82D9BC',
         softNavy: '#3E4A59',
       },
+      fonts:{
+        
+          heading: `'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "游ゴシック体", YuGothic, "YuGothic M", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`,
+          body: `'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "游ゴシック体", YuGothic, "YuGothic M", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`,
+          mono: `SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`,
+        
+      }
     },
   })();
 
