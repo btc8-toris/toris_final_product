@@ -5,6 +5,11 @@ const USERS_TABLE = 'users';
 module.exports = {
   USERS_TABLE,
 
+  //デモ用の6人の情報を取得する
+  async get6persons() {
+    return db(USERS_TABLE).where('org_code', '99999');
+  },
+
   //一人のユーザー情報を取得(🚀一旦は全情報を取得。必要に応じてここで加工)
   async selectUser(user_id) {
     return db(USERS_TABLE).where('id', user_id);
@@ -13,5 +18,22 @@ module.exports = {
   //自分と同じ部署のユーザー情報を取得(🚀一旦は全情報を取得。必要に応じてここで加工)
   async selectSameOrgUser(org_code) {
     return db(USERS_TABLE).where('org_code', org_code);
+  },
+
+  //質問に対する回答を登録
+  async writeAnswer1(user_id, answer) {
+    await db(USERS_TABLE).where('id', user_id).update(answer);
+  },
+  async writeAnswer2(user_id, answer) {
+    await db(USERS_TABLE).where('id', user_id).update(answer);
+  },
+  async writeAnswer3(user_id, answer) {
+    await db(USERS_TABLE).where('id', user_id).update(answer);
+  },
+  async writeAnswer4(user_id, answer) {
+    await db(USERS_TABLE).where('id', user_id).update(answer);
+  },
+  async writeAnswer5(user_id, answer) {
+    await db(USERS_TABLE).where('id', user_id).update(answer);
   },
 };
