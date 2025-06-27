@@ -10,25 +10,31 @@ function HomePage() {
       padding="0"
       justifyContent="center"
       height="100vh">
-      <Flex
-        direction="row"
+      {/* <Flex
+        direction="column"
         justify="space-around"
-        width="100%">
+        width="100%"> */}
         <Button
-          width="32"
-          height="32"
+          width="75%"
+          height="20"
+          colorScheme='secondary'
+          onClick={()=>navigate("/partner")}>
+          プロフィール作成
+        </Button>
+        <Button
+          width="75%"
+          height="20"
           colorScheme='primary'
           onClick={()=>navigate("/partner")}>
-            
           壁打ち
         </Button>
         <Button
-          width="32"
-          height="32"
-          colorScheme='secondary'>
+          width="75%"
+          height="20"
+          colorScheme='primary'>
           話し合い
         </Button>
-      </Flex>
+      {/* </Flex> */}
     </Container>
   );
 }
