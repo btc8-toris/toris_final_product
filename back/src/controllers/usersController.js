@@ -7,8 +7,8 @@ module.exports = {
   },
 
   async userGet(req, res) {
-    user_id = req.params.id;
-    const data = await userModel.selectUser(user_id);
+    search_id = req.params.id;
+    const data = await userModel.selectUser(search_id);
     res.status(200).json(data);
   },
 
