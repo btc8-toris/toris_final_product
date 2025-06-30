@@ -1,5 +1,18 @@
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+const { TranscribeClient } = require('@aws-sdk/client-transcribe');
 const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs');
+
+// S3にファイルをアップロードするために必要な処理
+const s3 = new S3Client({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
+});
+
+const transcribe = new TranscribeClient({ region: process.env.AWS_REGION });
 
 module.exports = {
   // MP3へ変換
@@ -24,4 +37,12 @@ module.exports = {
       }
     });
   },
+
+  async sendS3(uploadParams) {
+    return await s3.send(new PutObjectCommand(uploadParams));
+  },
+
+  async sendTranscribe(command) {
+    return await transcribe.send(command);
+  }
 };
