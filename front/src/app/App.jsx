@@ -21,7 +21,7 @@ function App() {
             {/* トライ中のものを最初に表示させるようにしてます */}
             <Route
               path="/"
-              element={<Navigate to="/try" />}
+              element={<Navigate to="/login" />}
             />
 
             {/* デモで最低限必要 */}
