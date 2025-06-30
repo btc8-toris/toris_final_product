@@ -1,9 +1,14 @@
-import React from 'react'
+import { Container } from '@yamada-ui/react';
+import React from 'react';
+
+
 
 function ListenConversationPage() {
   return (
-    <div>ListenConversationPage</div>
-  )
+    <Container>
+      ListenConversationPagea
+    </Container>
+  );
 }
 
-export default ListenConversationPage
+export default ListenConversationPage;
