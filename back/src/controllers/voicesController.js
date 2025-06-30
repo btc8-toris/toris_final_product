@@ -68,13 +68,20 @@ module.exports = {
 
   async getTranscript(req, res) {
     const jobName = req.params.jobName;
+    console.log('🍓 ~ app.get ~ jobName:', jobName);
 
     try {
       // Transcribeジョブの状態を取得
       const command = new GetTranscriptionJobCommand({ TranscriptionJobName: jobName });
       const response = voicesModel.sendTranscribe(command);
+      console.log('🍓 ~ app.get ~ jobName:', jobName);
+
       const job = response.TranscriptionJob;
+      console.log('🍓 ~ app.get ~ job:', job.TranscriptionJobStatus);
+
       if (job.TranscriptionJobStatus === 'COMPLETED') {
+        console.log('🙅🏻‍♀️');
+
         const transcriptKey = `${jobName},json`;
         const commandInfo = new GetObjectCommand({
           Bucket: process.env.S3_BUCKET_NAME,
