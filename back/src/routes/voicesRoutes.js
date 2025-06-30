@@ -1,8 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const { convert, uploadFile, getTranscript } = require('../controllers/voicesController');
+const multer = require('multer');
 
-router.post('/convert');
-router.post('/upload');
-router.get('/transcription-result/:jobName');
+const upload = multer({ dest: 'uploads/' });
+
+router.post('/convert', upload.single('audio'), convert);
+router.post('/upload', upload.single('audio'), uploadFile);
+router.get('/transcription-result/:jobName', getTranscript);
 
 module.exports = router;
