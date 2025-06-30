@@ -93,6 +93,7 @@ function RehearsalInPage() {
           }
         />
         <IconButton
+          onClick={() => navigate('/questionPage')}
           colorScheme="warning"
           size="md"
           icon={
