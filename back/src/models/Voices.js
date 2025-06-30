@@ -18,7 +18,7 @@ const transcribe = new TranscribeClient({ region: process.env.AWS_REGION });
 module.exports = {
   // MP3へ変換
   async changeMp3(inputPath, outputPath) {
-    return await ((resolve, reject) => {
+    return new Promise ((resolve, reject) => {
       ffmpeg(inputPath)
         .toFormat('mp3')
         .on('end', () => {

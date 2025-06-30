@@ -1,4 +1,4 @@
-import { Container } from '@yamada-ui/react';
+import { Button, Container } from '@yamada-ui/react';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import RecordRTC from 'recordrtc';
@@ -111,8 +111,10 @@ function ListenConversationPage() {
 
   const text = async (mp3File) => {
     console.log('🍓 ~ text ~ mp3File:', mp3File);
-    const aaa = 'test34';
-    const data = await fetch(`/api/voices/transcription-result/${mp3File}`).then((res) => res.json());
+    // const aaa = 'test34';
+    const data = await fetch(`/api/voices/transcription-result/${mp3File}`).then((res) =>
+      res.json(),
+    );
 
     console.log('🍓 ~ text ~ data:', data.status);
     console.log('🍓 ~ text ~ data.text:', data.text);
@@ -130,16 +132,16 @@ function ListenConversationPage() {
       <Container>ListenConversationPagea</Container>
       <div>
         <h1>音声認識デモ</h1>
-        <button
+        <Button
           onClick={startRecording}
           disabled={listening}>
           開始
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={stopRecording}
           disabled={!listening}>
           停止
-        </button>
+        </Button>
         {transcript ? (
           transcript.map((elem) => {
             return (

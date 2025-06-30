@@ -73,7 +73,7 @@ module.exports = {
     try {
       // Transcribeジョブの状態を取得
       const command = new GetTranscriptionJobCommand({ TranscriptionJobName: jobName });
-      const response = voicesModel.sendTranscribe(command);
+      const response = await voicesModel.sendTranscribe(command);
       console.log('🍓 ~ app.get ~ jobName:', jobName);
 
       const job = response.TranscriptionJob;
@@ -82,13 +82,13 @@ module.exports = {
       if (job.TranscriptionJobStatus === 'COMPLETED') {
         console.log('🙅🏻‍♀️');
 
-        const transcriptKey = `${jobName},json`;
+        const transcriptKey = `${jobName}.json`;
         const commandInfo = new GetObjectCommand({
           Bucket: process.env.S3_BUCKET_NAME,
           Key: transcriptKey,
         });
         const validTime = { expiresIn: 3600 };
-        const signedUrl = await getUrl(commandInfo, validTime);
+        const signedUrl = await voicesModel.getUrl(commandInfo, validTime);
         const transcriptRes = await fetch(signedUrl).then((res) => res.json());
         const transcriptText = transcriptRes.results.audio_segments;
         res.json({ status: 'completed', text: transcriptText });
