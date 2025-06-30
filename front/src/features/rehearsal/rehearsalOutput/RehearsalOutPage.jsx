@@ -26,6 +26,7 @@ import {
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
+import Footer from '../../../components/footer/Footer';
 let resTextProposal = '';
 let answer1 = '';
 const answers = [];
@@ -113,7 +114,7 @@ function RehearsalOutPage() {
   return (
     <Container
       centerContent="true"
-      padding="0">
+      p="0">
       <div>RehearsalOutPage</div>
       <Box>
         {' '}
@@ -148,9 +149,13 @@ function RehearsalOutPage() {
         </>
       )}
 
-      <HStack>
+      {/* <Box
+        bg="#3e4a59"
+        className="flex"
+        width="100%">
         <IconButton
           onClick={() => navigate('/home')}
+          variant="ghost"
           colorScheme="warning"
           size="md"
           icon={
@@ -169,6 +174,7 @@ function RehearsalOutPage() {
         />
         <IconButton
           onClick={() => navigate('/partner')}
+          variant="ghost"
           colorScheme="warning"
           size="md"
           icon={
@@ -180,6 +186,7 @@ function RehearsalOutPage() {
         />
         <IconButton
           onClick={() => navigate('/questionPage')}
+          variant="ghost"
           colorScheme="warning"
           size="md"
           icon={
@@ -189,7 +196,9 @@ function RehearsalOutPage() {
             />
           }
         />
-      </HStack>
+      </Box> */}
+
+      <Footer onIndex={2} />
     </Container>
   );
 }
