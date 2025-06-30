@@ -1,5 +1,6 @@
 const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const { TranscribeClient } = require('@aws-sdk/client-transcribe');
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs');
 
@@ -44,5 +45,11 @@ module.exports = {
 
   async sendTranscribe(command) {
     return await transcribe.send(command);
-  }
+  },
+
+  async getUrl(commandInfo, validTime) {
+    return await getSignedUrl(s3, commandInfo, validTime);
+  },
+
+  
 };

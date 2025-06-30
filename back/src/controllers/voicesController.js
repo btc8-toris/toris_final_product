@@ -1,7 +1,11 @@
-const { StartTranscriptionJobCommand } = require('@aws-sdk/client-transcribe');
+const {
+  StartTranscriptionJobCommand,
+  GetTranscriptionJobCommand,
+} = require('@aws-sdk/client-transcribe');
 const voicesModel = require('../models/Voices');
 
 const fs = require('fs');
+const { GetObjectCommand } = require('@aws-sdk/client-s3');
 
 let fileName = '';
 
@@ -59,6 +63,35 @@ module.exports = {
     } catch (err) {
       console.error('s3アップロード失敗：', err);
       res.status(500).json({ error: 'アップロードに失敗しました' });
+    }
+  },
+
+  async getTranscript(req, res) {
+    const jobName = req.params.jobName;
+
+    try {
+      // Transcribeジョブの状態を取得
+      const command = new GetTranscriptionJobCommand({ TranscriptionJobName: jobName });
+      const response = voicesModel.sendTranscribe(command);
+      const job = response.TranscriptionJob;
+      if (job.TranscriptionJobStatus === 'COMPLETED') {
+        const transcriptKey = `${jobName},json`;
+        const commandInfo = new GetObjectCommand({
+          Bucket: process.env.S3_BUCKET_NAME,
+          Key: transcriptKey,
+        });
+        const validTime = { expiresIn: 3600 };
+        const signedUrl = await getUrl(commandInfo, validTime);
+        const transcriptRes = await fetch(signedUrl).then((res) => res.json());
+        const transcriptText = transcriptRes.results.audio_segments;
+        res.json({ status: 'completed', text: transcriptText });
+      } else if (job.TranscriptionJobStatus === 'IN_PROGRESS') {
+        res.json({ status: 'in_progress' });
+      } else {
+        res.status(500).json({ status: 'failed', reason: 'FailureReason' });
+      }
+    } catch (err) {
+      res.status(500).json({ error: 'ジョブ取得に失敗しました', details: err.message });
     }
   },
 };
