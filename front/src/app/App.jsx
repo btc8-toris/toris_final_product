@@ -9,6 +9,8 @@ import ListenConversationPage from '../features/actual/listen/ListenConversation
 import SuggestionPage from '../features/actual/suggestion/SuggestionPage';
 import { UIProvider } from '@yamada-ui/react';
 import customTheme from '../theme/theme';
+import QuestionPage from '../features/question/QuestionPage';
+import ConversationLogPage from '../features/actual/conversationLog/conversationLogPage';
 
 function App() {
   return (
@@ -26,6 +28,10 @@ function App() {
             <Route
               path="/try"
               element={<MediaRecorer />}
+            />
+            <Route
+              path="/questionPage"
+              element={<QuestionPage />}
             />
             <Route
               path="/home"
@@ -51,6 +57,10 @@ function App() {
               <Route
                 path="listen"
                 element={<ListenConversationPage />}
+              />
+              <Route
+                path="conversationlog"
+                element={<ConversationLogPage />}
               />
               <Route
                 path="suggestion"
