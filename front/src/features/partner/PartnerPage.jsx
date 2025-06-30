@@ -10,6 +10,8 @@ import {
   Radio,
   RadioGroup,
   Avatar,
+  HStack,
+  IconButton,
 } from '@yamada-ui/react';
 import React from 'react';
 import { useEffect, useState } from 'react';
@@ -40,7 +42,7 @@ function PartnerPage() {
   function selectPerson(e) {
     let selectArray = [];
     const id = Number(e.currentTarget.dataset.index);
-    const keysToKeep = ['answer1', 'answer2', 'answer3', 'answer4', 'answer5'];
+    const keysToKeep = ['nickname', 'answer1', 'answer2', 'answer3', 'answer4', 'answer5'];
 
     const newObject = Object.fromEntries(
       Object.entries(list[id]).filter(([key]) => keysToKeep.includes(key)),
@@ -96,33 +98,82 @@ function PartnerPage() {
           |🔍
         </Button>
       </Flex>
-      {list.map((obj, index) => {
-        if (selectFlag[index] === true) {
-          return (
-            <Button
-              key={obj.id}
-              data-index={index}
-              colorScheme="primary"
-              onClick={selectPerson}>
-              <Avatar name={obj.nickname} />
 
-              {obj.nickname}
-            </Button>
-          );
-        } else {
-          return (
-            <Button
-              key={obj.id}
-              data-index={index}
-              onClick={selectPerson}>
-              <Avatar name={obj.nickname} />
-              {obj.nickname}
-            </Button>
-          );
-        }
-      })}
+      {list.length !== 0 ? (
+        list.map((obj, index) => {
+          if (selectFlag[index] === true) {
+            return (
+              <Button
+                key={obj.id}
+                data-index={index}
+                colorScheme="primary"
+                onClick={selectPerson}>
+                <Avatar name={obj.nickname} />
 
-      <Button onClick={() => navigate('/rehearsal/input', { state: answer })}>実行</Button>
+                {obj.nickname}
+              </Button>
+            );
+          } else {
+            return (
+              <Button
+                key={obj.id}
+                data-index={index}
+                onClick={selectPerson}>
+                <Avatar name={obj.nickname} />
+                {obj.nickname}
+              </Button>
+            );
+          }
+        })
+      ) : (
+        <Box>IDが存在しません</Box>
+      )}
+
+      <Button onClick={() => navigate('/rehearsal/input', { state: { data: answer } })}>
+        実行
+      </Button>
+
+      <HStack>
+        <IconButton
+          onClick={() => navigate('/home')}
+          colorScheme="warning"
+          size="md"
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="size-5">
+              <path
+                fillRule="evenodd"
+                d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z"
+                clipRule="evenodd"
+              />
+            </svg>
+          }
+        />
+        <IconButton
+          onClick={() => window.location.reload()} //同じページの遷移はnavigateだと初期化されないので
+          colorScheme="warning"
+          size="md"
+          icon={
+            <img
+              src="/person_search.png"
+              alt="custom"
+            />
+          }
+        />
+        <IconButton
+          colorScheme="warning"
+          size="md"
+          icon={
+            <img
+              src="/psychiatry.png"
+              alt="custom"
+            />
+          }
+        />
+      </HStack>
 
       {/* <Grid
         marginTop="3"
