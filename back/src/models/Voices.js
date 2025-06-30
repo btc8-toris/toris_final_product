@@ -1,4 +1,3 @@
-const { log } = require('console');
 const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs');
 
@@ -18,7 +17,7 @@ module.exports = {
     });
   },
 
-  async deleteFile(paths) {
+  deleteFile(paths) {
     paths.forEach((path) => {
       if (fs.existsSync(path)) {
         fs.unlinkSync(path);
