@@ -2,6 +2,7 @@ const express = require('express');
 const llmRouter = require('./src/routes/llmRoutes');
 const userRouter = require('./src/routes/userRoutes');
 const pairsRouter = require('./src/routes/pairsRoutes');
+const voicesRouter = require('./src/routes/voicesRoutes');
 
 const app = express();
 
@@ -17,6 +18,9 @@ function setUpServer() {
 
   //pairs関連のエンドポイント
   app.use('/api/pairs', pairsRouter);
+
+  // 文字起こし関連のエンドポイント
+  app.use('/api/voices', voicesRouter);
 
   return app;
 }
