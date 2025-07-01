@@ -1,0 +1,9 @@
+# .dockerignore：Dockerイメージに含めたくないファイルやディレクトリを指定する。これにより、イメージサイズを削減し、ビルド時間を短縮できる。
+
+node_modules
+npm-debug.log
+.git
+.gitignore
+.env
+dist # ビルド後の出力ディレクトリなど、不要なもの
+tmp/
