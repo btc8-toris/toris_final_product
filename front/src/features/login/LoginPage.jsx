@@ -13,11 +13,12 @@ import {
   Text,
   FormControl,
 } from '@yamada-ui/react';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import appLogo from '/appLogo.png';
 import { useNavigate } from 'react-router';
 import { IdCard, LockKeyhole, Eye, EyeOff } from 'lucide-react';
+import { context } from '../../app/App';
 
 function LoginPage() {
   const [nickName, setNickName] = useState('');
@@ -25,26 +26,22 @@ function LoginPage() {
   const [isShow, setIsShow] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
-  const [nickNameError, setNickNameError] = useState(false)
-  const [nickNameErrorMessage, setNickNameErrorMessage] = useState(false)
-  const [passwordError, setPasswordError] = useState(false)
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState(false)
+  const [nickNameError, setNickNameError] = useState(false);
+  const [nickNameErrorMessage, setNickNameErrorMessage] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState(false);
   const navigate = useNavigate();
+
+  const { user, setUser } = useContext(context);
 
   const loginBorderBottom = isLogin ? 'solid 3px' : 'solid 1px';
   const newAccountBorderBottom = isLogin ? 'solid 1px' : 'solid 3px';
-  // const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  // const handleMouseDownPassword = (event) => {
-  //   event.preventDefault();
-  // };
-
-  // const handleMouseUpPassword = (event) => {
-  //   event.preventDefault();
-  // };
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setPasswordError(false);
+    setNickNameError(false);
+
     const data = { nickName, password };
     await axios
       .post('/api/auth/login', data, {
@@ -53,22 +50,22 @@ function LoginPage() {
         },
       })
       .then((response) => {
-        console.log('login', response.ok);
+        setUser(response.data.data)
         navigate('/partner');
       })
       .catch(function (error) {
-        const errorMessage = error.response.data.error
-        console.log(errorMessage);
-        
-        if (errorMessage==='パスワードが間違ってます'){
-          setPasswordErrorMessage(errorMessage)
+        const errorMessage = error.response.data.error;
+
+        if (errorMessage === 'パスワードが間違ってます') {
+          setPasswordErrorMessage(errorMessage);
           setPasswordError(true);
-        } else if (errorMessage==='ニックネームが存在していません'){
-          setNickNameErrorMessage(errorMessage)
+        } else if (errorMessage === 'ニックネームが存在しません') {
+          setNickNameErrorMessage(errorMessage);
           setNickNameError(true);
         }
       });
   };
+  
 
   return (
     <Container
@@ -133,8 +130,7 @@ function LoginPage() {
                 </InputGroup>
               </FormControl>
               <FormControl
-                  invalid={passwordError}
-
+                invalid={passwordError}
                 marginTop="4"
                 label="パスワード*"
                 errorMessage={passwordErrorMessage}>
@@ -168,12 +164,11 @@ function LoginPage() {
               <Button
                 type="submit"
                 width="100%"
-                marginTop="5"
+                marginTop="15"
                 color="white"
                 bg="gray.300"
                 rounded="50"
-                disabled={!(nickName && password)}
-              >
+                disabled={!(nickName && password)}>
                 ログイン
               </Button>
             </form>
@@ -213,7 +208,7 @@ function LoginPage() {
 
             <Button
               width="100%"
-              marginTop="1"
+              marginTop="5"
               marginBottom="5"
               color="white"
               bg="gray.600"

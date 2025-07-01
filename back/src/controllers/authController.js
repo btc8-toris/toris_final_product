@@ -33,37 +33,41 @@ module.exports = {
     const nickname = req.body.nickName;
     const password = req.body.password;
     console.log(req.body);
-    
+
     console.log(nickname, password);
-    
+
     let usersArr;
     let user;
     // 入力されたuser名が存在しなければerror
     try {
-        usersArr = await authModel.searchAccount(nickname);
+      usersArr = await authModel.searchAccount(nickname);
+      console.log(usersArr);
+      if (usersArr.length === 0) {
+        return res.status(401).json({ error: 'ニックネームが存在しません' });
+      }
     } catch {
-        return res.status(401).json({ error: 'ユーザー名が存在しません' });
+      return res.status(500).json({ error: 'server Error です' });
     }
     // 入力されたuser名が存在しなければerror
-    
+
     user = usersArr.filter((user) => {
-        // 入力されたパスワードと、usersの記録から取得したsaltを組み合わせてhash化
-        const inputHash = hashPassword(password, user.salt);
-        return inputHash === user.hash;
+      // 入力されたパスワードと、usersの記録から取得したsaltを組み合わせてhash化
+      const inputHash = hashPassword(password, user.salt);
+      return inputHash === user.hash;
     });
-    console.log(user,'user');
-    
+    console.log(user, 'user');
+
     if (user.length !== 1) {
-        console.log('kokomade');
-        return res.status(401).json({ error: 'パスワードが間違ってます' });
+      console.log('kokomade');
+      return res.status(401).json({ error: 'パスワードが間違ってます' });
     }
     // ログインが成功したらセッションを作成
     const token = crypto.randomBytes(16).toString('hex');
     const expires_at = new Date(Date.now() + 24 * 60 * 60 * 1000); //トークンの有効期間24時間に設定
     const argObj = {
-        token,
-        user_id: user[0].id,
-        expires_at,
+      token,
+      user_id: user[0].id,
+      expires_at,
     };
     try {
       await authModel.saveSessions(argObj);
@@ -71,7 +75,16 @@ module.exports = {
       res.cookie('userId', user[0].id, { httpOnly: true });
       res.json({
         message: 'ログイン成功',
-        data: { userId: user[0].id, nickName: user[0].nickname, searchId: user[0].search_id },
+        data: {
+          userId: user[0].id,
+          nickName: user[0].nickname,
+          searchId: user[0].search_id,
+          answer1: user[0].answer1,
+          answer2: user[0].answer2,
+          answer3: user[0].answer3,
+          answer4: user[0].answer4,
+          answer5: user[0].answer5,
+        },
       });
     } catch (err) {
       console.error(err);
