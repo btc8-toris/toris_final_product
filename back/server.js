@@ -5,6 +5,7 @@ const userRouter = require('./src/routes/userRoutes');
 const pairsRouter = require('./src/routes/pairsRoutes');
 const voicesRouter = require('./src/routes/voicesRoutes');
 const authRouter = require('./src/routes/AuthRoutes');
+const conversationsRouter = require('./src/routes/conversationsRoutes');
 
 const app = express();
 
@@ -28,7 +29,7 @@ function setUpServer() {
   app.use('/api/voices', voicesRouter);
 
   // conversations関連のエンドポイント
-  // app.use('api/conversations', conversationsRouter);
+  app.use('/api/conversations', conversationsRouter);
 
   return app;
 }
