@@ -5,12 +5,13 @@ const userRouter = require('./src/routes/userRoutes');
 const pairsRouter = require('./src/routes/pairsRoutes');
 const voicesRouter = require('./src/routes/voicesRoutes');
 const authRouter = require('./src/routes/AuthRoutes');
+const conversationsRouter = require('./src/routes/conversationsRoutes');
 
 const app = express();
 
 function setUpServer() {
   app.use(express.json());
-  app.use(cookieParser())
+  app.use(cookieParser());
   app.use('/api/llm', llmRouter);
   app.get('/', (req, res) => {
     return res.status(200).send('hello,express');
@@ -26,6 +27,9 @@ function setUpServer() {
 
   // 文字起こし関連のエンドポイント
   app.use('/api/voices', voicesRouter);
+
+  // conversations関連のエンドポイント
+  app.use('/api/conversations', conversationsRouter);
 
   return app;
 }
