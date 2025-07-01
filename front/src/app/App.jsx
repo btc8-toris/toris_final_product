@@ -17,10 +17,15 @@ export const context = createContext();
 
 function App() {
   const [user, setUser] = useState({});
+  const JSON_HEADER = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
   return (
     <>
       <UIProvider theme={customTheme}>
-        <context.Provider value={{ user, setUser }}>
+        <context.Provider value={{ user, setUser, JSON_HEADER }}>
           <BrowserRouter>
             <Routes>
               {/* トライ中のものを最初に表示させるようにしてます */}
