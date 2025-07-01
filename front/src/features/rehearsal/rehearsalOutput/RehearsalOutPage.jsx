@@ -27,6 +27,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import Footer from '../../../components/footer/Footer';
+import Header from '../../../components/header/Header';
 let resTextProposal = '';
 let answer1 = '';
 const answers = [];
@@ -100,7 +101,7 @@ function RehearsalOutPage() {
 
         answers[0] = answer1[1];
         answers[1] = answer2[1];
-        answers[2] = answer2[1];
+        answers[2] = answer3[1];
       } catch (error) {
         console.error('contactAI', error);
       } finally {
@@ -115,7 +116,7 @@ function RehearsalOutPage() {
     <Container
       centerContent="true"
       p="0">
-      <div>RehearsalOutPage</div>
+      <Header title={'フィードバック'} />
       <Box>
         {' '}
         <Avatar
@@ -148,55 +149,6 @@ function RehearsalOutPage() {
           })}
         </>
       )}
-
-      {/* <Box
-        bg="#3e4a59"
-        className="flex"
-        width="100%">
-        <IconButton
-          onClick={() => navigate('/home')}
-          variant="ghost"
-          colorScheme="warning"
-          size="md"
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="size-5">
-              <path
-                fillRule="evenodd"
-                d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z"
-                clipRule="evenodd"
-              />
-            </svg>
-          }
-        />
-        <IconButton
-          onClick={() => navigate('/partner')}
-          variant="ghost"
-          colorScheme="warning"
-          size="md"
-          icon={
-            <img
-              src="/person_search.png"
-              alt="custom"
-            />
-          }
-        />
-        <IconButton
-          onClick={() => navigate('/questionPage')}
-          variant="ghost"
-          colorScheme="warning"
-          size="md"
-          icon={
-            <img
-              src="/psychiatry.png"
-              alt="custom"
-            />
-          }
-        />
-      </Box> */}
 
       <Footer onIndex={2} />
     </Container>

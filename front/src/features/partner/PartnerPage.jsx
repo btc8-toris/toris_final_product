@@ -17,6 +17,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import Footer from '../../components/footer/Footer';
 
 //----------レンダリング時に値が消えて欲しくない変数を以下に格納---------
 let searchID; //初期値設定不可、関数内への移動禁止 => 動かなくなります
@@ -74,7 +75,7 @@ function PartnerPage() {
   return (
     <Container
       centerContent="true"
-      padding="0">
+      p="0">
       <div>PartnerPage</div>
       <Flex
         p="sm"
@@ -133,68 +134,7 @@ function PartnerPage() {
         実行
       </Button>
 
-      <HStack>
-        <IconButton
-          onClick={() => navigate('/home')}
-          colorScheme="warning"
-          size="md"
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="size-5">
-              <path
-                fillRule="evenodd"
-                d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z"
-                clipRule="evenodd"
-              />
-            </svg>
-          }
-        />
-        <IconButton
-          onClick={() => window.location.reload()} //同じページの遷移はnavigateだと初期化されないので
-          colorScheme="warning"
-          size="md"
-          icon={
-            <img
-              src="/person_search.png"
-              alt="custom"
-            />
-          }
-        />
-        <IconButton
-          onClick={() => navigate('/questionPage')}
-          colorScheme="warning"
-          size="md"
-          icon={
-            <img
-              src="/psychiatry.png"
-              alt="custom"
-            />
-          }
-        />
-      </HStack>
-
-      {/* <Grid
-        marginTop="3"
-        width="90%"
-        templateColumns="repeat(2, 1fr)"
-        gap="md">
-        <For each={['primary', 'secondary', 'tertiary', 'warning']}>
-          {(bg, index) => (
-            <GridItem
-              key={index}
-              w="full"
-              h="4xs"
-              rounded="md"
-              bg={bg}
-            >
-              色{bg}
-            </GridItem>
-          )}
-        </For>
-      </Grid> */}
+      <Footer onIndex={2} />
     </Container>
   );
 }
