@@ -46,6 +46,7 @@ module.exports = {
       const inputHash = hashPassword(password, user.salt);
       return inputHash === user.hash;
     });
+    
     if (user.length !== 1) {
       return res.status(401).json({ error: 'パスワードが間違ってます' });
     }

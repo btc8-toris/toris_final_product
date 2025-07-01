@@ -12,6 +12,8 @@ import customTheme from '../theme/theme';
 import QuestionPage from '../features/question/QuestionPage';
 import ConversationLogPage from '../features/actual/conversationLog/conversationLogPage';
 import { createContext, useState } from 'react';
+import QuestionIntroPage from '../features/question/questionIntro/QuestionIntroPage';
+import QuestionCompletePage from '../features/question/questionComplete/QuestionCompletePage';
 
 export const context = createContext();
 
@@ -28,7 +30,6 @@ function App() {
         <context.Provider value={{ user, setUser, JSON_HEADER }}>
           <BrowserRouter>
             <Routes>
-              {/* トライ中のものを最初に表示させるようにしてます */}
               <Route
                 path="/"
                 element={<Navigate to="/login" />}
@@ -39,10 +40,20 @@ function App() {
                 path="/try"
                 element={<MediaRecorer />}
               />
-              <Route
-                path="/questionPage"
-                element={<QuestionPage />}
-              />
+              <Route path="/question" >
+                <Route
+                  path="form"
+                  element={<QuestionPage />}
+                />
+                <Route
+                  path="intro"
+                  element={<QuestionIntroPage />}
+                />
+                <Route
+                  path="complete"
+                  element={<QuestionCompletePage />}
+                />
+              </Route>
               <Route
                 path="/home"
                 element={<HomePage />}

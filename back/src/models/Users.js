@@ -21,19 +21,35 @@ module.exports = {
   },
 
   //質問に対する回答を登録
-  async writeAnswer1(user_id, answer) {
-    await db(USERS_TABLE).where('id', user_id).update(answer);
+  async writeAnswerAll(user_id, answerObj) {
+    await db(USERS_TABLE).where('id', user_id).update(answerObj);
+    return await db(USERS_TABLE)
+      .where('id', user_id)
+      .select(
+        'id as userId',
+        'nickname as nickName',
+        'answer1',
+        'answer2',
+        'answer3',
+        'answer4',
+        'answer5',
+        'search_id as searchId'
+      )
+      .first();
   },
-  async writeAnswer2(user_id, answer) {
-    await db(USERS_TABLE).where('id', user_id).update(answer);
-  },
-  async writeAnswer3(user_id, answer) {
-    await db(USERS_TABLE).where('id', user_id).update(answer);
-  },
-  async writeAnswer4(user_id, answer) {
-    await db(USERS_TABLE).where('id', user_id).update(answer);
-  },
-  async writeAnswer5(user_id, answer) {
-    await db(USERS_TABLE).where('id', user_id).update(answer);
-  },
+  // async writeAnswer1(user_id, answer) {
+  //   await db(USERS_TABLE).where('id', user_id).update('answer1', answer);
+  // },
+  // async writeAnswer2(user_id, answer) {
+  //   await db(USERS_TABLE).where('id', user_id).update(answer);
+  // },
+  // async writeAnswer3(user_id, answer) {
+  //   await db(USERS_TABLE).where('id', user_id).update(answer);
+  // },
+  // async writeAnswer4(user_id, answer) {
+  //   await db(USERS_TABLE).where('id', user_id).update(answer);
+  // },
+  // async writeAnswer5(user_id, answer) {
+  //   await db(USERS_TABLE).where('id', user_id).update(answer);
+  // },
 };

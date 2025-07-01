@@ -28,7 +28,7 @@ function LoginForm() {
   const [passwordErrorMessage, setPasswordErrorMessage] = useState(false);
   const navigate = useNavigate();
 
-  const {  setUser, JSON_HEADER } = useContext(context);
+  const { setUser, JSON_HEADER } = useContext(context);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -51,6 +51,35 @@ function LoginForm() {
           setNickNameErrorMessage(errorMessage);
           setNickNameError(true);
         }
+      });
+  };
+
+  const handleGuestLogin = async (e) => {
+    e.preventDefault();
+    //ランダムパスワード生成
+    let password;
+    const letters = 'abcdefghijklmnopqrstuvwxyz';
+    const numbers = '0123456789';
+    const symbols = '!#$%&()';
+    const string = letters + letters.toUpperCase() + numbers + symbols;
+
+    for (let i = 0; i < 12; i++) {
+      password += string.charAt(Math.floor(Math.random() * string.length));
+    }
+    const data = { nickName: 'ゲスト', password };
+    //アカウント登録
+    await axios
+      .post('/api/auth/register', data, JSON_HEADER)
+      .then(
+        //登録したアカウントでlogin
+        async () => await axios.post('/api/auth/login', data, JSON_HEADER),
+      )
+      .then((response) => {
+        setUser(response.data.data);
+        navigate('/partner');
+      })
+      .catch(function (error) {
+        console.error(error);
       });
   };
 
@@ -164,7 +193,7 @@ function LoginForm() {
           color="white"
           bg="gray.600"
           rounded="50"
-          onClick={() => navigate('/partner')}>
+          onClick={(e) => handleGuestLogin(e)}>
           ゲストログイン
         </Button>
       </Box>
