@@ -33,4 +33,16 @@ module.exports = {
         `${CONVERSATIONS_TABLE}.created_at`
       );
   },
+
+  async getConversations(pairId) {
+    return db(CONVERSATIONS_TABLE)
+      .where('pair_id', pairId)
+      .select(
+        `${CONVERSATIONS_TABLE}.conversation_time`,
+        `${CONVERSATIONS_TABLE}.transcript_url`,
+        `${CONVERSATIONS_TABLE}.created_at`
+      );
+  },
+
+  
 };

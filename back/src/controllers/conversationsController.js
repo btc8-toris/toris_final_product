@@ -29,4 +29,19 @@ module.exports = {
     }
     return res.status(200).json(data);
   },
+
+  async logs(req, res) {
+    const pairId = req.params.pair_id;
+    const data = await conversationsModel.getConversations(pairId);
+    if (data.length === 0) {
+        return res.status(404).json({ message: '過去の対話記録はありません' });
+      } else if (data.length > 1) {
+        data.sort((first, second) => second.created_at - first.created_at);
+      }
+  
+      if (data.length > 6) {
+        data.splice(6, data.length - 6);
+      }
+      return res.status(200).json(data);
+  },
 };
