@@ -18,7 +18,7 @@ const transcribe = new TranscribeClient({ region: process.env.AWS_REGION });
 module.exports = {
   // MP3へ変換
   async changeMp3(inputPath, outputPath) {
-    return new Promise ((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       ffmpeg(inputPath)
         .toFormat('mp3')
         .on('end', () => {
@@ -38,18 +38,16 @@ module.exports = {
       }
     });
   },
-
-  async sendS3(uploadParams) {
-    return await s3.send(new PutObjectCommand(uploadParams));
-  },
+  // AWSを無闇に使用しないようにコメントアウト
+  // async sendS3(uploadParams) {
+  //   return await s3.send(new PutObjectCommand(uploadParams));
+  // },
 
   async sendTranscribe(command) {
     return await transcribe.send(command);
   },
-
-  async getUrl(commandInfo, validTime) {
-    return await getSignedUrl(s3, commandInfo, validTime);
-  },
-
-  
+  // AWSを無闇に使用しないようにコメントアウト
+  // async getUrl(commandInfo, validTime) {
+  //   return await getSignedUrl(s3, commandInfo, validTime);
+  // },
 };
