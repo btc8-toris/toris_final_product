@@ -44,7 +44,9 @@ const Footer = ({ onIndex }) => {
         align="center"
         width="100%"
         height="67px"
-        rounded="16px 16px 0 0">
+        rounded="16px 16px 0 0"
+        position="fixed"
+        bottom={0}>
         <IconButton
           onClick={() => navigate('/home')}
           variant="ghost"
