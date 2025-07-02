@@ -1,26 +1,4 @@
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  For,
-  Grid,
-  GridItem,
-  Input,
-  Radio,
-  RadioGroup,
-  Avatar,
-  FormControl,
-  Label,
-  Card,
-  CardHeader,
-  Heading,
-  CardBody,
-  Text,
-  Loading,
-  HStack,
-  IconButton,
-} from '@yamada-ui/react';
+import { Flex, IconButton } from '@yamada-ui/react';
 import homeOffIcon from '/home_off_icon.svg';
 import homeOnIcon from '/home_on_icon.svg';
 import serchOffIcon from '/serch_off_icon.svg';
@@ -72,7 +50,7 @@ const Footer = ({ onIndex }) => {
           }
         />
         <IconButton
-          onClick={() => navigate('/questionPage')}
+          onClick={() => navigate('/question/intro')}
           variant="link"
           colorScheme="warning"
           size="40px"

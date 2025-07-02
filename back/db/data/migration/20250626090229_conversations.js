@@ -3,9 +3,9 @@ exports.up = async (knex) => {
     table.increments('id').primary();
     table.integer('pair_id').notNullable();
     table.foreign('pair_id').references('pairs.id').onDelete('CASCADE');
-    table.string('input').notNullable();
-    table.string('output').notNullable();
-    table.boolean('isReal').notNullable();
+    table.string('transcript_url').notNullable();
+    table.string('conversation_time').notNullable();
+    table.boolean('read_flag').notNullable();
     table.timestamp('created_at', { useTz: true }).defaultTo(knex.fn.now()).notNullable();
   });
 };

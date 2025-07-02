@@ -19,14 +19,16 @@ import {
   InputRightElement,
 } from '@yamada-ui/react';
 import React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import Footer from '../../components/footer/Footer';
 import searchIcon from '/search.svg';
+import { context } from '../../app/App';
 
 //----------レンダリング時に値が消えて欲しくない変数を以下に格納---------
 let searchID; //初期値設定不可、関数内への移動禁止 => 動かなくなります
+let noIDFlag = true; //検索したIDがないことを判断するためのフラグ false:IDなし  true:IDあり
 const demoIniMember = [];
 //----------レンダリング時に値が消えて欲しくない変数を上に格納---------
 
@@ -35,6 +37,10 @@ function PartnerPage() {
   const [list, setList] = useState([]);
   const [answer, setanswer] = useState(''); //画面遷移時に渡す質問の回答。本来はobjectだがuseeffectの初回マウントを回避させるために空文字を初期値にしている
   const [listFlag, setlistFlag] = useState(true); //ID入力中にリスト非表示にするためのフラグ true:表示　false:非表示
+  const { user } = useContext(context);
+
+  console.log('💀 ~ PartnerPage ~ user:', user);
+  console.log('💀 ~ PartnerPage ~ list:', list);
 
   useEffect(() => {
     async function get6PersonsData() {
@@ -68,6 +74,11 @@ function PartnerPage() {
 
   async function search() {
     const response = await axios.get(`/api/users/oneuser/${searchID}`);
+    if (response.data.length === 0) {
+      noIDFlag = false;
+    } else {
+      noIDFlag = true;
+    }
     setList(response.data);
     setlistFlag(true);
   }
@@ -77,10 +88,10 @@ function PartnerPage() {
     if (searchID !== 0) {
       setlistFlag(false);
     } else {
+      noIDFlag = true;
+      setList(demoIniMember);
       setlistFlag(true);
       console.log('💀 ~ getSerachID ~ demoIniMember:', demoIniMember);
-
-      setList(demoIniMember);
     }
   }
 
@@ -103,7 +114,7 @@ function PartnerPage() {
           size="sm"
           marginLeft="230px"
           marginTop="5px"
-          name=""
+          name={user.nickName}
         />
       </Flex>
 
@@ -158,49 +169,56 @@ function PartnerPage() {
         </InputRightElement>
       </InputGroup>
 
-      {listFlag ? (
-        <>
-          <Box
-            textAlign="left"
-            width="100%">
-            <Text
-              fontSize="20px"
-              paddingLeft="30px">
-              ユーザーサンプル
-            </Text>
-          </Box>
+      {
+        listFlag === true && noIDFlag === true ? (
+          <>
+            <Box
+              textAlign="left"
+              width="100%">
+              <Text
+                fontSize="20px"
+                paddingLeft="30px">
+                ユーザーサンプル
+              </Text>
+            </Box>
 
-          <VStack
-            gap="sm"
-            align="center">
-            {list.map((obj, index) => {
-              return (
-                <Button
-                  key={obj.id}
-                  data-index={index}
-                  height="50px"
-                  width="315px"
-                  variant="outline"
-                  fontSize="14px"
-                  sx={{
-                    textAlign: 'left',
-                    justifyContent: 'flex-start',
-                  }}
-                  onClick={selectPerson}>
-                  <Avatar
-                    size="sm"
-                    align="left"
-                    name={obj.nickname}
-                  />
-                  {obj.nickname}
-                </Button>
-              );
-            })}
-          </VStack>
-        </>
-      ) : (
-        ''
-      )}
+            <VStack
+              gap="sm"
+              align="center">
+              {list.map((obj, index) => {
+                return (
+                  <Button
+                    key={obj.id}
+                    data-index={index}
+                    height="50px"
+                    width="315px"
+                    variant="outline"
+                    fontSize="14px"
+                    sx={{
+                      textAlign: 'left',
+                      justifyContent: 'flex-start',
+                    }}
+                    onClick={selectPerson}>
+                    <Avatar
+                      size="sm"
+                      align="left"
+                      name={obj.nickname}
+                    />
+                    {obj.nickname}
+                  </Button>
+                );
+              })}
+            </VStack>
+          </>
+        ) : //三項演算子の後半開始
+        noIDFlag ? (
+          ''
+        ) : (
+          'IDないよ'
+        )
+
+        // '' //三項演算子の後半終了
+      }
 
       <Footer onIndex={2} />
     </Container>

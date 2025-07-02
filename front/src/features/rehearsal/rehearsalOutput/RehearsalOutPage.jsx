@@ -144,6 +144,7 @@ function RehearsalOutPage() {
           {answers.map((elm, index) => {
             return (
               <FormControl
+                key={index}
                 height="97px"
                 width="315px"
                 marginTop="20px">

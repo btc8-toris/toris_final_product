@@ -11,79 +11,101 @@ import { UIProvider } from '@yamada-ui/react';
 import customTheme from '../theme/theme';
 import QuestionPage from '../features/question/QuestionPage';
 import ConversationLogPage from '../features/actual/conversationLog/conversationLogPage';
+import { createContext, useState } from 'react';
+import QuestionIntroPage from '../features/question/questionIntro/QuestionIntroPage';
+import QuestionCompletePage from '../features/question/questionComplete/QuestionCompletePage';
+
+export const context = createContext();
 import ModePage from '../features/mode/ModePage';
 
 function App() {
+  const [user, setUser] = useState({});
+  const JSON_HEADER = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
   return (
     <>
       <UIProvider theme={customTheme}>
-        <BrowserRouter>
-          <Routes>
-            {/* トライ中のものを最初に表示させるようにしてます */}
-            <Route
-              path="/"
-              element={<Navigate to="/login" />}
-            />
+        <context.Provider value={{ user, setUser, JSON_HEADER }}>
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path="/"
+                element={<Navigate to="/login" />}
+              />
 
-            {/* デモで最低限必要 */}
-            <Route
-              path="/try"
-              element={<MediaRecorer />}
-            />
-            <Route
-              path="/questionPage"
-              element={<QuestionPage />}
-            />
-            <Route
-              path="/home"
-              element={<HomePage />}
-            />
-            <Route
-              path="/partner"
-              element={<PartnerPage />}
-            />
-            <Route
-              path="/mode"
-              element={<ModePage />}
-            />
-            <Route path="/rehearsal">
+              {/* デモで最低限必要 */}
               <Route
-                path="input"
-                element={<RehearsalInPage />}
+                path="/try"
+                element={<MediaRecorer />}
+              />
+              <Route path="/question">
+                <Route
+                  path="form"
+                  element={<QuestionPage />}
+                />
+                <Route
+                  path="intro"
+                  element={<QuestionIntroPage />}
+                />
+                <Route
+                  path="complete"
+                  element={<QuestionCompletePage />}
+                />
+              </Route>
+              <Route
+                path="/home"
+                element={<HomePage />}
               />
               <Route
-                path="output"
-                element={<RehearsalOutPage />}
+                path="/partner"
+                element={<PartnerPage />}
               />
-            </Route>
+              <Route
+                path="/mode"
+                element={<ModePage />}
+              />
+              <Route path="/rehearsal">
+                <Route
+                  path="input"
+                  element={<RehearsalInPage />}
+                />
+                <Route
+                  path="output"
+                  element={<RehearsalOutPage />}
+                />
+              </Route>
 
-            {/* アプリとしてここまでやりたい。 */}
-            <Route path="/actual">
+              {/* アプリとしてここまでやりたい。 */}
+              <Route path="/actual">
+                <Route
+                  path="listen"
+                  element={<ListenConversationPage />}
+                />
+                <Route
+                  path="conversationlog"
+                  element={<ConversationLogPage />}
+                />
+                <Route
+                  path="suggestion"
+                  element={<SuggestionPage />}
+                />
+              </Route>
               <Route
-                path="listen"
-                element={<ListenConversationPage />}
+                path="/login"
+                element={<LoginPage />}
               />
-              <Route
-                path="conversationlog"
-                element={<ConversationLogPage />}
-              />
-              <Route
-                path="suggestion"
-                element={<SuggestionPage />}
-              />
-            </Route>
-            <Route
-              path="/login"
-              element={<LoginPage />}
-            />
 
-            {/* 無効なURL叩いた時ようのナビゲーション */}
-            <Route
-              path="/*"
-              element={<Navigate to="/try" />}
-            />
-          </Routes>
-        </BrowserRouter>
+              {/* 無効なURL叩いた時ようのナビゲーション */}
+              <Route
+                path="/*"
+                element={<Navigate to="/try" />}
+              />
+            </Routes>
+          </BrowserRouter>
+        </context.Provider>
       </UIProvider>
     </>
   );
