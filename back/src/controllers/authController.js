@@ -28,37 +28,26 @@ module.exports = {
   },
 
   async login(req, res) {
-    // console.log("req",req);
-    // console.log("req.data",req.data);
     const nickname = req.body.nickName;
     const password = req.body.password;
-    console.log(req.body);
-
-    console.log(nickname, password);
-
     let usersArr;
     let user;
     // 入力されたuser名が存在しなければerror
     try {
       usersArr = await authModel.searchAccount(nickname);
-      console.log(usersArr);
       if (usersArr.length === 0) {
         return res.status(401).json({ error: 'ニックネームが存在しません' });
       }
     } catch {
       return res.status(500).json({ error: 'server Error です' });
     }
-    // 入力されたuser名が存在しなければerror
-
     user = usersArr.filter((user) => {
       // 入力されたパスワードと、usersの記録から取得したsaltを組み合わせてhash化
       const inputHash = hashPassword(password, user.salt);
       return inputHash === user.hash;
     });
-    console.log(user, 'user');
-
+    
     if (user.length !== 1) {
-      console.log('kokomade');
       return res.status(401).json({ error: 'パスワードが間違ってます' });
     }
     // ログインが成功したらセッションを作成
