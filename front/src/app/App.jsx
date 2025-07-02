@@ -16,6 +16,7 @@ import QuestionIntroPage from '../features/question/questionIntro/QuestionIntroP
 import QuestionCompletePage from '../features/question/questionComplete/QuestionCompletePage';
 
 export const context = createContext();
+import ModePage from '../features/mode/ModePage';
 
 function App() {
   const [user, setUser] = useState({});
@@ -40,7 +41,7 @@ function App() {
                 path="/try"
                 element={<MediaRecorer />}
               />
-              <Route path="/question" >
+              <Route path="/question">
                 <Route
                   path="form"
                   element={<QuestionPage />}
@@ -61,6 +62,10 @@ function App() {
               <Route
                 path="/partner"
                 element={<PartnerPage />}
+              />
+              <Route
+                path="/mode"
+                element={<ModePage />}
               />
               <Route path="/rehearsal">
                 <Route

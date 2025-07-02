@@ -63,13 +63,18 @@ const questions = [
 
 function QuestionPage() {
   const [answerValue, setAnswerValue] = useState(['', '', '', '', '']);
+  const [answerword, setAnswerWord] = useState(['', '', '', '', '']);
   const { user, setUser, JSON_HEADER } = useContext(context);
   const navigate = useNavigate();
 
   const createAnswer = (selectedVal, index) => {
     const newValue = answerValue.map((val, i) => (i === index ? selectedVal : val));
+    const newVword = answerword.map((val, i) => (i === index ? answers[index][selectedVal] : val));
+    console.log('💀 ~ createAnswer ~ newVword:', newVword);
+    console.log('💀 ~ createAnswer ~ newValue:', newValue);
 
     setAnswerValue(newValue);
+    setAnswerWord(newVword);
   };
 
   const sendAnsewer = async () => {
@@ -82,8 +87,18 @@ function QuestionPage() {
         answer5: answerValue[4],
       },
     };
+    const sendData = {
+      answer: {
+        answer1: answerword[0],
+        answer2: answerword[1],
+        answer3: answerword[2],
+        answer4: answerword[3],
+        answer5: answerword[4],
+      },
+    };
+
     await axios
-      .put(`/api/users/ans_all/${user.userId}`, data, JSON_HEADER)
+      .put(`/api/users/ans_all/${user.userId}`, sendData, JSON_HEADER)
       .then((respose) => {
         console.log('response', respose.data);
         setUser(respose.data);

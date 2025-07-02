@@ -5,6 +5,7 @@ import {
   Button,
   Container,
   Flex,
+  Text,
   For,
   Grid,
   GridItem,
@@ -16,6 +17,7 @@ import {
   Label,
   HStack,
   IconButton,
+  Textarea,
 } from '@yamada-ui/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -42,27 +44,50 @@ function RehearsalInPage() {
       centerContent="true"
       p="0">
       <Header title={'ひとり対話'} />
-      <Box>
+
+      <Flex
+        paddingTop="70px"
+        paddingLeft="30px"
+        align="left"
+        width="100%">
         {' '}
         <Avatar
-          size={'sm'}
+          size={'md'}
           name={receiveAnswer.nickname}
         />
-        {receiveAnswer.nickname}
-      </Box>
+        <Text
+          fontSize="16px"
+          marginLeft="10px"
+          marginTop="13px">
+          {receiveAnswer.nickname}
+        </Text>
+      </Flex>
 
-      <Box>
-        <FormControl label="相手に伝えたいこと">
-          <Input
+      <Box
+        paddingLeft="5px"
+        align="left">
+        <FormControl
+          height="276px"
+          width="315px">
+          <Label fontSize="14px">相手に伝えたいこと</Label>
+          <Textarea
             onChange={getInput}
-            type="email"
+            fontSize="14px"
+            height="100%"
+            width="100%"
             placeholder=""
           />
         </FormControl>
+        <Button
+          colorScheme="primary"
+          height="40px"
+          width="120px"
+          marginTop="100px"
+          marginLeft="195px"
+          onClick={() => navigate('/rehearsal/output', { state: { data: answerAndInput } })}>
+          感情分析
+        </Button>
       </Box>
-      <Button onClick={() => navigate('/rehearsal/output', { state: { data: answerAndInput } })}>
-        感情分析
-      </Button>
 
       <Footer onIndex={2} />
     </Container>
