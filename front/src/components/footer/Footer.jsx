@@ -49,9 +49,9 @@ const Footer = ({ onIndex }) => {
         bottom={0}>
         <IconButton
           onClick={() => navigate('/home')}
-          variant="ghost"
+          variant="link"
           colorScheme="warning"
-          size="40"
+          size="40px"
           icon={
             <img
               src={homeIcon}
@@ -61,9 +61,9 @@ const Footer = ({ onIndex }) => {
         />
         <IconButton
           onClick={() => navigate('/partner')}
-          variant="ghost"
+          variant="link"
           colorScheme="warning"
-          size="40"
+          size="40px"
           icon={
             <img
               src={serchIcon}
@@ -73,9 +73,9 @@ const Footer = ({ onIndex }) => {
         />
         <IconButton
           onClick={() => navigate('/questionPage')}
-          variant="ghost"
+          variant="link"
           colorScheme="warning"
-          size="40"
+          size="40px"
           icon={
             <img
               src={valueIcon}

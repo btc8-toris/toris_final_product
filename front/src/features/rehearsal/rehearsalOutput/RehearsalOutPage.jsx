@@ -52,7 +52,8 @@ function RehearsalOutPage() {
         const res = await axios.post(
           '/api/llm/questions',
           {
-            message: `あなたの部下は以下のような価値観を持っています。まずは質問への回答から部下の価値観を認識してください。
+            message: `今から部下になりきってもらいます。
+            まずは以下の質問への回答からあなたの価値観を認識してください。
             質問1：仕事をしていて「やりがい」を感じる瞬間はどれですか？
             質問1の回答：${receiveAnswerInput.answer1}
             質問2：理想の上司像に一番近いのはどれですか？
@@ -64,26 +65,23 @@ function RehearsalOutPage() {
             質問5:仕事で最も大事だと思う文化・雰囲気は？
             質問5の回答：${receiveAnswerInput.answer4}
 
-            上記の価値観を持つ部下に対して以下の言葉を投げかけます。
+            上記の価値観を持つあなたに対して以下の言葉を投げかけます。
             投げかける言葉：${receiveAnswerInput.input}
 
             その投げかけに関して、以下に関して回答を返してください。
-            ①きっと部下はこう思った
-            ②きっとこれは部下に伝わった
+            ①きっとあなた自身はこう思った
+            ②きっとこれはあなた自身に伝わった
             ③もっとこうして伝えて欲しかった
 
             回答のフォーマットは必ず以下にしてください。
             ・回答①
-            この部下は、以下の感情を抱いたと考えられます。
-            ここに①の回答を記入してください
-
+            ここに①の回答を70字程度で記入してください。
+            
             ・回答②
-            この投げかけは、以下のメッセージが伝わったと考えられます。
-            ここに②の回答を記入してください
+            ここに②の回答を70字程度で記入してください
 
             ・回答③
-            この部下の価値観を尊重し、より効果的なコミュニケーションを実現するためには、以下の点を意識して伝えて欲しかったと考えられます。
-            ここに③の回答を記入してください
+            ここに③の回答を70字程度で記入してください
 
           `,
           },
@@ -117,14 +115,23 @@ function RehearsalOutPage() {
       centerContent="true"
       p="0">
       <Header title={'フィードバック'} />
-      <Box>
+      <Flex
+        paddingTop="70px"
+        paddingLeft="30px"
+        align="left"
+        width="100%">
         {' '}
         <Avatar
-          size={'sm'}
+          size={'md'}
           name={receiveAnswerInput.nickname}
         />
-        {receiveAnswerInput.nickname}
-      </Box>
+        <Text
+          fontSize="16px"
+          marginLeft="10px"
+          marginTop="13px">
+          {receiveAnswerInput.nickname}
+        </Text>
+      </Flex>
 
       {isLoading ? (
         <Loading
@@ -136,15 +143,18 @@ function RehearsalOutPage() {
         <>
           {answers.map((elm, index) => {
             return (
-              <Card key={index}>
-                <CardHeader>
-                  <Heading size="md">{fbFormat[index]}</Heading>
-                </CardHeader>
-
-                <CardBody>
-                  <Text>{elm}</Text>
-                </CardBody>
-              </Card>
+              <FormControl
+                height="97px"
+                width="315px"
+                marginTop="20px">
+                <Label fontSize="14px">{fbFormat[index]}</Label>
+                <Text
+                  fontSize="12px"
+                  height="100%"
+                  width="100%">
+                  {elm}
+                </Text>
+              </FormControl>
             );
           })}
         </>

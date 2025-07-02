@@ -11,6 +11,7 @@ import { UIProvider } from '@yamada-ui/react';
 import customTheme from '../theme/theme';
 import QuestionPage from '../features/question/QuestionPage';
 import ConversationLogPage from '../features/actual/conversationLog/conversationLogPage';
+import ModePage from '../features/mode/ModePage';
 
 function App() {
   return (
@@ -40,6 +41,10 @@ function App() {
             <Route
               path="/partner"
               element={<PartnerPage />}
+            />
+            <Route
+              path="/mode"
+              element={<ModePage />}
             />
             <Route path="/rehearsal">
               <Route
