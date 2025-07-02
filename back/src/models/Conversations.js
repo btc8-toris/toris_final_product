@@ -7,7 +7,7 @@ module.exports = {
 
   //最近会話した人を取得
   async getRecentPair(userId) {
-    return db(CONVERSATIONS_TABLE)
+    return await db(CONVERSATIONS_TABLE)
       .innerJoin('pairs', `${CONVERSATIONS_TABLE}.pair_id`, 'pairs.id')
       .innerJoin('users', 'users.id', 'pairs.partner_id')
       .where('pairs.user_id', userId)
@@ -20,7 +20,7 @@ module.exports = {
 
   //フィードバック待ちを取得
   async waitFeedback(userId) {
-    return db(CONVERSATIONS_TABLE)
+    return await db(CONVERSATIONS_TABLE)
       .innerJoin('pairs', `${CONVERSATIONS_TABLE}.pair_id`, 'pairs.id')
       .innerJoin('users', 'users.id', 'pairs.partner_id')
       .where('pairs.user_id', userId)
@@ -35,14 +35,21 @@ module.exports = {
   },
 
   async getConversations(pairId) {
-    return db(CONVERSATIONS_TABLE)
+    return await db(CONVERSATIONS_TABLE)
       .where('pair_id', pairId)
       .select(
+        `${CONVERSATIONS_TABLE}.id`,
         `${CONVERSATIONS_TABLE}.conversation_time`,
         `${CONVERSATIONS_TABLE}.transcript_url`,
         `${CONVERSATIONS_TABLE}.created_at`
       );
   },
 
-  
+  async saveConversation(data) {
+    return await db(CONVERSATIONS_TABLE).insert(data);
+  },
+
+  async changeFlag(id) {
+    return await db(CONVERSATIONS_TABLE).where('id', id).update('read_flag', true);
+  },
 };
