@@ -19,21 +19,30 @@ COPY package-lock.json ./
 #    aws ecsで環境変数を管理
 COPY db/knexfile.js db/
 
+COPY .env .env
 # 依存関係をインストール
 RUN npm install
-
-# データベースのマイグレーションとシード
-RUN npm run db:reset
-
 
 # アプリケーションの残りのソースコードをコピー
 # WORKDIRで設定した /app/back に、ローカルの back ディレクトリの内容がコピーされます
 COPY . .
 
+
+# entrypoint.sh スクリプトをコピーし、実行可能にする
+#    このスクリプトはコンテナ起動時に実行され、データベースのマイグレーションとシードを処理します。
+#    entrypoint.sh ファイルは Dockerfile と同じディレクトリに配置してください。
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# データベースのマイグレーションとシード
+# RUN npm run db:reset
+
+
+
 # Expressアプリケーションがリッスンするポートを公開
 EXPOSE 3000
 
-# アプリケーションを起動するコマンド
-# 'npm start'
-# ない場合、Node.jsのメインエントリファイルを指定。もし npm start がない場合: CMD ["node", "src/index.js"] 
-CMD ["npm", "start"]
+# アプリケーションを起動するコマンドを entrypoint.sh に変更
+# これにより、コンテナ起動時にまずマイグレーションが実行され、その後アプリケーションが起動します。
+# CMD ["entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
