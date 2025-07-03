@@ -23,6 +23,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import Footer from '../../../components/footer/Footer';
 import Header from '../../../components/header/Header';
+import SmallAvatar from '../../../components/Avatar/SmallAvatar';
 
 function RehearsalInPage() {
   const navigate = useNavigate();
@@ -45,23 +46,7 @@ function RehearsalInPage() {
       p="0">
       <Header title={'ひとり対話'} />
 
-      <Flex
-        paddingTop="70px"
-        paddingLeft="30px"
-        align="left"
-        width="100%">
-        {' '}
-        <Avatar
-          size={'md'}
-          name={receiveAnswer.nickname}
-        />
-        <Text
-          fontSize="16px"
-          marginLeft="10px"
-          marginTop="13px">
-          {receiveAnswer.nickname}
-        </Text>
-      </Flex>
+      <SmallAvatar nickName={receiveAnswer.nickname} />
 
       <Box
         paddingLeft="5px"
