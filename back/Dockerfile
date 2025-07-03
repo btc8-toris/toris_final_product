@@ -23,6 +23,11 @@ COPY .env .env
 # 依存関係をインストール
 RUN npm install
 
+# ffmpegをインストール
+#    Alpine Linuxでは 'apk' パッケージマネージャーを使用します。
+#    'ffmpeg' はビデオやオーディオ処理に必要なツールです。
+RUN apk update && apk add ffmpeg && rm -rf /var/cache/apk/*
+
 # アプリケーションの残りのソースコードをコピー
 # WORKDIRで設定した /app/back に、ローカルの back ディレクトリの内容がコピーされます
 COPY . .
