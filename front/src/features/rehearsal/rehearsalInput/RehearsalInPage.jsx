@@ -36,7 +36,6 @@ function RehearsalInPage() {
   function getInput(e) {
     receiveAnswer['input'] = e.target.value; //もともとの回答に今回の入力情報を追加(オブジェクトにキーを追加してその値に入力)
     setAnswerAndInput(receiveAnswer); //次ページに渡すためStateを更新
-    console.log('💀 ~ getInput ~ receiveAnswer:', receiveAnswer);
   }
 
   //-------------------ボタンクリック/入力値変化時の関数はこの上に記載----------------------
