@@ -64,7 +64,7 @@ const questions = [
 function QuestionPage() {
   const [answerValue, setAnswerValue] = useState(['', '', '', '', '']);
   const [answerword, setAnswerWord] = useState(['', '', '', '', '']);
-  const { user, setUser, JSON_HEADER, BASE_URL } = useContext(context);
+  const { user, setUser, JSON_HEADER } = useContext(context);
   const navigate = useNavigate();
 
   const createAnswer = (selectedVal, index) => {

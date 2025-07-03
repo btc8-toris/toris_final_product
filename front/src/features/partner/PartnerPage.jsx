@@ -17,6 +17,7 @@ import {
   HStack,
   InputGroup,
   InputRightElement,
+  Center,
 } from '@yamada-ui/react';
 import React from 'react';
 import { useEffect, useState, useContext } from 'react';
@@ -37,14 +38,11 @@ function PartnerPage() {
   const [list, setList] = useState([]);
   const [answer, setanswer] = useState(''); //画面遷移時に渡す質問の回答。本来はobjectだがuseeffectの初回マウントを回避させるために空文字を初期値にしている
   const [listFlag, setlistFlag] = useState(true); //ID入力中にリスト非表示にするためのフラグ true:表示　false:非表示
-  const { user,BASE_URL } = useContext(context);
-
-  console.log('💀 ~ PartnerPage ~ user:', user);
-  console.log('💀 ~ PartnerPage ~ list:', list);
+  const { user } = useContext(context);
 
   useEffect(() => {
     async function get6PersonsData() {
-      const response = await axios.get(`${BASE_URL}/api/users/demo`);
+      const response = await axios.get('/api/users/demo');
       for (let obj of response.data) {
         demoIniMember.push(obj);
       }
@@ -61,19 +59,58 @@ function PartnerPage() {
 
   //-------------------ボタンクリック/入力値変化時の関数はこの下に記載----------------------
 
-  function selectPerson(e) {
+  async function selectPerson(e) {
     let selectArray = [];
     const id = Number(e.currentTarget.dataset.index);
-    const keysToKeep = ['nickname', 'answer1', 'answer2', 'answer3', 'answer4', 'answer5'];
-
+    const keysToKeep = ['id', 'nickname', 'answer1', 'answer2', 'answer3', 'answer4', 'answer5'];
     const newObject = Object.fromEntries(
       Object.entries(list[id]).filter(([key]) => keysToKeep.includes(key)),
     );
+
+    const response = await axios.get(`/api/pairs/${user.userId}`);
+
+    const matchId = response.data.filter((obj) => obj.partner_id === newObject.id);
+
+    if (matchId.length === 0) {
+      await axios.post(
+        '/api/pairs',
+        {
+          user_id: user.userId,
+          partner_id: newObject.id,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    }
+    //  else {
+    //   for (let obj of response.data) {
+    //     console.log('💀 ~ addPairsId ~ obj.partner_id:', obj);
+
+    //     if (obj.partner_id !== newObject.id) {
+    //       await axios.post(
+    //         '/api/pairs',
+    //         {
+    //           user_id: user.userId,
+    //           partner_id: newObject.id,
+    //         },
+    //         {
+    //           headers: {
+    //             'Content-Type': 'application/json',
+    //           },
+    //         },
+    //       );
+    //     }
+    //   }
+    // }
+
     setanswer(newObject);
   }
 
   async function search() {
-    const response = await axios.get(`${BASE_URL}/api/users/oneuser/${searchID}`);
+    const response = await axios.get(`/api/users/oneuser/${searchID}`);
     if (response.data.length === 0) {
       noIDFlag = false;
     } else {
@@ -214,7 +251,12 @@ function PartnerPage() {
         noIDFlag ? (
           ''
         ) : (
-          'IDないよ'
+          <Box
+            align="center"
+            marginTop="100px">
+            <Text fontSize="18px">入力されたIDでは見つかりませんでした</Text>
+            <Text fontSize="14px">IDに間違いがないかご確認ください。</Text>
+          </Box>
         )
 
         // '' //三項演算子の後半終了

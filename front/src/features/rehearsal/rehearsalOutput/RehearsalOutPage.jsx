@@ -28,6 +28,7 @@ import { useNavigate } from 'react-router';
 import axios from 'axios';
 import Footer from '../../../components/footer/Footer';
 import Header from '../../../components/header/Header';
+import SmallAvatar from '../../../components/Avatar/SmallAvatar';
 let resTextProposal = '';
 let answer1 = '';
 const answers = [];
@@ -42,6 +43,8 @@ function RehearsalOutPage() {
     'きっとこれは私に伝わった',
     'もっとこうして伝えて欲しかった',
   ];
+
+  console.log('💀 ~ RehearsalOutPage ~ receiveAnswerInput:', receiveAnswerInput);
 
   // ここでAIへ壁打ちする関数をマウント時に一回呼び出す
   useEffect(() => {
@@ -115,23 +118,7 @@ function RehearsalOutPage() {
       centerContent="true"
       p="0">
       <Header title={'フィードバック'} />
-      <Flex
-        paddingTop="70px"
-        paddingLeft="30px"
-        align="left"
-        width="100%">
-        {' '}
-        <Avatar
-          size={'md'}
-          name={receiveAnswerInput.nickname}
-        />
-        <Text
-          fontSize="16px"
-          marginLeft="10px"
-          marginTop="13px">
-          {receiveAnswerInput.nickname}
-        </Text>
-      </Flex>
+      <SmallAvatar nickName={receiveAnswerInput.nickname} />
 
       {isLoading ? (
         <Loading
