@@ -141,15 +141,19 @@ function ListenConversationPage() {
           paddingTop="60px">
           <VStack alignItems="center">
             <Text
-              // textAlign="center"
-
+              color="tertiary"
               fontSize="23px"
               padding="md">
               会話をひろう
             </Text>
             {listening ? (
               <IconButton
-                icon={<CircleStopIcon size="87px" />}
+                icon={
+                  <CircleStopIcon
+                    size="87px"
+                    color="tertiary"
+                  />
+                }
                 onClick={stopRecording}
                 size="auto"
                 width="87px"
@@ -157,7 +161,12 @@ function ListenConversationPage() {
                 variant="primary"></IconButton>
             ) : (
               <IconButton
-                icon={<CirclePlayIcon size="87px" />}
+                icon={
+                  <CirclePlayIcon
+                    size="87px"
+                    color="tertiary"
+                  />
+                }
                 onClick={startRecording}
                 size="auto"
                 width="87px"
