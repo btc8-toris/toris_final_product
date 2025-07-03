@@ -42,7 +42,7 @@ function PartnerPage() {
 
   useEffect(() => {
     async function get6PersonsData() {
-      const response = await axios.get('/api/users/demo');
+      const response = await axios.get(`${BASE_URL}/api/users/demo`);
       for (let obj of response.data) {
         demoIniMember.push(obj);
       }
@@ -67,13 +67,13 @@ function PartnerPage() {
       Object.entries(list[id]).filter(([key]) => keysToKeep.includes(key)),
     );
 
-    const response = await axios.get(`/api/pairs/${user.userId}`);
+    const response = await axios.get(`${BASE_URL}/api/pairs/${user.userId}`);
 
     const matchId = response.data.filter((obj) => obj.partner_id === newObject.id);
 
     if (matchId.length === 0) {
       await axios.post(
-        '/api/pairs',
+        `${BASE_URL}/api/pairs`,
         {
           user_id: user.userId,
           partner_id: newObject.id,
@@ -110,7 +110,7 @@ function PartnerPage() {
   }
 
   async function search() {
-    const response = await axios.get(`/api/users/oneuser/${searchID}`);
+    const response = await axios.get(`${BASE_URL}/api/users/oneuser/${searchID}`);
     if (response.data.length === 0) {
       noIDFlag = false;
     } else {

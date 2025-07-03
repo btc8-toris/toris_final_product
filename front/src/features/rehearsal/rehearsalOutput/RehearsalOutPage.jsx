@@ -53,7 +53,7 @@ function RehearsalOutPage() {
         setIsLoading(true); //開始時にローディング
 
         const res = await axios.post(
-          '/api/llm/questions',
+          `${BASE_URL}/api/llm/questions`,
           {
             message: `今から部下になりきってもらいます。
             まずは以下の質問への回答からあなたの価値観を認識してください。
