@@ -1,11 +1,13 @@
-import { Button, Container } from '@yamada-ui/react';
+import { Button, Center, Container, IconButton, Text, VStack } from '@yamada-ui/react';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import RecordRTC from 'recordrtc';
+import Header from '../../../components/header/Header';
+import { CirclePlayIcon } from '@yamada-ui/lucide';
+import { CircleStopIcon } from '@yamada-ui/lucide';
 
 function ListenConversationPage() {
   const [transcript, setTranscript] = useState([]);
-  const [transcripts, setTranscripts] = useState([]);
   const [recorder, setRecorder] = useState(null);
   // const [error, setError] = useState('');
   const [recordings, setRecordings] = useState();
@@ -129,32 +131,55 @@ function ListenConversationPage() {
 
   return (
     <>
-      <Container>ListenConversationPagea</Container>
-      <div>
-        <h1>音声認識デモ</h1>
-        <Button
-          onClick={startRecording}
-          disabled={listening}>
-          開始
-        </Button>
-        <Button
-          onClick={stopRecording}
-          disabled={!listening}>
-          停止
-        </Button>
-        {transcript ? (
-          transcript.map((elem) => {
-            return (
-              <div key={elem.id}>
-                {elem.speaker_lavel}
-                {elem.transcript}
-              </div>
-            );
-          })
-        ) : (
-          <></>
-        )}
-      </div>
+      <Container
+        centerContent="true"
+        gap="none"
+        p="0">
+        <Header title={'ふたり対話'} />
+        <Container
+          marginTop="60px"
+          paddingTop="60px">
+          <VStack alignItems="center">
+            <Text
+              // textAlign="center"
+
+              fontSize="23px"
+              padding="md">
+              会話をひろう
+            </Text>
+            {listening ? (
+              <IconButton
+                icon={<CircleStopIcon size="87px" />}
+                onClick={stopRecording}
+                size="auto"
+                width="87px"
+                alignItems="center"
+                variant="primary"></IconButton>
+            ) : (
+              <IconButton
+                icon={<CirclePlayIcon size="87px" />}
+                onClick={startRecording}
+                size="auto"
+                width="87px"
+                alignItems="center"
+                variant="primary"></IconButton>
+            )}
+          </VStack>
+
+          {transcript ? (
+            transcript.map((elem) => {
+              return (
+                <div key={elem.id}>
+                  {elem.speaker_lavel}
+                  {elem.transcript}
+                </div>
+              );
+            })
+          ) : (
+            <></>
+          )}
+        </Container>
+      </Container>
     </>
   );
 }
