@@ -17,6 +17,7 @@ import {
   HStack,
   InputGroup,
   InputRightElement,
+  Center,
 } from '@yamada-ui/react';
 import React from 'react';
 import { useEffect, useState, useContext } from 'react';
@@ -214,7 +215,12 @@ function PartnerPage() {
         noIDFlag ? (
           ''
         ) : (
-          'IDないよ'
+          <Box
+            align="center"
+            marginTop="100px">
+            <Text fontSize="18px">入力されたIDでは見つかりませんでした</Text>
+            <Text fontSize="14px">IDに間違いがないかご確認ください。</Text>
+          </Box>
         )
 
         // '' //三項演算子の後半終了

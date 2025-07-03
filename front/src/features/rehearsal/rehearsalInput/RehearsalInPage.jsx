@@ -23,6 +23,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import Footer from '../../../components/footer/Footer';
 import Header from '../../../components/header/Header';
+import SmallAvatar from '../../../components/Avatar/SmallAvatar';
 
 function RehearsalInPage() {
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ function RehearsalInPage() {
   function getInput(e) {
     receiveAnswer['input'] = e.target.value; //もともとの回答に今回の入力情報を追加(オブジェクトにキーを追加してその値に入力)
     setAnswerAndInput(receiveAnswer); //次ページに渡すためStateを更新
+    console.log('💀 ~ getInput ~ receiveAnswer:', receiveAnswer);
   }
 
   //-------------------ボタンクリック/入力値変化時の関数はこの上に記載----------------------
@@ -45,23 +47,7 @@ function RehearsalInPage() {
       p="0">
       <Header title={'ひとり対話'} />
 
-      <Flex
-        paddingTop="70px"
-        paddingLeft="30px"
-        align="left"
-        width="100%">
-        {' '}
-        <Avatar
-          size={'md'}
-          name={receiveAnswer.nickname}
-        />
-        <Text
-          fontSize="16px"
-          marginLeft="10px"
-          marginTop="13px">
-          {receiveAnswer.nickname}
-        </Text>
-      </Flex>
+      <SmallAvatar nickName={receiveAnswer.nickname} />
 
       <Box
         paddingLeft="5px"

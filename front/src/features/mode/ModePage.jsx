@@ -21,6 +21,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 import Header from '../../components/header/Header';
 import { useLocation } from 'react-router-dom';
+import BigAvatar from '../../components/Avatar/BigAvatar';
 
 function ModePage() {
   const location = useLocation();
@@ -36,11 +37,7 @@ function ModePage() {
       <VStack
         align="center"
         marginTop="150px">
-        <Avatar
-          size={'2xl'}
-          name={receiveAnswer.nickname}
-        />
-        <Text fontSize="23px">{receiveAnswer.nickname}</Text>
+        <BigAvatar nickName={receiveAnswer.nickname} />
 
         <Flex
           marginTop="50px"
@@ -59,7 +56,8 @@ function ModePage() {
           <Button
             fullRounded={true}
             size="xl"
-            colorScheme="primary">
+            colorScheme="primary"
+            onClick={() => navigate('/actual/partnerlog', { state: { data: sendAnswer } })}>
             ふたり対話
           </Button>
         </Flex>
