@@ -38,7 +38,7 @@ function PartnerPage() {
   const [list, setList] = useState([]);
   const [answer, setanswer] = useState(''); //画面遷移時に渡す質問の回答。本来はobjectだがuseeffectの初回マウントを回避させるために空文字を初期値にしている
   const [listFlag, setlistFlag] = useState(true); //ID入力中にリスト非表示にするためのフラグ true:表示　false:非表示
-  const { user } = useContext(context);
+  const { user, BASE_URL } = useContext(context);
 
   useEffect(() => {
     async function get6PersonsData() {

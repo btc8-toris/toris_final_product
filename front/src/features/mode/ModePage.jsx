@@ -29,7 +29,7 @@ function ModePage() {
   const navigate = useNavigate();
   const receiveAnswer = location.state?.data; //選択したユーザーのニックネームと質問の回答を前のページから受け継ぐ
   const [sendAnswer, setsendAnswer] = useState({});
-  const { user } = useContext(context);
+  const { user , BASE_URL} = useContext(context);
 
   useEffect(() => {
     async function addPairsId() {
