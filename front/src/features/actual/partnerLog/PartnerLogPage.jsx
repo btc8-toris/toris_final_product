@@ -1,19 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Header from '../../../components/header/Header';
-import {
-  Button,
-  Center,
-  Container,
-  IconButton,
-  Text,
-  VStack,
-  Avatar,
-  Flex,
-  Spacer,
-  GridItem,
-  Grid,
-} from '@yamada-ui/react';
-import { context } from '../../../app/App';
+import { Button, Container, Text, VStack, Flex } from '@yamada-ui/react';
 import { useNavigate } from 'react-router';
 import Footer from '../../../components/footer/Footer';
 import { Accordion, AccordionItem } from '@yamada-ui/react';
@@ -22,7 +9,6 @@ import { format } from 'date-fns';
 import { Clock4Icon } from '@yamada-ui/lucide';
 
 function PartnerLogPage() {
-  const { user } = useContext(context);
   const navigate = useNavigate();
   const [pastLogs, setPastLogs] = useState([]);
 
@@ -70,7 +56,7 @@ function PartnerLogPage() {
                         variant="ghost"
                         padding="md"
                         // onClick={() => navigate('')}
-                        >
+                      >
                         <Flex
                           justify={'space-between'}
                           align="center"
@@ -96,7 +82,7 @@ function PartnerLogPage() {
               fullRounded={true}
               size="xl"
               colorScheme="primary"
-              onClick={() => navigate('/actual/listen')}>
+              onClick={() => navigate('/actual/approval')}>
               対話する
             </Button>
           </VStack>
