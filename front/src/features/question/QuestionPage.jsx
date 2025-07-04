@@ -154,7 +154,7 @@ function QuestionPage() {
           <Button
             width="120px"
             height="40px"
-            colorScheme="secondary"
+            colorScheme="primary"
             disabled={!answerValue.every((val) => val !== '')}
             onClick={() => {
               sendAnsewer();
