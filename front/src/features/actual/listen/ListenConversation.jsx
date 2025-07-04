@@ -111,21 +111,21 @@ function ListenConversationPage() {
     }
   };
 
-  const text = async (mp3File) => {
-    const data = await fetch(`${BASE_URL}/api/voices/transcription-result/${mp3File}`).then((res) =>
-      res.json(),
-    );
+  // const text = async (mp3File) => {
+  //   const data = await fetch(`${BASE_URL}/api/voices/transcription-result/${mp3File}`).then((res) =>
+  //     res.json(),
+  //   );
 
-    console.log('🍓 ~ text ~ data:', data.status);
-    console.log('🍓 ~ text ~ data.text:', data.text);
-    if (data.status === 'completed') {
-      setTranscript([data.text]);
-    } else if (data.status === 'in_progress') {
-      setTimeout(async () => await text(mp3File), 5000);
-    } else {
-      console.error('文字起こしに失敗：', data.reason);
-    }
-  };
+  //   console.log('🍓 ~ text ~ data:', data.status);
+  //   console.log('🍓 ~ text ~ data.text:', data.text);
+  //   if (data.status === 'completed') {
+  //     setTranscript([data.text]);
+  //   } else if (data.status === 'in_progress') {
+  //     setTimeout(async () => await text(mp3File), 5000);
+  //   } else {
+  //     console.error('文字起こしに失敗：', data.reason);
+  //   }
+  // };
 
   return (
     <>

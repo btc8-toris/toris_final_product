@@ -18,12 +18,13 @@ function PartnerLogPage() {
   const receiveAnswer = location.state.data;
   const { BASE_URL } = useContext(context);
   const [logExist, setLogExist] = useState(false);
+  const [sendData, setSendData] = useState({});
 
   console.log('🍓 ~ PartnerLogPage ~ receiveAnswer:', receiveAnswer);
 
   const getLog = async () => {
-    const pairID = receiveAnswer.pairId;
-    // const pairID = 1;
+    // const pairID = receiveAnswer.pairId;
+    const pairID = 1;
     console.log('🍓 ~ getLog ~ pairID:', pairID);
     await axios.get(`${BASE_URL}/api/conversations/log/${pairID}`).then((res) => {
       if (res.status === 200) {
@@ -35,6 +36,10 @@ function PartnerLogPage() {
       }
     });
   };
+
+  useEffect(() => {
+    setSendData(receiveAnswer);
+  }, [receiveAnswer]);
 
   useEffect(() => {
     setLogExist(false);
@@ -78,7 +83,7 @@ function PartnerLogPage() {
                     pastLogs.map((log, index) => {
                       console.log('🍓 ~ pastLogs.map ~ log:', log);
                       receiveAnswer.transcript_url = log.transcript_url;
-                      console.log('🍓 ~ pastLogs.map ~ receiveAnswer:', receiveAnswer);
+                      console.log('🍓 ~ pastLogs.map ~ receiveAnswer:', sendData);
                       const date = log.created_at;
                       const time = Number(log.conversation_time);
                       const min = Math.floor(time / 60);
@@ -91,7 +96,7 @@ function PartnerLogPage() {
                           bg="white"
                           height="50px"
                           onClick={() =>
-                            navigate('/actual/conversationlog', { state: { data: receiveAnswer } })
+                            navigate('/actual/conversationlog', { state: { data: sendData } })
                           }>
                           <Flex
                             justify={'space-between'}
