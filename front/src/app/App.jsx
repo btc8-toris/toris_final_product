@@ -14,6 +14,8 @@ import ConversationLogPage from '../features/actual/conversationLog/conversation
 import { createContext, useState } from 'react';
 import QuestionIntroPage from '../features/question/questionIntro/QuestionIntroPage';
 import QuestionCompletePage from '../features/question/questionComplete/QuestionCompletePage';
+import PartnerLogPage from '../features/actual/partnerLog/PartnerLogPage';
+import ApprovalPage from '../features/actual/approval/ApprovalPage';
 
 export const context = createContext();
 import ModePage from '../features/mode/ModePage';
@@ -83,6 +85,15 @@ function App() {
 
               {/* アプリとしてここまでやりたい。 */}
               <Route path="/actual">
+                <Route
+                  path="partnerlog"
+                  element={<PartnerLogPage />}
+                />
+                <Route
+                  path="approval"
+                  element={<ApprovalPage />}
+                />
+
                 <Route
                   path="listen"
                   element={<ListenConversationPage />}
