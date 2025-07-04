@@ -29,7 +29,7 @@ function LoginForm() {
   const navigate = useNavigate();
   
   
-  const { setUser, JSON_HEADER,BASE_URL } = useContext(context);
+  const { login, JSON_HEADER,BASE_URL } = useContext(context);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -40,7 +40,7 @@ function LoginForm() {
     await axios
       .post(`${BASE_URL}/api/auth/login`, data, JSON_HEADER)
       .then((response) => {
-        setUser(response.data.data);
+        login(JSON.stringify(response.data.data));
         navigate('/partner');
       })
       .catch((error) => {
@@ -76,7 +76,7 @@ function LoginForm() {
         async () => await axios.post(`${BASE_URL}/api/auth/login`, data, JSON_HEADER),
       )
       .then((response) => {
-        setUser(response.data.data);
+        login(JSON.stringify(response.data.data));
         navigate('/partner');
       })
       .catch(function (error) {

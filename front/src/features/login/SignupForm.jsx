@@ -23,7 +23,7 @@ function SignupForm() {
   const [isShow, setIsShow] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
-  const { setUser, JSON_HEADER, BASE_URL } = useContext(context);
+  const { login, JSON_HEADER, BASE_URL } = useContext(context);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,7 +48,8 @@ function SignupForm() {
         async () => await axios.post(`${BASE_URL}/api/auth/login`, data, JSON_HEADER),
       )
       .then((response) => {
-        setUser(response.data.data);
+        console.log(response.data.data);
+        login(JSON.stringify(response.data.data));
         navigate('/partner');
       })
       .catch(function (error) {
