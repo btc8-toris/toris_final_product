@@ -1,12 +1,12 @@
-import { Button, Center, Container, IconButton, Text, VStack } from '@yamada-ui/react';
+import { Button, Center, Container, IconButton, Text, VStack, Image } from '@yamada-ui/react';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import RecordRTC from 'recordrtc';
 import Header from '../../../components/header/Header';
-import { CirclePlayIcon } from '@yamada-ui/lucide';
-import { CircleStopIcon } from '@yamada-ui/lucide';
 import startIcon from '/play_circle.svg';
 import stopIcon from '/stop_circle.svg';
+import micOnIcon from '/mic_on.svg';
+import micOffIcon from '/mic_off.svg';
 
 function ListenConversationPage() {
   const [transcript, setTranscript] = useState([]);
@@ -149,31 +149,50 @@ function ListenConversationPage() {
               会話をひろう
             </Text>
             {listening ? (
-              <IconButton
-                icon={
-                  <img
-                    src={stopIcon}
-                    alt="録音停止"
-                  />
-                }
-                onClick={stopRecording}
-                size="auto"
-                width="87px"
-                alignItems="center"
-                variant="primary"></IconButton>
+              <VStack
+                align="center"
+                gap="60px">
+                <Image
+                  src={micOnIcon}
+                  alt="マイクon"
+                  boxSize="246px"
+                />
+                <IconButton
+                  icon={
+                    <img
+                      src={stopIcon}
+                      alt="録音停止"
+                    />
+                  }
+                  onClick={stopRecording}
+                  size="auto"
+                  width="87px"
+                  alignItems="center"
+                  variant="primary"></IconButton>
+              </VStack>
             ) : (
-              <IconButton
-                icon={
-                  <img
-                    src={startIcon}
-                    alt="録音開始"
-                  />
-                }
-                onClick={startRecording}
-                size="auto"
-                width="87px"
-                alignItems="center"
-                variant="primary"></IconButton>
+              <VStack
+                align="center"
+                gap="100px">
+                <Image
+                  marginTop="44px"
+                  src={micOffIcon}
+                  alt="マイクoff"
+                  boxSize="162px"
+                />
+                <IconButton
+                  icon={
+                    <img
+                      src={startIcon}
+                      alt="録音開始"
+                    />
+                  }
+                  onClick={startRecording}
+                  size="auto"
+                  width="87px"
+                  alignItems="center"
+                  variant="primary"></IconButton>
+              </VStack>
             )}
           </VStack>
 
