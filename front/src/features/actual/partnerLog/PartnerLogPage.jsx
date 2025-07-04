@@ -8,22 +8,41 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import { Clock4Icon } from '@yamada-ui/lucide';
 import BigAvatar from '../../../components/Avatar/BigAvatar';
+import { useLocation } from 'react-router';
+import { context } from '../../../app/App';
 
 function PartnerLogPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [pastLogs, setPastLogs] = useState([]);
+  const receiveAnswer = location.state.data;
+  const { BASE_URL } = useContext(context);
+  const [logExist, setLogExist] = useState(false);
+
+  console.log('🍓 ~ PartnerLogPage ~ receiveAnswer:', receiveAnswer);
 
   const getLog = async () => {
-    const pairID = 1;
-    const data = await axios.get(`/api/conversations/log/${pairID}`);
-    setPastLogs(data.data);
+    const pairID = receiveAnswer.pairId;
+    // const pairID = 1;
+    console.log('🍓 ~ getLog ~ pairID:', pairID);
+    await axios.get(`${BASE_URL}/api/conversations/log/${pairID}`).then((res) => {
+      if (res.status === 200) {
+        // console.log('🍓 ~ awaitaxios.get ~ res.status:', res);
+        // console.log('🍓 ~ .then ~ res.data:', res.data);
+        setPastLogs(res.data);
+      } else {
+        setLogExist(true);
+      }
+    });
   };
 
   useEffect(() => {
+    setLogExist(false);
     (async () => {
       await getLog();
     })();
   }, []);
+  console.log(logExist);
 
   return (
     <>
@@ -37,13 +56,9 @@ function PartnerLogPage() {
           paddingTop="60px">
           <VStack
             align="center"
-            marginTop="150px">
-            <BigAvatar nickName="Ruka"/>
-            {/* つるちゃん作成のコンポーネントを入れる予定　bigavator */}
-            <Accordion
-              toggle
-              // variant="card"
-            >
+            marginTop="74px">
+            <BigAvatar nickName={receiveAnswer.nickname} />
+            <Accordion toggle>
               <AccordionItem
                 bg="secondary"
                 color="primary"
@@ -57,38 +72,42 @@ function PartnerLogPage() {
                 }}
                 label="過去の対話ログ">
                 <VStack paddingTop="md">
-                  {pastLogs.map((log, index) => {
-                    const date = log.created_at;
-                    const time = Number(log.conversation_time);
-                    const min = Math.floor(time / 60);
-                    const sec = ('00' + Math.trunc(time % 60)).slice(-2);
-                    return (
-                      <Button
-                        key={index}
-                        variant="ghost"
-                        padding="md"
-                        bg="white"
-                        height="50px"
-                        // onClick={() => navigate('')}
-                      >
-                        <Flex
-                          justify={'space-between'}
-                          align="center"
-                          width="100%">
-                          <Text>
-                            {format(date, 'MM/dd')}
-                            {'       '}
-                            {format(date, 'HH:mm')}
-                          </Text>
+                  {logExist ? (
+                    <Text textAlign="center">過去の対話ログはありません</Text>
+                  ) : (
+                    pastLogs.map((log, index) => {
+                      const date = log.created_at;
+                      const time = Number(log.conversation_time);
+                      const min = Math.floor(time / 60);
+                      const sec = ('00' + Math.trunc(time % 60)).slice(-2);
+                      return (
+                        <Button
+                          key={index}
+                          variant="ghost"
+                          padding="md"
+                          bg="white"
+                          height="50px"
+                          // onClick={() => navigate('')}
+                        >
+                          <Flex
+                            justify={'space-between'}
+                            align="center"
+                            width="100%">
+                            <Text>
+                              {format(date, 'MM/dd')}
+                              {'       '}
+                              {format(date, 'HH:mm')}
+                            </Text>
 
-                          <Text>
-                            <Clock4Icon color="primary" />
-                            {min}:{sec}
-                          </Text>
-                        </Flex>
-                      </Button>
-                    );
-                  })}
+                            <Text>
+                              <Clock4Icon color="primary" />
+                              {min}:{sec}
+                            </Text>
+                          </Flex>
+                        </Button>
+                      );
+                    })
+                  )}
                 </VStack>
               </AccordionItem>
             </Accordion>
