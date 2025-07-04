@@ -23,7 +23,7 @@ function SignupForm() {
   const [isShow, setIsShow] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
-  const { setUser, JSON_HEADER } = useContext(context);
+  const { setUser, JSON_HEADER, BASE_URL } = useContext(context);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,10 +42,10 @@ function SignupForm() {
     const data = { nickName, password };
     //アカウント登録
     await axios
-      .post('/api/auth/register', data, JSON_HEADER)
+      .post(`${BASE_URL}/api/auth/register`, data, JSON_HEADER)
       .then(
         //登録したアカウントでlogin
-        async () => await axios.post('/api/auth/login', data, JSON_HEADER),
+        async () => await axios.post(`${BASE_URL}/api/auth/login`, data, JSON_HEADER),
       )
       .then((response) => {
         setUser(response.data.data);

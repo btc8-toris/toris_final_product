@@ -27,10 +27,13 @@ function App() {
       'Content-Type': 'application/json',
     },
   };
+  const BASE_URL = process.env.NODE_ENV === 'production' ? import.meta.env.VITE_API_BASE_URL : '';
+  console.log('NODE_ENV', process.env.NODE_ENV);
+  console.log('BASE_URL', BASE_URL);
   return (
     <>
       <UIProvider theme={customTheme}>
-        <context.Provider value={{ user, setUser, JSON_HEADER }}>
+        <context.Provider value={{ user, setUser, JSON_HEADER, BASE_URL }}>
           <BrowserRouter>
             <Routes>
               <Route

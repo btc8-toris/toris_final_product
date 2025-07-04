@@ -38,11 +38,11 @@ function PartnerPage() {
   const [list, setList] = useState([]);
   const [answer, setanswer] = useState(''); //画面遷移時に渡す質問の回答。本来はobjectだがuseeffectの初回マウントを回避させるために空文字を初期値にしている
   const [listFlag, setlistFlag] = useState(true); //ID入力中にリスト非表示にするためのフラグ true:表示　false:非表示
-  const { user } = useContext(context);
+  const { user, BASE_URL } = useContext(context);
 
   useEffect(() => {
     async function get6PersonsData() {
-      const response = await axios.get('/api/users/demo');
+      const response = await axios.get(`${BASE_URL}/api/users/demo`);
       for (let obj of response.data) {
         demoIniMember.push(obj);
       }
@@ -67,13 +67,13 @@ function PartnerPage() {
       Object.entries(list[id]).filter(([key]) => keysToKeep.includes(key)),
     );
 
-    const response = await axios.get(`/api/pairs/${user.userId}`);
+    const response = await axios.get(`${BASE_URL}/api/pairs/${user.userId}`);
 
     const matchId = response.data.filter((obj) => obj.partner_id === newObject.id);
 
     if (matchId.length === 0) {
       await axios.post(
-        '/api/pairs',
+        `${BASE_URL}/api/pairs`,
         {
           user_id: user.userId,
           partner_id: newObject.id,
@@ -110,7 +110,7 @@ function PartnerPage() {
   }
 
   async function search() {
-    const response = await axios.get(`/api/users/oneuser/${searchID}`);
+    const response = await axios.get(`${BASE_URL}/api/users/oneuser/${searchID}`);
     if (response.data.length === 0) {
       noIDFlag = false;
     } else {

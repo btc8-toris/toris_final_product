@@ -29,11 +29,11 @@ function ModePage() {
   const navigate = useNavigate();
   const receiveAnswer = location.state?.data; //選択したユーザーのニックネームと質問の回答を前のページから受け継ぐ
   const [sendAnswer, setsendAnswer] = useState({});
-  const { user } = useContext(context);
+  const { user , BASE_URL} = useContext(context);
 
   useEffect(() => {
     async function addPairsId() {
-      const response = await axios.get(`/api/pairs/${user.userId}`); //自分と会話したことがあるペアIDを全取得
+      const response = await axios.get(`${BASE_URL}/api/pairs/${user.userId}`); //自分と会話したことがあるペアIDを全取得
       for (let obj of response.data) {
         if (obj.partner_id === receiveAnswer.id) {
           receiveAnswer['pairId'] = obj.id;
