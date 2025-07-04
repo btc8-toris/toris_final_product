@@ -5,12 +5,21 @@ import serchOffIcon from '/serch_off_icon.svg';
 import serchOnIcon from '/serch_on_icon.svg';
 import valuesOffIcon from '/values_off_icon.svg';
 import valuesOnIcon from '/values_on_icon.svg';
+import valuesOffMaruIcon from '/values_off_icon_maru.svg';
 import { useNavigate } from 'react-router';
 
 const Footer = ({ onIndex }) => {
-  const homeIcon = onIndex === 1 ? homeOnIcon : homeOffIcon;
+  const homeIcon = onIndex === 1 || onIndex === 4 ? homeOnIcon : homeOffIcon;
   const serchIcon = onIndex === 2 ? serchOnIcon : serchOffIcon;
-  const valueIcon = onIndex === 3 ? valuesOnIcon : valuesOffIcon;
+  let valueIcon;
+
+  if (onIndex === 3) {
+    valueIcon = valuesOnIcon;
+  } else if (onIndex === 4) {
+    valueIcon = valuesOffMaruIcon;
+  } else {
+    valueIcon = valuesOffIcon;
+  }
   const navigate = useNavigate();
 
   return (

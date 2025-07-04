@@ -85,26 +85,6 @@ function PartnerPage() {
         },
       );
     }
-    //  else {
-    //   for (let obj of response.data) {
-    //     console.log('💀 ~ addPairsId ~ obj.partner_id:', obj);
-
-    //     if (obj.partner_id !== newObject.id) {
-    //       await axios.post(
-    //         '/api/pairs',
-    //         {
-    //           user_id: user.userId,
-    //           partner_id: newObject.id,
-    //         },
-    //         {
-    //           headers: {
-    //             'Content-Type': 'application/json',
-    //           },
-    //         },
-    //       );
-    //     }
-    //   }
-    // }
 
     setanswer(newObject);
   }

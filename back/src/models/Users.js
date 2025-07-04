@@ -20,6 +20,11 @@ module.exports = {
     return db(USERS_TABLE).where('org_code', org_code);
   },
 
+  //自分のユーザー情報を取得
+  async getMyInfo(my_id) {
+    return db(USERS_TABLE).where('id', my_id);
+  },
+
   //質問に対する回答を登録
   async writeAnswerAll(user_id, answerObj) {
     await db(USERS_TABLE).where('id', user_id).update(answerObj);

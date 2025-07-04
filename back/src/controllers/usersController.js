@@ -12,6 +12,12 @@ module.exports = {
     res.status(200).json(data);
   },
 
+  async myInfoGet(req, res) {
+    my_id = req.params.id;
+    const data = await userModel.getMyInfo(my_id);
+    res.status(200).json(data);
+  },
+
   async sameOrgUserGet(req, res) {
     org_code = req.params.org_code;
     const data = await userModel.selectSameOrgUser(org_code);
@@ -23,9 +29,9 @@ module.exports = {
   async answerWriteAll(req, res) {
     const user_id = req.params.id;
     let answerObj = req.body.answer;
-    const searchId = Number(user_id) + 1000
+    const searchId = Number(user_id) + 1000;
     answerObj.search_id = String(searchId);
-    const data =  await userModel.writeAnswerAll(user_id, answerObj);
+    const data = await userModel.writeAnswerAll(user_id, answerObj);
     res.status(200).json(data);
   },
 
