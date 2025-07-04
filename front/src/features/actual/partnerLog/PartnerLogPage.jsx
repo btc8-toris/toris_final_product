@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Header from '../../../components/header/Header';
-import { Button, Container, Text, VStack, Flex } from '@yamada-ui/react';
+import { Button, Container, Text, VStack, Flex, ScrollArea } from '@yamada-ui/react';
 import { useNavigate } from 'react-router';
 import Footer from '../../../components/footer/Footer';
 import { Accordion, AccordionItem } from '@yamada-ui/react';
@@ -61,7 +61,7 @@ function PartnerLogPage() {
           paddingTop="60px">
           <VStack
             align="center"
-            marginTop="74px">
+            marginTop="20px">
             <BigAvatar nickName={receiveAnswer.nickname} />
             <Accordion toggle>
               <AccordionItem
@@ -76,54 +76,61 @@ function PartnerLogPage() {
                   },
                 }}
                 label="過去の対話ログ">
-                <VStack paddingTop="md">
-                  {logExist ? (
-                    <Text textAlign="center">過去の対話ログはありません</Text>
-                  ) : (
-                    pastLogs.map((log, index) => {
-                      console.log('🍓 ~ pastLogs.map ~ log:', log);
-                      receiveAnswer.transcript_url = log.transcript_url;
-                      console.log('🍓 ~ pastLogs.map ~ receiveAnswer:', sendData);
-                      const date = log.created_at;
-                      const time = Number(log.conversation_time);
-                      const min = Math.floor(time / 60);
-                      const sec = ('00' + Math.trunc(time % 60)).slice(-2);
-                      return (
-                        <Button
-                          key={index}
-                          variant="ghost"
-                          padding="md"
-                          bg="white"
-                          height="50px"
-                          onClick={() =>
-                            navigate('/actual/conversationlog', { state: { data: sendData } })
-                          }>
-                          <Flex
-                            justify={'space-between'}
-                            align="center"
-                            width="100%">
-                            <Text>
-                              {format(date, 'MM/dd')}
-                              {'       '}
-                              {format(date, 'HH:mm')}
-                            </Text>
+                <ScrollArea
+                  type="always"
+                  maxHeight="150px">
+                  <VStack
+                    paddingTop="md"
+                    gap="5px">
+                    {logExist ? (
+                      <Text textAlign="center">過去の対話ログはありません</Text>
+                    ) : (
+                      pastLogs.map((log, index) => {
+                        console.log('🍓 ~ pastLogs.map ~ log:', log);
+                        receiveAnswer.transcript_url = log.transcript_url;
+                        console.log('🍓 ~ pastLogs.map ~ receiveAnswer:', sendData);
+                        const date = log.created_at;
+                        const time = Number(log.conversation_time);
+                        const min = Math.floor(time / 60);
+                        const sec = ('00' + Math.trunc(time % 60)).slice(-2);
+                        return (
+                          <Button
+                            key={index}
+                            variant="ghost"
+                            padding="md"
+                            bg="white"
+                            height="50px"
+                            onClick={() =>
+                              navigate('/actual/conversationlog', { state: { data: sendData } })
+                            }>
+                            <Flex
+                              justify={'space-between'}
+                              align="center"
+                              width="100%">
+                              <Text>
+                                {format(date, 'MM/dd')}
+                                {'       '}
+                                {format(date, 'HH:mm')}
+                              </Text>
 
-                            <Text>
-                              <Clock4Icon color="primary" />
-                              {min}:{sec}
-                            </Text>
-                          </Flex>
-                        </Button>
-                      );
-                    })
-                  )}
-                </VStack>
+                              <Text>
+                                <Clock4Icon color="primary" />
+                                {min}:{sec}
+                              </Text>
+                            </Flex>
+                          </Button>
+                        );
+                      })
+                    )}
+                  </VStack>
+                </ScrollArea>
               </AccordionItem>
             </Accordion>
             <Button
               fullRounded={true}
               size="xl"
               colorScheme="primary"
+              marginTop="5px"
               onClick={() => navigate('/actual/approval')}>
               対話する
             </Button>
