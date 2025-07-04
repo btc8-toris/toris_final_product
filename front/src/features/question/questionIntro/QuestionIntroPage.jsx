@@ -30,7 +30,7 @@ function QuestionIntroPage() {
         </Box>
         <Flex direction='row' justify='end'>
           <Button
-            colorScheme="secondary"
+            colorScheme="primary"
             marginTop='10'
             width="120px"
             height="40px"

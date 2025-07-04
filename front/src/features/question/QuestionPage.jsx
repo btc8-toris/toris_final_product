@@ -64,7 +64,7 @@ const questions = [
 function QuestionPage() {
   const [answerValue, setAnswerValue] = useState(['', '', '', '', '']);
   const [answerword, setAnswerWord] = useState(['', '', '', '', '']);
-  const { user, setUser, JSON_HEADER, BASE_URL } = useContext(context);
+  const { user, login, JSON_HEADER, BASE_URL } = useContext(context);
   const navigate = useNavigate();
 
   const createAnswer = (selectedVal, index) => {
@@ -72,7 +72,7 @@ function QuestionPage() {
     const newVword = answerword.map((val, i) => (i === index ? answers[index][selectedVal] : val));
     console.log('💀 ~ createAnswer ~ newVword:', newVword);
     console.log('💀 ~ createAnswer ~ newValue:', newValue);
-
+    
     setAnswerValue(newValue);
     setAnswerWord(newVword);
   };
@@ -101,7 +101,7 @@ function QuestionPage() {
       .put(`${BASE_URL}/api/users/ans_all/${user.userId}`, sendData, JSON_HEADER)
       .then((respose) => {
         console.log('response', respose.data);
-        setUser(respose.data);
+        login(JSON.stringify(respose.data));
         navigate('/question/complete');
       })
       .catch((error) => {
@@ -154,7 +154,7 @@ function QuestionPage() {
           <Button
             width="120px"
             height="40px"
-            colorScheme="secondary"
+            colorScheme="primary"
             disabled={!answerValue.every((val) => val !== '')}
             onClick={() => {
               sendAnsewer();
