@@ -64,7 +64,7 @@ const questions = [
 function QuestionPage() {
   const [answerValue, setAnswerValue] = useState(['', '', '', '', '']);
   const [answerword, setAnswerWord] = useState(['', '', '', '', '']);
-  const { user, setUser, JSON_HEADER } = useContext(context);
+  const { user, setUser, JSON_HEADER, BASE_URL } = useContext(context);
   const navigate = useNavigate();
 
   const createAnswer = (selectedVal, index) => {
@@ -98,7 +98,7 @@ function QuestionPage() {
     };
 
     await axios
-      .put(`/api/users/ans_all/${user.userId}`, sendData, JSON_HEADER)
+      .put(`${BASE_URL}/api/users/ans_all/${user.userId}`, sendData, JSON_HEADER)
       .then((respose) => {
         console.log('response', respose.data);
         setUser(respose.data);

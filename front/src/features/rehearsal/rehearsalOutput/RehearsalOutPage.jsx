@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
   Box,
@@ -29,6 +29,7 @@ import axios from 'axios';
 import Footer from '../../../components/footer/Footer';
 import Header from '../../../components/header/Header';
 import SmallAvatar from '../../../components/Avatar/SmallAvatar';
+import { context } from '../../../app/App';
 let resTextProposal = '';
 let answer1 = '';
 const answers = [];
@@ -43,6 +44,7 @@ function RehearsalOutPage() {
     'きっとこれは私に伝わった',
     'もっとこうして伝えて欲しかった',
   ];
+  const {BASE_URL} =useContext(context)
 
   console.log('💀 ~ RehearsalOutPage ~ receiveAnswerInput:', receiveAnswerInput);
 
@@ -53,7 +55,7 @@ function RehearsalOutPage() {
         setIsLoading(true); //開始時にローディング
 
         const res = await axios.post(
-          '/api/llm/questions',
+          `${BASE_URL}/api/llm/questions`,
           {
             message: `今から部下になりきってもらいます。
             まずは以下の質問への回答からあなたの価値観を認識してください。

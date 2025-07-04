@@ -19,6 +19,7 @@ function HomePage() {
   const navigate = useNavigate();
   const { user } = useContext(context);
 
+  console.log(import.meta.env.VITE_SOME_KEY) // "123"
   return (
     <Container
       centerContent="true"
