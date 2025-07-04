@@ -42,6 +42,7 @@ function PartnerPage() {
 
   useEffect(() => {
     async function get6PersonsData() {
+      demoIniMember.length = 0;
       const response = await axios.get(`${BASE_URL}/api/users/demo`);
       for (let obj of response.data) {
         demoIniMember.push(obj);

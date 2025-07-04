@@ -50,7 +50,7 @@ function SignupForm() {
       .then((response) => {
         console.log(response.data.data);
         login(JSON.stringify(response.data.data));
-        navigate('/partner');
+        navigate('/home');
       })
       .catch(function (error) {
         console.error(error);
