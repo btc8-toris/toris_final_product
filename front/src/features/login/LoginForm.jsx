@@ -27,9 +27,8 @@ function LoginForm() {
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState(false);
   const navigate = useNavigate();
-  
-  
-  const { login, JSON_HEADER,BASE_URL } = useContext(context);
+
+  const { login, JSON_HEADER, BASE_URL } = useContext(context);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -41,7 +40,7 @@ function LoginForm() {
       .post(`${BASE_URL}/api/auth/login`, data, JSON_HEADER)
       .then((response) => {
         login(JSON.stringify(response.data.data));
-        navigate('/partner');
+        navigate('/home');
       })
       .catch((error) => {
         const errorMessage = error.response.data.error;
@@ -77,7 +76,7 @@ function LoginForm() {
       )
       .then((response) => {
         login(JSON.stringify(response.data.data));
-        navigate('/partner');
+        navigate('/home');
       })
       .catch(function (error) {
         console.error(error);
