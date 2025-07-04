@@ -18,7 +18,16 @@ module.exports = {
 
   production: {
     client: 'pg',
-    connection: process.env.DATABASE_URL,
+    connection: {
+      host: process.env.POSTGRES_URL,
+      user: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DB,
+      port: process.env.PORT || 5432,
+      // SSL/TLS接続を有効にする (Auroraでは推奨または必須の場合が多い)
+      // 環境変数で制御するか、必要に応じて 'require' に設定
+      // ssl: process.env.DB_SSL ? { rejectUnauthorized: false } : false,
+    },
     migrations: {
       directory: path.resolve(__dirname, './data/migration'),
     },

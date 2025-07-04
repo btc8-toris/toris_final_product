@@ -27,8 +27,9 @@ function LoginForm() {
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState(false);
   const navigate = useNavigate();
-
-  const { setUser, JSON_HEADER } = useContext(context);
+  
+  
+  const { login, JSON_HEADER,BASE_URL } = useContext(context);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -37,9 +38,9 @@ function LoginForm() {
 
     const data = { nickName, password };
     await axios
-      .post('/api/auth/login', data, JSON_HEADER)
+      .post(`${BASE_URL}/api/auth/login`, data, JSON_HEADER)
       .then((response) => {
-        setUser(response.data.data);
+        login(JSON.stringify(response.data.data));
         navigate('/partner');
       })
       .catch((error) => {
@@ -69,13 +70,13 @@ function LoginForm() {
     const data = { nickName: 'ゲスト', password };
     //アカウント登録
     await axios
-      .post('/api/auth/register', data, JSON_HEADER)
+      .post(`${BASE_URL}/api/auth/register`, data, JSON_HEADER)
       .then(
         //登録したアカウントでlogin
-        async () => await axios.post('/api/auth/login', data, JSON_HEADER),
+        async () => await axios.post(`${BASE_URL}/api/auth/login`, data, JSON_HEADER),
       )
       .then((response) => {
-        setUser(response.data.data);
+        login(JSON.stringify(response.data.data));
         navigate('/partner');
       })
       .catch(function (error) {

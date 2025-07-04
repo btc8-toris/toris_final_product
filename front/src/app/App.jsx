@@ -11,9 +11,11 @@ import { UIProvider } from '@yamada-ui/react';
 import customTheme from '../theme/theme';
 import QuestionPage from '../features/question/QuestionPage';
 import ConversationLogPage from '../features/actual/conversationLog/conversationLogPage';
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import QuestionIntroPage from '../features/question/questionIntro/QuestionIntroPage';
 import QuestionCompletePage from '../features/question/questionComplete/QuestionCompletePage';
+import PartnerLogPage from '../features/actual/partnerLog/PartnerLogPage';
+import ApprovalPage from '../features/actual/approval/ApprovalPage';
 
 export const context = createContext();
 import ModePage from '../features/mode/ModePage';
@@ -25,10 +27,31 @@ function App() {
       'Content-Type': 'application/json',
     },
   };
+  const BASE_URL = process.env.NODE_ENV === 'production' ? import.meta.env.VITE_API_BASE_URL : '';
+  console.log('NODE_ENV', process.env.NODE_ENV);
+  console.log('BASE_URL', BASE_URL);
+
+  useEffect(() => {
+    const initializeAuth = () => {
+      const storedUser = localStorage.getItem('tact-user');
+      setUser(JSON.parse(storedUser));
+    };
+    initializeAuth();
+  }, []);
+
+  const login = (user) => {
+    setUser(JSON.parse(user));
+    localStorage.setItem('tact-user', user);
+  };
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('tact-user');
+  };
   return (
     <>
       <UIProvider theme={customTheme}>
-        <context.Provider value={{ user, setUser, JSON_HEADER }}>
+        <context.Provider value={{ user, login, logout, JSON_HEADER, BASE_URL }}>
           <BrowserRouter>
             <Routes>
               <Route
@@ -81,6 +104,15 @@ function App() {
               {/* アプリとしてここまでやりたい。 */}
               <Route path="/actual">
                 <Route
+                  path="partnerlog"
+                  element={<PartnerLogPage />}
+                />
+                <Route
+                  path="approval"
+                  element={<ApprovalPage />}
+                />
+
+                <Route
                   path="listen"
                   element={<ListenConversationPage />}
                 />
@@ -101,7 +133,7 @@ function App() {
               {/* 無効なURL叩いた時ようのナビゲーション */}
               <Route
                 path="/*"
-                element={<Navigate to="/try" />}
+                element={<Navigate to="/login" />}
               />
             </Routes>
           </BrowserRouter>

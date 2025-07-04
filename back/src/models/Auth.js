@@ -13,7 +13,6 @@ async saveAccounts({nickname, org_code, salt, hash}){
 
 async searchAccount(nickname){
     const returnObj = await db('users').where({ nickname })
-    console.log('models');
     return returnObj;
 },
 

@@ -24,7 +24,6 @@ router.post('/questions', async (req, res) => {
       },
     ],
   });
-  console.log(returnObj);
   return res.status(201).json({ data: returnObj });
 });
 
