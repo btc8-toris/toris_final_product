@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import unapprovedIcon from '/unapproved.svg';
 import approvedIcon from '/approved.svg';
-import { Text, IconButton, Center, VStack, Container } from '@yamada-ui/react';
+import { Text, IconButton, Center, VStack, Container, Image } from '@yamada-ui/react';
 import Header from '../../../components/header/Header';
 import { useNavigate } from 'react-router';
 
@@ -43,12 +43,12 @@ function ApprovalPage() {
             align="center"
             gap="60px">
             <IconButton
-              height="77px"
+              height="105px"
               width="235px"
               variant="unstyle"
               onClick={pairClick}
               icon={
-                <img
+                <Image
                   style={{ transform: 'scale(-1,-1)' }}
                   src={pairArrow ? approvedIcon : unapprovedIcon}
                   alt="承認"
@@ -69,12 +69,12 @@ function ApprovalPage() {
               問われる可能性があります。
             </Text>
             <IconButton
-              height="77px"
+              height="105px"
               width="235px"
               variant="unstyle"
               onClick={userClick}
               icon={
-                <img
+                <Image
                   src={userArrow ? approvedIcon : unapprovedIcon}
                   alt="承認"
                 />

@@ -22,8 +22,8 @@ function PartnerLogPage() {
   console.log('🍓 ~ PartnerLogPage ~ receiveAnswer:', receiveAnswer);
 
   const getLog = async () => {
-    const pairID = receiveAnswer.pairId;
-    // const pairID = 1;
+    // const pairID = receiveAnswer.pairId;
+    const pairID = 1;
     console.log('🍓 ~ getLog ~ pairID:', pairID);
     await axios.get(`${BASE_URL}/api/conversations/log/${pairID}`).then((res) => {
       if (res.status === 200) {
@@ -76,6 +76,9 @@ function PartnerLogPage() {
                     <Text textAlign="center">過去の対話ログはありません</Text>
                   ) : (
                     pastLogs.map((log, index) => {
+                      console.log('🍓 ~ pastLogs.map ~ log:', log);
+                      receiveAnswer.transcript_url = log.transcript_url;
+                      console.log('🍓 ~ pastLogs.map ~ receiveAnswer:', receiveAnswer);
                       const date = log.created_at;
                       const time = Number(log.conversation_time);
                       const min = Math.floor(time / 60);
@@ -87,8 +90,9 @@ function PartnerLogPage() {
                           padding="md"
                           bg="white"
                           height="50px"
-                          // onClick={() => navigate('')}
-                        >
+                          onClick={() =>
+                            navigate('/actual/conversationlog', { state: { data: receiveAnswer } })
+                          }>
                           <Flex
                             justify={'space-between'}
                             align="center"
