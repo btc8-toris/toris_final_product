@@ -1,6 +1,8 @@
 import React from 'react';
 import { Avatar, Box, Container, Flex } from '@yamada-ui/react';
-import './ContextFrame.css'
+import './ContextFrame.css';
+import Header from '../../../components/header/Header';
+import Footer from '../../../components/footer/Footer';
 
 const yourContext = [
   '今日中にやらないといけない仕事が残っているんですけど、、、今日はゲームの発売日なので定時で帰ります。',
@@ -27,8 +29,14 @@ const usertype = {
 
 function ConversationLogPage() {
   return (
-    <Container>
-      ConversationLogPage
+    <Container
+      centerContent="true"
+      gap="none"
+      p="0">
+      <Header title={'ふたり対話'} />
+      <Container
+        marginTop="60px"
+        paddingTop="60px"></Container>
       <Box>
         <Box>
           <Avatar
@@ -37,9 +45,11 @@ function ConversationLogPage() {
           />
           {usertype.nickname}
         </Box>
-        <Flex direction="row" className='message-bubble'>
+        <Flex
+          direction="row"
+          className="message-bubble">
           <Box
-          className='message-bubble--other'
+            className="message-bubble--other"
             bg="gray.50"
             margin="3"
             rounded="lg"
@@ -49,11 +59,11 @@ function ConversationLogPage() {
           </Box>
         </Flex>
         <Flex
-        className='message-bubble'
+          className="message-bubble"
           direction="row"
           justify="end">
           <Box
-          className='message-bubble--mine'
+            className="message-bubble--mine"
             bg="green.300"
             margin="3"
             rounded="lg"
