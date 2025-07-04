@@ -1,5 +1,5 @@
 import { Container, IconButton, Text, VStack, Image } from '@yamada-ui/react';
-import React, { useContext } from 'react';
+import React from 'react';
 import { useEffect, useState, useContext } from 'react';
 import RecordRTC from 'recordrtc';
 import Header from '../../../components/header/Header';
@@ -8,6 +8,8 @@ import stopIcon from '/stop_circle.svg';
 import micOnIcon from '/mic_on.svg';
 import micOffIcon from '/mic_off.svg';
 import { context } from '../../../app/App';
+import Footer from '../../../components/footer/Footer';
+import recordingIcon from '/recording.svg';
 
 function ListenConversationPage() {
   const [transcript, setTranscript] = useState([]);
@@ -131,7 +133,7 @@ function ListenConversationPage() {
         centerContent="true"
         gap="none"
         p="0">
-        <Header title={'ふたり対話'} />
+        {listening ? <></> : <Header title={'ふたり対話'} />}
         <Container
           marginTop="60px"
           paddingTop="60px">
@@ -145,15 +147,20 @@ function ListenConversationPage() {
             {listening ? (
               <VStack
                 align="center"
-                gap="60px">
+                gap="13px">
                 <Image
                   src={micOnIcon}
                   alt="マイクon"
                   boxSize="246px"
                 />
+                <Image
+                  src={recordingIcon}
+                  alt="録音中"
+                  height="34px"
+                />
                 <IconButton
                   icon={
-                    <img
+                    <Image
                       src={stopIcon}
                       alt="録音停止"
                     />
@@ -176,7 +183,7 @@ function ListenConversationPage() {
                 />
                 <IconButton
                   icon={
-                    <img
+                    <Image
                       src={startIcon}
                       alt="録音開始"
                     />
@@ -203,6 +210,7 @@ function ListenConversationPage() {
             <></>
           )}
         </Container>
+        {listening ? <></> : <Footer />}
       </Container>
     </>
   );
