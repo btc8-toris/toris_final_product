@@ -7,6 +7,7 @@ import { Accordion, AccordionItem } from '@yamada-ui/react';
 import axios from 'axios';
 import { format } from 'date-fns';
 import { Clock4Icon } from '@yamada-ui/lucide';
+import BigAvatar from '../../../components/Avatar/BigAvatar';
 
 function PartnerLogPage() {
   const navigate = useNavigate();
@@ -37,12 +38,23 @@ function PartnerLogPage() {
           <VStack
             align="center"
             marginTop="150px">
+            <BigAvatar nickName="Ruka"/>
             {/* つるちゃん作成のコンポーネントを入れる予定　bigavator */}
             <Accordion
               toggle
-              variant="card">
+              // variant="card"
+            >
               <AccordionItem
+                bg="secondary"
                 color="primary"
+                borderRadius="5px"
+                sx={{
+                  '& svg': {
+                    color: 'primary', // ← ここで矢印の色を指定
+                    width: '32px', // ← 幅を指定
+                    height: '32px', // ← 高さを指定
+                  },
+                }}
                 label="過去の対話ログ">
                 <VStack paddingTop="md">
                   {pastLogs.map((log, index) => {
@@ -55,6 +67,8 @@ function PartnerLogPage() {
                         key={index}
                         variant="ghost"
                         padding="md"
+                        bg="white"
+                        height="50px"
                         // onClick={() => navigate('')}
                       >
                         <Flex

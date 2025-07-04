@@ -5,6 +5,8 @@ import RecordRTC from 'recordrtc';
 import Header from '../../../components/header/Header';
 import { CirclePlayIcon } from '@yamada-ui/lucide';
 import { CircleStopIcon } from '@yamada-ui/lucide';
+import startIcon from '/play_circle.svg';
+import stopIcon from '/stop_circle.svg';
 
 function ListenConversationPage() {
   const [transcript, setTranscript] = useState([]);
@@ -149,9 +151,9 @@ function ListenConversationPage() {
             {listening ? (
               <IconButton
                 icon={
-                  <CircleStopIcon
-                    size="87px"
-                    color="tertiary"
+                  <img
+                    src={stopIcon}
+                    alt="録音停止"
                   />
                 }
                 onClick={stopRecording}
@@ -162,9 +164,9 @@ function ListenConversationPage() {
             ) : (
               <IconButton
                 icon={
-                  <CirclePlayIcon
-                    size="87px"
-                    color="tertiary"
+                  <img
+                    src={startIcon}
+                    alt="録音開始"
                   />
                 }
                 onClick={startRecording}
