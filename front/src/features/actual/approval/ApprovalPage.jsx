@@ -54,7 +54,10 @@ function ApprovalPage() {
                   alt="承認"
                 />
               }></IconButton>
-            <Text textAlign="center">
+            <Text
+              fontSize="18px"
+              textAlign="center"
+              color="#FF9100">
               -注意-
               <br />
               相手の承認なしに録音した内容を

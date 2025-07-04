@@ -1,21 +1,23 @@
-import { Button, Center, Container, IconButton, Text, VStack } from '@yamada-ui/react';
+import { Container, IconButton, Text, VStack, Image } from '@yamada-ui/react';
 import React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import RecordRTC from 'recordrtc';
 import Header from '../../../components/header/Header';
-import { CirclePlayIcon } from '@yamada-ui/lucide';
-import { CircleStopIcon } from '@yamada-ui/lucide';
 import startIcon from '/play_circle.svg';
 import stopIcon from '/stop_circle.svg';
+import micOnIcon from '/mic_on.svg';
+import micOffIcon from '/mic_off.svg';
+import { context } from '../../../app/App';
+import Footer from '../../../components/footer/Footer';
+import recordingIcon from '/recording.svg';
 
 function ListenConversationPage() {
   const [transcript, setTranscript] = useState([]);
   const [recorder, setRecorder] = useState(null);
-  // const [error, setError] = useState('');
   const [recordings, setRecordings] = useState();
   const [listening, setListening] = useState(false);
-  const [s3Key, setS3Key] = useState('');
-  // const [audio, setAudio] = useState();
+  // const [s3Key, setS3Key] = useState('');
+  const { BASE_URL } = useContext(context);
 
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const recognition = new SpeechRecognition();
@@ -69,11 +71,7 @@ function ListenConversationPage() {
       recorder.stopRecording(() => {
         const blob = recorder.getBlob();
         onStop();
-
-        const id = Math.random().toString(32).substring(2) + new Date().getTime().toString(32);
-
         const newRecording = blob;
-
         setRecordings(newRecording);
       });
     }
@@ -95,7 +93,7 @@ function ListenConversationPage() {
       const formData = new FormData();
       formData.append('audio', recordings);
 
-      const mp3Blob = await fetch('/api/voices/convert', {
+      const mp3Blob = await fetch(`${BASE_URL}/api/voices/convert`, {
         method: 'POST',
         body: formData,
       }).then((res) => res.blob());
@@ -105,18 +103,16 @@ function ListenConversationPage() {
       // ３つ目の引数はファイル名として指定される
       uploadForm.append('audio', mp3Blob, `${mp3File}.mp3`);
 
-      const uploadRes = await fetch('/api/voices/upload', {
+      const uploadRes = await fetch(`${BASE_URL}/api/voices/upload`, {
         method: 'POST',
         body: uploadForm,
       }).then((res) => res.json());
-      setS3Key(uploadRes.key);
+      // setS3Key(uploadRes.key);
     }
   };
 
   const text = async (mp3File) => {
-    console.log('🍓 ~ text ~ mp3File:', mp3File);
-    // const aaa = 'test34';
-    const data = await fetch(`/api/voices/transcription-result/${mp3File}`).then((res) =>
+    const data = await fetch(`${BASE_URL}/api/voices/transcription-result/${mp3File}`).then((res) =>
       res.json(),
     );
 
@@ -137,7 +133,7 @@ function ListenConversationPage() {
         centerContent="true"
         gap="none"
         p="0">
-        <Header title={'ふたり対話'} />
+        {listening ? <></> : <Header title={'ふたり対話'} />}
         <Container
           marginTop="60px"
           paddingTop="60px">
@@ -149,31 +145,55 @@ function ListenConversationPage() {
               会話をひろう
             </Text>
             {listening ? (
-              <IconButton
-                icon={
-                  <img
-                    src={stopIcon}
-                    alt="録音停止"
-                  />
-                }
-                onClick={stopRecording}
-                size="auto"
-                width="87px"
-                alignItems="center"
-                variant="primary"></IconButton>
+              <VStack
+                align="center"
+                gap="13px">
+                <Image
+                  src={micOnIcon}
+                  alt="マイクon"
+                  boxSize="246px"
+                />
+                <Image
+                  src={recordingIcon}
+                  alt="録音中"
+                  height="34px"
+                />
+                <IconButton
+                  icon={
+                    <Image
+                      src={stopIcon}
+                      alt="録音停止"
+                    />
+                  }
+                  onClick={stopRecording}
+                  size="auto"
+                  width="87px"
+                  alignItems="center"
+                  variant="primary"></IconButton>
+              </VStack>
             ) : (
-              <IconButton
-                icon={
-                  <img
-                    src={startIcon}
-                    alt="録音開始"
-                  />
-                }
-                onClick={startRecording}
-                size="auto"
-                width="87px"
-                alignItems="center"
-                variant="primary"></IconButton>
+              <VStack
+                align="center"
+                gap="100px">
+                <Image
+                  marginTop="44px"
+                  src={micOffIcon}
+                  alt="マイクoff"
+                  boxSize="162px"
+                />
+                <IconButton
+                  icon={
+                    <Image
+                      src={startIcon}
+                      alt="録音開始"
+                    />
+                  }
+                  onClick={startRecording}
+                  size="auto"
+                  width="87px"
+                  alignItems="center"
+                  variant="primary"></IconButton>
+              </VStack>
             )}
           </VStack>
 
@@ -190,6 +210,7 @@ function ListenConversationPage() {
             <></>
           )}
         </Container>
+        {listening ? <></> : <Footer />}
       </Container>
     </>
   );
