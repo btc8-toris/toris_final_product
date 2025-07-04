@@ -33,46 +33,49 @@ function ConversationLogPage() {
       centerContent="true"
       gap="none"
       p="0">
-      <Header title={'ふたり対話'} />
+      <Header title={'対話ログ'} />
       <Container
         marginTop="60px"
-        paddingTop="60px"></Container>
-      <Box>
+        paddingTop="60px">
         <Box>
-          <Avatar
-            name={usertype.nickname}
-            size="sm"
-          />
-          {usertype.nickname}
+          <Box marginBottom="2px">
+            <Avatar
+              name={usertype.nickname}
+              size="sm"
+            />
+            {usertype.nickname}
+          </Box>
+          <Flex
+            direction="row"
+            className="message-bubble"
+            marginLeft="15px">
+            <Box
+              className="message-bubble--other"
+              bg="gray.50"
+              margin="3"
+              rounded="lg"
+              padding="2"
+              width="80%">
+              {yourContext[0]}
+            </Box>
+          </Flex>
+          <Flex
+            className="message-bubble"
+            direction="row"
+            justify="end">
+            <Box
+              className="message-bubble--mine"
+              bg="green.300"
+              margin="3"
+              rounded="lg"
+              padding="2"
+              width="80%">
+              {myContext[0]}
+            </Box>
+          </Flex>
         </Box>
-        <Flex
-          direction="row"
-          className="message-bubble">
-          <Box
-            className="message-bubble--other"
-            bg="gray.50"
-            margin="3"
-            rounded="lg"
-            padding="2"
-            width="80%">
-            {yourContext[0]}
-          </Box>
-        </Flex>
-        <Flex
-          className="message-bubble"
-          direction="row"
-          justify="end">
-          <Box
-            className="message-bubble--mine"
-            bg="green.300"
-            margin="3"
-            rounded="lg"
-            padding="2"
-            width="80%">
-            {myContext[0]}
-          </Box>
-        </Flex>
-      </Box>
+      </Container>
+      <Footer />
     </Container>
   );
 }

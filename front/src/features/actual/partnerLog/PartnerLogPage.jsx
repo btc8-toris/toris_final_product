@@ -22,8 +22,8 @@ function PartnerLogPage() {
   console.log('🍓 ~ PartnerLogPage ~ receiveAnswer:', receiveAnswer);
 
   const getLog = async () => {
-    // const pairID = receiveAnswer.pairId;
-    const pairID = 1;
+    const pairID = receiveAnswer.pairId;
+    // const pairID = 1;
     console.log('🍓 ~ getLog ~ pairID:', pairID);
     await axios.get(`${BASE_URL}/api/conversations/log/${pairID}`).then((res) => {
       if (res.status === 200) {
