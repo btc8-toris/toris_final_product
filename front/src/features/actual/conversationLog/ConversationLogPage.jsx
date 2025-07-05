@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Box, Container, Flex, ScrollArea, Button, VStack } from '@yamada-ui/react';
+import {
+  Avatar,
+  Box,
+  Container,
+  Flex,
+  ScrollArea,
+  Button,
+  VStack,
+  IconButton,
+  Image,
+} from '@yamada-ui/react';
 import './ContextFrame.css';
 import Header from '../../../components/header/Header';
 import Footer from '../../../components/footer/Footer';
 import { useContext } from 'react';
 import { context } from '../../../app/App';
 import { useLocation, useNavigate } from 'react-router';
+import analysisIcon from '/analysis.svg';
 
 const yourContext = [
   '今日中にやらないといけない仕事が残っているんですけど、、、今日はゲームの発売日なので定時で帰ります。',
@@ -49,6 +60,7 @@ function ConversationLogPage() {
     // console.log('🍓 ~ text ~ data.text:', data.text);
     if (data.status === 'completed') {
       setTranscripts(data.text);
+      receiveAnswer.transcript = data.text;
     } else if (data.status === 'in_progress') {
       setTimeout(async () => await text(mp3File), 5000);
     } else {
@@ -121,15 +133,21 @@ function ConversationLogPage() {
               );
             })}
 
-            <Button
+            <IconButton
               colorScheme="primary"
               width="120px"
               marginLeft="auto"
               marginBottom="10px"
               marginTop="10px"
-              onClick={() => navigate('/actual/suggestion', { state: { data: sendData } })}>
+              onClick={() => navigate('/actual/suggestion', { state: { data: sendData } })}
+              icon={
+                <Image
+                  src={analysisIcon}
+                  alt="分析"
+                />
+              }>
               分析
-            </Button>
+            </IconButton>
           </VStack>
         </ScrollArea>
       </Container>
