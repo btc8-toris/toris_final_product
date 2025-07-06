@@ -1,4 +1,4 @@
-import { Container, IconButton, Text, VStack, Image } from '@yamada-ui/react';
+import { Container, IconButton, Text, VStack, Image, Motion, Flex } from '@yamada-ui/react';
 import React from 'react';
 import { useEffect, useState, useContext } from 'react';
 import RecordRTC from 'recordrtc';
@@ -10,14 +10,14 @@ import micOffIcon from '/mic_off.svg';
 import { context } from '../../../app/App';
 import Footer from '../../../components/footer/Footer';
 import recordingIcon from '/recording.svg';
+import saveIcon from '/save.svg';
 
 function ListenConversationPage() {
-  const [transcript, setTranscript] = useState([]);
   const [recorder, setRecorder] = useState(null);
   const [recordings, setRecordings] = useState();
   const [listening, setListening] = useState(false);
-  // const [s3Key, setS3Key] = useState('');
   const { BASE_URL } = useContext(context);
+  const [save, setSave] = useState(false);
 
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const recognition = new SpeechRecognition();
@@ -29,14 +29,12 @@ function ListenConversationPage() {
   recognition.lang = 'ja-JP'; // 日本語対応
 
   const onStart = () => {
-    setTranscript('');
     setListening(true);
     recognition.start();
   };
 
   const onStop = () => {
     recognition.stop();
-    setTranscript('');
     setListening(false);
   };
 
@@ -49,6 +47,7 @@ function ListenConversationPage() {
   }, [recorder]);
 
   const startRecording = async () => {
+    setSave(false);
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: true,
@@ -73,6 +72,8 @@ function ListenConversationPage() {
         onStop();
         const newRecording = blob;
         setRecordings(newRecording);
+        setSave(true);
+        setTimeout(() => setSave(false), 10000);
       });
     }
   };
@@ -82,7 +83,6 @@ function ListenConversationPage() {
       (async () => {
         const mp3File = Math.random().toString(32).substring(2) + new Date().getTime().toString(32);
         await post(mp3File);
-        await text(mp3File);
       })();
     }
   }, [recordings]);
@@ -103,29 +103,12 @@ function ListenConversationPage() {
       // ３つ目の引数はファイル名として指定される
       uploadForm.append('audio', mp3Blob, `${mp3File}.mp3`);
 
-      const uploadRes = await fetch(`${BASE_URL}/api/voices/upload`, {
+      await fetch(`${BASE_URL}/api/voices/upload`, {
         method: 'POST',
         body: uploadForm,
       }).then((res) => res.json());
-      // setS3Key(uploadRes.key);
     }
   };
-
-  // const text = async (mp3File) => {
-  //   const data = await fetch(`${BASE_URL}/api/voices/transcription-result/${mp3File}`).then((res) =>
-  //     res.json(),
-  //   );
-
-  //   console.log('🍓 ~ text ~ data:', data.status);
-  //   console.log('🍓 ~ text ~ data.text:', data.text);
-  //   if (data.status === 'completed') {
-  //     setTranscript([data.text]);
-  //   } else if (data.status === 'in_progress') {
-  //     setTimeout(async () => await text(mp3File), 5000);
-  //   } else {
-  //     console.error('文字起こしに失敗：', data.reason);
-  //   }
-  // };
 
   return (
     <>
@@ -133,7 +116,32 @@ function ListenConversationPage() {
         centerContent="true"
         gap="none"
         p="0">
-        {listening ? <></> : <Header title={'ふたり対話'} />}
+        {listening ? (
+          <></>
+        ) : (
+          <>
+            <Header title={'ふたり対話'} />
+          </>
+        )}
+        {save ? (
+          <Flex
+            width="100%"
+            justify="flex-end">
+            <Motion
+              animate={{ opacity: [1, 0, 1] }}
+              transition={{ duration: 1, repeat: Infinity }}>
+              <Image
+                marginTop="5px"
+                marginRight="5px"
+                width="83px"
+                src={saveIcon}
+                alt="保存中"
+              />
+            </Motion>
+          </Flex>
+        ) : (
+          <></>
+        )}
         <Container
           marginTop="60px"
           paddingTop="60px">
@@ -196,19 +204,6 @@ function ListenConversationPage() {
               </VStack>
             )}
           </VStack>
-
-          {transcript ? (
-            transcript.map((elem) => {
-              return (
-                <div key={elem.id}>
-                  {elem.speaker_lavel}
-                  {elem.transcript}
-                </div>
-              );
-            })
-          ) : (
-            <></>
-          )}
         </Container>
         {listening ? <></> : <Footer />}
       </Container>

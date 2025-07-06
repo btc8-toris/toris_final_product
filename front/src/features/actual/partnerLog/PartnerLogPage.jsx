@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Header from '../../../components/header/Header';
-import { Button, Container, Text, VStack, Flex, ScrollArea } from '@yamada-ui/react';
+import { Button, Container, Text, VStack, Flex, ScrollArea, HStack } from '@yamada-ui/react';
 import { useNavigate } from 'react-router';
 import Footer from '../../../components/footer/Footer';
 import { Accordion, AccordionItem } from '@yamada-ui/react';
@@ -25,11 +25,8 @@ function PartnerLogPage() {
   const getLog = async () => {
     // const pairID = receiveAnswer.pairId;
     const pairID = 1;
-    console.log('🍓 ~ getLog ~ pairID:', pairID);
     await axios.get(`${BASE_URL}/api/conversations/log/${pairID}`).then((res) => {
       if (res.status === 200) {
-        // console.log('🍓 ~ awaitaxios.get ~ res.status:', res);
-        // console.log('🍓 ~ .then ~ res.data:', res.data);
         setPastLogs(res.data);
       } else {
         setLogExist(true);
@@ -63,7 +60,9 @@ function PartnerLogPage() {
             align="center"
             marginTop="20px">
             <BigAvatar nickName={receiveAnswer.nickname} />
-            <Accordion toggle>
+            <Accordion
+              toggle
+              variant="unstyled">
               <AccordionItem
                 bg="secondary"
                 color="primary"
@@ -71,13 +70,13 @@ function PartnerLogPage() {
                 sx={{
                   '& svg': {
                     color: 'primary', // ← ここで矢印の色を指定
-                    width: '32px', // ← 幅を指定
-                    height: '32px', // ← 高さを指定
+                    // width: '32px', // ← 幅を指定
+                    // height: '32px', // ← 高さを指定
                   },
                 }}
                 label="過去の対話ログ">
                 <ScrollArea
-                  type="always"
+                  type="scroll"
                   maxHeight="150px">
                   <VStack
                     paddingTop="md"
@@ -86,9 +85,7 @@ function PartnerLogPage() {
                       <Text textAlign="center">過去の対話ログはありません</Text>
                     ) : (
                       pastLogs.map((log, index) => {
-                        console.log('🍓 ~ pastLogs.map ~ log:', log);
                         receiveAnswer.transcript_url = log.transcript_url;
-                        console.log('🍓 ~ pastLogs.map ~ receiveAnswer:', sendData);
                         const date = log.created_at;
                         const time = Number(log.conversation_time);
                         const min = Math.floor(time / 60);
@@ -96,6 +93,8 @@ function PartnerLogPage() {
                         return (
                           <Button
                             key={index}
+                            marginRight="5px"
+                            marginLeft="5px"
                             variant="ghost"
                             padding="md"
                             bg="white"
@@ -107,16 +106,16 @@ function PartnerLogPage() {
                               justify={'space-between'}
                               align="center"
                               width="100%">
-                              <Text>
-                                {format(date, 'MM/dd')}
-                                {'       '}
-                                {format(date, 'HH:mm')}
-                              </Text>
-
-                              <Text>
+                              <HStack>
+                                <Text>{format(date, 'MM/dd')}</Text>
+                                <Text>{format(date, 'HH:mm')}</Text>
+                              </HStack>
+                              <HStack gap="10px">
                                 <Clock4Icon color="primary" />
-                                {min}:{sec}
-                              </Text>
+                                <Text>
+                                  {min}:{sec}
+                                </Text>
+                              </HStack>
                             </Flex>
                           </Button>
                         );

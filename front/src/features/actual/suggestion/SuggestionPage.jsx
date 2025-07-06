@@ -88,6 +88,7 @@ function SuggestionPage() {
       }
     };
 
+    // 
     // contactAI();
   }, []);
 

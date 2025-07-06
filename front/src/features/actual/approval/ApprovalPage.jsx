@@ -58,7 +58,7 @@ function ApprovalPage() {
             <Text
               fontSize="18px"
               textAlign="center"
-              color="#FF9100">
+              color="#FF5500">
               -注意-
               <br />
               相手の承認なしに録音した内容を
