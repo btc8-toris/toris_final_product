@@ -41,11 +41,16 @@ function PartnerLogPage() {
   useEffect(() => {
     setLogExist(false);
     setSendData(receiveAnswer);
-
     (async () => {
       await getLog();
     })();
   }, []);
+
+  const logNav = (e) => {
+    receiveAnswer.transcript_url = e.currentTarget.value;
+    navigate('/actual/conversationlog', { state: { data: sendData } });
+  };
+
   console.log(logExist);
 
   return (
@@ -89,7 +94,7 @@ function PartnerLogPage() {
                       <Text textAlign="center">過去の対話ログはありません</Text>
                     ) : (
                       pastLogs.map((log, index) => {
-                        receiveAnswer.transcript_url = log.transcript_url;
+                        const url = log.transcript_url;
                         const date = log.created_at;
                         const time = Number(log.conversation_time);
                         const min = Math.floor(time / 60);
@@ -103,9 +108,8 @@ function PartnerLogPage() {
                             padding="md"
                             bg="white"
                             height="50px"
-                            onClick={() =>
-                              navigate('/actual/conversationlog', { state: { data: sendData } })
-                            }>
+                            value={url}
+                            onClick={(e) => logNav(e)}>
                             <Flex
                               justify={'space-between'}
                               align="center"
