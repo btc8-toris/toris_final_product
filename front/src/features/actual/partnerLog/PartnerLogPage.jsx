@@ -40,10 +40,17 @@ function PartnerLogPage() {
 
   useEffect(() => {
     setLogExist(false);
+    setSendData(receiveAnswer);
     (async () => {
       await getLog();
     })();
   }, []);
+
+  const logNav = (e) => {
+    receiveAnswer.transcript_url = e.currentTarget.value;
+    navigate('/actual/conversationlog', { state: { data: sendData } });
+  };
+
   console.log(logExist);
 
   return (
@@ -74,6 +81,8 @@ function PartnerLogPage() {
                     // height: '32px', // ← 高さを指定
                   },
                 }}
+                fontSize="15px"
+                fontWeight="bold"
                 label="過去の対話ログ">
                 <ScrollArea
                   type="scroll"
@@ -85,7 +94,7 @@ function PartnerLogPage() {
                       <Text textAlign="center">過去の対話ログはありません</Text>
                     ) : (
                       pastLogs.map((log, index) => {
-                        receiveAnswer.transcript_url = log.transcript_url;
+                        const url = log.transcript_url;
                         const date = log.created_at;
                         const time = Number(log.conversation_time);
                         const min = Math.floor(time / 60);
@@ -99,9 +108,8 @@ function PartnerLogPage() {
                             padding="md"
                             bg="white"
                             height="50px"
-                            onClick={() =>
-                              navigate('/actual/conversationlog', { state: { data: sendData } })
-                            }>
+                            value={url}
+                            onClick={(e) => logNav(e)}>
                             <Flex
                               justify={'space-between'}
                               align="center"
@@ -130,7 +138,7 @@ function PartnerLogPage() {
               size="xl"
               colorScheme="primary"
               marginTop="5px"
-              onClick={() => navigate('/actual/approval')}>
+              onClick={() => navigate('/actual/approval', { state: { data: sendData } })}>
               対話する
             </Button>
           </VStack>
