@@ -4,45 +4,61 @@ import Footer from '../../../components/footer/Footer';
 import { useNavigate } from 'react-router';
 
 function QuestionIntroPage() {
-    const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   return (
     <Container
       //   centerContent="true"
-      gap="none"
+      // gap="none"
+      color="tertiary"
       p="0">
+      <Heading
+        fontSize="28px"
+        marginLeft="30px">
+        価値観
+      </Heading>
       <Container>
         <Box
-          marginTop="5"
-          textAlign="">
-          <Heading>価値観</Heading>
-        </Box>
-        <Box
           marginTop="15"
-          marginBottom="5">
-          <Text>あなたの価値観を見つけましょう。</Text>
-          <Text>これから5つの質問に答えていただくことで、</Text>
-          <Text>あなたが大切にしている考え方や、</Text>
-          <Text>理想の働き方が見えてきます。</Text>
-          <Text>深く考えすぎず、直感で選んでください。</Text>
-          <Text>（全5問・所要時間約1分）</Text>
+          marginBottom="5"
+          marginLeft="30px"
+          marginRight="30px"
+          fontSize="17px">
+          <Text letterSpacing="1.7px">
+            あなたの価値観を見つけましょう。これから5つの質問に答えていただくことで、あなたが大切にしている考え方や、理想の働き方が見えてきます。
+          </Text>
+          <Text
+            letterSpacing="1.7px"
+            as="ins"
+            fontWeight="bold">
+            深く考えすぎず、直感で選んでください。
+          </Text>
+          <Text letterSpacing="1.7px">（全5問・所要時間約1分）</Text>
+          <Text
+            marginTop="15px"
+            letterSpacing="1.3px"
+            fontSize="13px"
+            fontWeight="bold">
+            ※このアンケートの結果は他のユーザーや外部の方には共有されません。
+          </Text>
         </Box>
-        <Flex direction='row' justify='end'>
+        <Flex
+          direction="row"
+          justify="end">
           <Button
-            colorScheme="primary"
-            marginTop='10'
-            width="120px"
-            height="40px"
-            boxShadow="5px 5px 5px 5px"
-            onClick={()=>navigate('/question/form')}
-            >
-            回答
+            variant="outline"
+            color="tertiary"
+            marginTop="10"
+            width="101px"
+            height="50px"
+            fontWeight="nomal"
+            onClick={() => navigate('/question/form')}>
+            はじめる
           </Button>
         </Flex>
       </Container>
       <Footer onIndex={3} />
-      </Container>
+    </Container>
   );
 }
 

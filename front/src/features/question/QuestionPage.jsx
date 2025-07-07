@@ -39,11 +39,11 @@ const answers = [
     '成長し続けられること',
   ],
   [
-    'どちらも全力。仕事が充実すればプライベートも充実する',
+    '仕事もプライベートも両方全力',
     'プライベート優先。仕事は生活の手段',
-    '仕事優先。やりたい事だから全力を注ぎたい',
+    '仕事優先。やりたい事に全力を注ぎたい',
     '完全に切り分けたい',
-    '融合している（趣味＝仕事など）,',
+    '融合している（趣味＝仕事など）',
   ],
   [
     'フラットで自由に意見が言える',
@@ -72,7 +72,7 @@ function QuestionPage() {
     const newVword = answerword.map((val, i) => (i === index ? answers[index][selectedVal] : val));
     console.log('💀 ~ createAnswer ~ newVword:', newVword);
     console.log('💀 ~ createAnswer ~ newValue:', newValue);
-    
+
     setAnswerValue(newValue);
     setAnswerWord(newVword);
   };
@@ -117,27 +117,33 @@ function QuestionPage() {
       <Container
         marginTop="60px"
         paddingTop="60px">
-        <Box>
+        {/* <Box>
           質問に答えることで、あなたの大切にしている 価値観や理想の働き方を確認させて頂きます。
           直感で選んでください。＜全５問＞
-        </Box>
+        </Box> */}
         <For each={questions}>
           {(question, qIndex) => (
             <Card
+              variant="subtle"
+              bg="#D2F1E7"
               key={qIndex}
               p="5">
-              <Text>{`【質問 ${qIndex + 1}】`}</Text>
-              <Text>{question}</Text>
+              {/* <Text>{`【質問 ${qIndex + 1}】`}</Text> */}
+              <Text marginBottom="15px">{question}</Text>
               <VStack>
                 <RadioGroup
+                  gap="3px"
                   value={answerValue[qIndex]}
                   onChange={(selectedVal) => createAnswer(selectedVal, qIndex)}>
                   <For each={answers[qIndex]}>
                     {(answer, aIndex) => (
                       <Radio
+                        border="1px #000000"
                         key={String(qIndex) + String(aIndex)}
                         size="sm"
-                        colorScheme="primary"
+                        fontSize="15px"
+                        letterSpacing="0.45px"
+                        colorScheme="tertiary"
                         value={String(aIndex)}>
                         {answer}
                       </Radio>
@@ -152,14 +158,15 @@ function QuestionPage() {
           direction="row"
           justify="right">
           <Button
-            width="120px"
-            height="40px"
-            colorScheme="primary"
+            width="101px"
+            height="50px"
+            variant="outline"
+            color="tertiary"
             disabled={!answerValue.every((val) => val !== '')}
             onClick={() => {
               sendAnsewer();
             }}>
-            完了
+            完了する
           </Button>
         </Flex>
       </Container>
