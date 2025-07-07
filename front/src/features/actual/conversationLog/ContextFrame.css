@@ -1,44 +1,42 @@
 .message-bubble {
-    position: relative;
+  position: relative;
 }
 
 /* 受信者メッセージのスタイル */
 
-  
-  .message-bubble--other::before {
-    content: '';
-    position: absolute;
-    /* bottom: 0; */
-    top: 0px;
-    left: 20px; /* しっぽの横位置 */
-    width: 0;
-    height: 0;
-    border: 24px solid transparent; /* 全方向透明なボーダー */
-    border-bottom-color: #dedfe3; /* 吹き出しの背景色と同じ */
-    border-left: 0; /* 左側を切り落とすことで三角形を形成 */
-    transform: translateY(-60%); /* しっぽの垂直位置調整 */
-    z-index: 2; /* バブルの下に配置 */
-  }
-  
-  
-  /* 送信者メッセージのスタイル */
-  .message-bubble--mine {
-    border-top-left-radius: 0.75rem;
-    border-top-right-radius: 0.75rem;
-    border-bottom-left-radius: 0.75rem;
-    border-bottom-right-radius: 0.25rem; /* しっぽ側は少しだけ丸める */
-  }
-  
-  .message-bubble--mine::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 20px; /* しっぽの横位置 */
-    width: 0;
-    height: 0;
-    border: 24px solid transparent;
-    border-bottom-color: #51e186; /* 吹き出しの背景色と同じ */
-    border-right: 0; /* 右側を切り落とす */
-    transform: translateY(-50%); /* しっぽの垂直位置調整 */
-    z-index: 2;
-  }
+.message-bubble--other::before {
+  content: '';
+  position: absolute;
+  /* bottom: 0; */
+  top: 0px;
+  left: 20px; /* しっぽの横位置 */
+  width: 0;
+  height: 0;
+  border: 24px solid transparent; /* 全方向透明なボーダー */
+  border-bottom-color: #dedfe3; /* 吹き出しの背景色と同じ */
+  border-left: 0; /* 左側を切り落とすことで三角形を形成 */
+  transform: translateY(-60%); /* しっぽの垂直位置調整 */
+  z-index: 2; /* バブルの下に配置 */
+}
+
+/* 送信者メッセージのスタイル */
+.message-bubble--mine {
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
+  border-bottom-right-radius: 0.25rem; /* しっぽ側は少しだけ丸める */
+}
+
+.message-bubble--mine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 20px; /* しっぽの横位置 */
+  width: 0;
+  height: 0;
+  border: 24px solid transparent;
+  border-bottom-color: #3bbc54; /* 吹き出しの背景色と同じ */
+  border-right: 0; /* 右側を切り落とす */
+  transform: translateY(-50%); /* しっぽの垂直位置調整 */
+  z-index: 2;
+}

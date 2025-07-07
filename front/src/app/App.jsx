@@ -19,6 +19,7 @@ import ApprovalPage from '../features/actual/approval/ApprovalPage';
 
 export const context = createContext();
 import ModePage from '../features/mode/ModePage';
+import SplashPage from '../features/splash/SplashPage';
 
 function App() {
   const [user, setUser] = useState({});
@@ -56,7 +57,11 @@ function App() {
             <Routes>
               <Route
                 path="/"
-                element={<Navigate to="/login" />}
+                element={<Navigate to="/splash" />}
+              />
+              <Route
+                path="/splash"
+                element={<SplashPage />}
               />
 
               {/* デモで最低限必要 */}

@@ -1,8 +1,22 @@
-import React from 'react';
-import { Avatar, Box, Container, Flex } from '@yamada-ui/react';
+import React, { useEffect, useState } from 'react';
+import {
+  Avatar,
+  Box,
+  Container,
+  Flex,
+  ScrollArea,
+  Button,
+  VStack,
+  IconButton,
+  Image,
+} from '@yamada-ui/react';
 import './ContextFrame.css';
 import Header from '../../../components/header/Header';
 import Footer from '../../../components/footer/Footer';
+import { useContext } from 'react';
+import { context } from '../../../app/App';
+import { useLocation, useNavigate } from 'react-router';
+import analysisIcon from '/analysis.svg';
 
 const yourContext = [
   '今日中にやらないといけない仕事が残っているんですけど、、、今日はゲームの発売日なので定時で帰ります。',
@@ -28,51 +42,116 @@ const usertype = {
 };
 
 function ConversationLogPage() {
+  const location = useLocation();
+  const receiveAnswer = location.state.data;
+  const { BASE_URL } = useContext(context);
+  const [transcripts, setTranscripts] = useState([]);
+  const navigate = useNavigate();
+  const [sendData, setSendData] = useState({});
+
+  console.log('🍓 ~ ConversationLogPage ~ receiveAnswer:', receiveAnswer);
+
+  const text = async (mp3File) => {
+    const data = await fetch(`${BASE_URL}/api/voices/transcription-result/${mp3File}`).then((res) =>
+      res.json(),
+    );
+
+    // console.log('🍓 ~ text ~ data:', data.status);
+    // console.log('🍓 ~ text ~ data.text:', data.text);
+    if (data.status === 'completed') {
+      setTranscripts(data.text);
+      receiveAnswer.transcript = data.text;
+    } else if (data.status === 'in_progress') {
+      setTimeout(async () => await text(mp3File), 5000);
+    } else {
+      console.error('文字起こしに失敗：', data.reason);
+    }
+  };
+  useEffect(() => {
+    (async () => {
+      await text(receiveAnswer.transcript_url);
+    })();
+    setSendData(receiveAnswer);
+  }, []);
+  console.log('🍓 ~ ConversationLogPage ~ transcripts:', transcripts);
+
   return (
     <Container
       centerContent="true"
       gap="none"
       p="0">
-      <Header title={'ふたり対話'} />
+      <Header title={'対話ログ'} />
       <Container
         marginTop="60px"
-        paddingTop="60px"></Container>
-      <Box>
-        <Box>
-          <Avatar
-            name={usertype.nickname}
-            size="sm"
-          />
-          {usertype.nickname}
-        </Box>
-        <Flex
-          direction="row"
-          className="message-bubble">
-          <Box
-            className="message-bubble--other"
-            bg="gray.50"
-            margin="3"
-            rounded="lg"
-            padding="2"
-            width="80%">
-            {yourContext[0]}
-          </Box>
-        </Flex>
-        <Flex
-          className="message-bubble"
-          direction="row"
-          justify="end">
-          <Box
-            className="message-bubble--mine"
-            bg="green.300"
-            margin="3"
-            rounded="lg"
-            padding="2"
-            width="80%">
-            {myContext[0]}
-          </Box>
-        </Flex>
-      </Box>
+        paddingTop="60px">
+        <ScrollArea
+          type="always"
+          maxHeight="507px">
+          <VStack>
+            {transcripts.map((transcript) => {
+              return transcript.speaker_label === 'spk_0' ? (
+                <>
+                  <Flex
+                    className="message-bubble"
+                    direction="row"
+                    justify="end">
+                    <Box
+                      className="message-bubble--mine"
+                      bg="primary"
+                      margin="3"
+                      rounded="lg"
+                      padding="2"
+                      width="80%">
+                      {transcript.transcript}
+                    </Box>
+                  </Flex>
+                </>
+              ) : (
+                <>
+                  <Box marginBottom="2px">
+                    <Avatar
+                      name={usertype.nickname}
+                      size="sm"
+                    />
+                    {usertype.nickname}
+                  </Box>
+                  <Flex
+                    direction="row"
+                    className="message-bubble"
+                    marginLeft="15px">
+                    <Box
+                      className="message-bubble--other"
+                      bg="gray.50"
+                      margin="3"
+                      rounded="lg"
+                      padding="2"
+                      width="80%">
+                      {transcript.transcript}
+                    </Box>
+                  </Flex>
+                </>
+              );
+            })}
+
+            <IconButton
+              colorScheme="primary"
+              width="120px"
+              marginLeft="auto"
+              marginBottom="10px"
+              marginTop="10px"
+              onClick={() => navigate('/actual/suggestion', { state: { data: sendData } })}
+              icon={
+                <Image
+                  src={analysisIcon}
+                  alt="分析"
+                />
+              }>
+              分析
+            </IconButton>
+          </VStack>
+        </ScrollArea>
+      </Container>
+      <Footer />
     </Container>
   );
 }
