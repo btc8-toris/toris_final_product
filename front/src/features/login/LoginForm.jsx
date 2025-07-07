@@ -27,9 +27,8 @@ function LoginForm() {
   const [passwordError, setPasswordError] = useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = useState(false);
   const navigate = useNavigate();
-  
-  
-  const { login, JSON_HEADER,BASE_URL } = useContext(context);
+
+  const { login, JSON_HEADER, BASE_URL } = useContext(context);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -41,7 +40,7 @@ function LoginForm() {
       .post(`${BASE_URL}/api/auth/login`, data, JSON_HEADER)
       .then((response) => {
         login(JSON.stringify(response.data.data));
-        navigate('/partner');
+        navigate('/home');
       })
       .catch((error) => {
         const errorMessage = error.response.data.error;
@@ -77,7 +76,7 @@ function LoginForm() {
       )
       .then((response) => {
         login(JSON.stringify(response.data.data));
-        navigate('/partner');
+        navigate('/home');
       })
       .catch(function (error) {
         console.error(error);
@@ -87,18 +86,17 @@ function LoginForm() {
   return (
     <Container
       centerContent="true"
-      p="0"
-      bg="blackAlpha.50">
+      p="0">
       <Box
         width="85%"
         paddingTop="5">
         <form onSubmit={(e) => handleLogin(e)}>
           <FormControl
             marginTop="4"
-            invalid={nickNameError}
-            label="ニックネーム*"
-            errorMessage={nickNameErrorMessage}>
-            <InputGroup>
+            invalid={nickNameError || passwordError}
+            label="ニックネーム"
+            errorBorderColor="danger">
+            <InputGroup errorBorderColor="danger">
               <InputLeftElement>
                 <IdCard />
               </InputLeftElement>
@@ -107,22 +105,26 @@ function LoginForm() {
                 onChange={(e) => setNickName(e.target.value)}
                 autoComplete="username"
                 size="lg"
+                errorBorderColor="danger"
               />
             </InputGroup>
           </FormControl>
           <FormControl
-            invalid={passwordError}
+            invalid={nickNameError || passwordError}
             marginTop="4"
-            label="パスワード*"
-            errorMessage={passwordErrorMessage}>
-            <InputGroup size="md">
+            label="パスワード"
+            errorBorderColor="danger">
+            <InputGroup
+              size="md"
+              errorBorderColor="danger">
               <Input
                 pr="4.5rem"
                 type={isShow ? 'text' : 'password'}
-                placeholder="your password"
+                placeholder="パスワード"
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
                 size="lg"
+                errorBorderColor="danger"
               />
               <InputLeftElement>
                 <LockKeyhole />
@@ -147,26 +149,28 @@ function LoginForm() {
             width="100%"
             marginTop="15"
             color="white"
-            bg="gray.300"
             rounded="50"
+            colorScheme="primary"
             disabled={!(nickName && password)}>
             ログイン
           </Button>
         </form>
 
-        {/* <Flex
-        marginTop="3"
-        direction="row">
-        <Box
-          hight="46px"
-          width="5px"
-          bg="primary.600"></Box>
-        <Box
-          paddingLeft="3"
-          bg="white">
-          <Text>ニックネームまたはパスワードに誤りがあります。</Text>
-        </Box>
-      </Flex> */}
+        {(nickNameError || passwordError) && (
+          <Flex
+            marginTop="3"
+            direction="row">
+            <Box
+              hight="46px"
+              width="5px"
+              bg="mysticRed.500"></Box>
+            <Box
+              paddingLeft="3"
+              bg="white">
+              <Text color="mysticRed.500">ニックネームまたはパスワードに誤りがあります。</Text>
+            </Box>
+          </Flex>
+        )}
       </Box>
       <Box width="85%">
         <Flex align="center">
@@ -192,7 +196,7 @@ function LoginForm() {
           marginTop="5"
           marginBottom="5"
           color="white"
-          bg="gray.600"
+          colorScheme="primary"
           rounded="50"
           onClick={(e) => handleGuestLogin(e)}>
           ゲストログイン

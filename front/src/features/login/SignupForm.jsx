@@ -50,7 +50,7 @@ function SignupForm() {
       .then((response) => {
         console.log(response.data.data);
         login(JSON.stringify(response.data.data));
-        navigate('/partner');
+        navigate('/home');
       })
       .catch(function (error) {
         console.error(error);
@@ -61,7 +61,8 @@ function SignupForm() {
     <Container
       centerContent="true"
       p="0"
-      bg="blackAlpha.50">
+      // bg="blackAlpha.50"
+      >
       <Box
         width="85%"
         paddingTop="5">
@@ -69,7 +70,7 @@ function SignupForm() {
         <form onSubmit={(e) => handleSignupAndLogin(e)}>
           <FormControl
             marginTop="4"
-            label="ニックネーム*">
+            label="ニックネーム">
             <InputGroup>
               <InputLeftElement>
                 <IdCard />
@@ -85,7 +86,7 @@ function SignupForm() {
           <FormControl
             invalid={passwordError}
             marginTop="4"
-            label="パスワード*"
+            label="パスワード"
             errorMessage="パスワード規則を満たしていません">
             <InputGroup size="md">
               <Input
@@ -121,7 +122,7 @@ function SignupForm() {
             marginTop="15"
             marginBottom="15"
             color="white"
-            bg="tertiary"
+            colorScheme='primary'
             rounded="50"
             disabled={!(nickName && password && !passwordError)}>
             登録してログイン
