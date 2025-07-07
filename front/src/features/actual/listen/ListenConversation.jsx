@@ -1,4 +1,4 @@
-import { Container, IconButton, Text, VStack, Image, Motion, Flex } from '@yamada-ui/react';
+import { Container, IconButton, Text, VStack, Image, Motion, Flex, Box } from '@yamada-ui/react';
 import React from 'react';
 import { useEffect, useState, useContext } from 'react';
 import RecordRTC from 'recordrtc';
@@ -117,7 +117,26 @@ function ListenConversationPage() {
         gap="none"
         p="0">
         {listening ? (
-          <></>
+          <>
+            <Flex
+              bg="#3e4a59"
+              position="fixed"
+              zIndex={1000}
+              direction="row"
+              justify="space-around"
+              align="center"
+              width="100%"
+              height="52px"
+              top={0}>
+              <Text
+                zIndex={0}
+                position="absolute"
+                fontSize="20px"
+                color="white">
+                ふたり対話
+              </Text>
+            </Flex>
+          </>
         ) : (
           <>
             <Header title={'ふたり対話'} />
@@ -126,6 +145,7 @@ function ListenConversationPage() {
         {save ? (
           <Flex
             width="100%"
+            zIndex={1100}
             justify="flex-end">
             <Motion
               animate={{ opacity: [1, 0, 1] }}
@@ -140,10 +160,12 @@ function ListenConversationPage() {
             </Motion>
           </Flex>
         ) : (
-          <></>
+          <Box
+            marginTop="5px"
+            height="40px"></Box>
         )}
         <Container
-          marginTop="60px"
+          marginTop="15px"
           paddingTop="60px">
           <VStack alignItems="center">
             <Text
