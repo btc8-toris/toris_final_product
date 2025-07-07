@@ -40,6 +40,8 @@ function PartnerLogPage() {
 
   useEffect(() => {
     setLogExist(false);
+    setSendData(receiveAnswer);
+
     (async () => {
       await getLog();
     })();
@@ -74,6 +76,8 @@ function PartnerLogPage() {
                     // height: '32px', // ← 高さを指定
                   },
                 }}
+                fontSize="15px"
+                fontWeight="bold"
                 label="過去の対話ログ">
                 <ScrollArea
                   type="scroll"
@@ -130,7 +134,7 @@ function PartnerLogPage() {
               size="xl"
               colorScheme="primary"
               marginTop="5px"
-              onClick={() => navigate('/actual/approval')}>
+              onClick={() => navigate('/actual/approval', { state: { data: sendData } })}>
               対話する
             </Button>
           </VStack>

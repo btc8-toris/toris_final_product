@@ -15,7 +15,7 @@ router.get('/feedback/:user_id', feedback);
 // パスパラ？はpairs_id 過去のログ
 router.get('/log/:pair_id', logs);
 // 会話の文字起こし結果を保存
-router.post('/transcripts/:id', addConversations);
+router.post('/transcripts', addConversations);
 // 未読を既読に変更
 router.put('/read/:id', readFlag);
 

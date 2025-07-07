@@ -86,7 +86,7 @@ function ConversationLogPage() {
         paddingTop="60px">
         <ScrollArea
           type="always"
-          maxHeight="507px">
+          maxHeight="447px">
           <VStack>
             {transcripts.map((transcript) => {
               return transcript.speaker_label === 'spk_0' ? (
@@ -110,10 +110,10 @@ function ConversationLogPage() {
                 <>
                   <Box marginBottom="2px">
                     <Avatar
-                      name={usertype.nickname}
+                      name={receiveAnswer.nickname}
                       size="sm"
                     />
-                    {usertype.nickname}
+                    {receiveAnswer.nickname}
                   </Box>
                   <Flex
                     direction="row"
@@ -132,24 +132,23 @@ function ConversationLogPage() {
                 </>
               );
             })}
-
-            <IconButton
-              colorScheme="primary"
-              width="120px"
-              marginLeft="auto"
-              marginBottom="10px"
-              marginTop="10px"
-              onClick={() => navigate('/actual/suggestion', { state: { data: sendData } })}
-              icon={
-                <Image
-                  src={analysisIcon}
-                  alt="分析"
-                />
-              }>
-              分析
-            </IconButton>
           </VStack>
         </ScrollArea>
+        <IconButton
+          colorScheme="primary"
+          width="120px"
+          marginLeft="auto"
+          // marginBottom="10px"
+          // marginTop="10px"
+          onClick={() => navigate('/actual/suggestion', { state: { data: sendData } })}
+          icon={
+            <Image
+              src={analysisIcon}
+              alt="分析"
+            />
+          }>
+          分析
+        </IconButton>
       </Container>
       <Footer />
     </Container>

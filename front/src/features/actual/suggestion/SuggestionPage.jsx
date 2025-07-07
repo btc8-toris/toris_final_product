@@ -88,7 +88,7 @@ function SuggestionPage() {
       }
     };
 
-    // 
+    //
     // contactAI();
   }, []);
 
@@ -104,7 +104,7 @@ function SuggestionPage() {
         marginTop="60px"
         paddingTop="60px">
         <SmallAvatar nickName={receiveAnswer.nickname} />
-
+        {/* AIからの解答結果を表示 */}
         {/* {isLoading ? (
           <Loading
             variant="oval"
