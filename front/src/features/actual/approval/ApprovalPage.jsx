@@ -25,7 +25,7 @@ function ApprovalPage() {
 
   useEffect(() => {
     if (pairArrow && userArrow) {
-      navigate('/actual/listen');
+      setTimeout(() => navigate('/actual/listen'), 800);
     }
   }, [userArrow, pairArrow]);
 
