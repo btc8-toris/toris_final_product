@@ -3,7 +3,7 @@ const router = express.Router();
 const OpenAI = require('openai');
 
 const client = new OpenAI({
-  baseURL: 'https://f8bd-115-39-95-89.ngrok-free.app/v1',
+  baseURL: ' https://cfb0-2001-268-9a4c-5d56-317b-25d0-cb83-2ea2.ngrok-free.app/v1',
   apiKey: 'lm-studio', // lm-studioにする
 });
 
