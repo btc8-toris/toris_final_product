@@ -4,7 +4,7 @@ import Header from '../../../components/header/Header';
 import Footer from '../../../components/footer/Footer';
 import { context } from '../../../app/App';
 import { useLocation, useNavigate } from 'react-router';
-import { Container, Box, FormControl, Label, Textarea, Button } from '@yamada-ui/react';
+import { Container, Box, FormControl, Label, Textarea, Button, Loading } from '@yamada-ui/react';
 import SmallAvatar from '../../../components/Avatar/SmallAvatar';
 import axios from 'axios';
 

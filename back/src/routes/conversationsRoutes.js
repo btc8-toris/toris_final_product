@@ -17,6 +17,6 @@ router.get('/log/:pair_id', logs);
 // 会話の文字起こし結果を保存
 router.post('/transcripts', addConversations);
 // 未読を既読に変更
-router.put('/read/:id', readFlag);
+router.put('/read/:transcript_url', readFlag);
 
 module.exports = router;

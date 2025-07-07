@@ -9,6 +9,7 @@ import {
   VStack,
   IconButton,
   Image,
+  Loading,
 } from '@yamada-ui/react';
 import './ContextFrame.css';
 import Header from '../../../components/header/Header';
@@ -17,29 +18,7 @@ import { useContext } from 'react';
 import { context } from '../../../app/App';
 import { useLocation, useNavigate } from 'react-router';
 import analysisIcon from '/analysis.svg';
-
-const yourContext = [
-  '今日中にやらないといけない仕事が残っているんですけど、、、今日はゲームの発売日なので定時で帰ります。',
-  '遅れた分は来週頑張りますし。今日も定時まで頑張りますので、今日は定時で帰ります。',
-];
-
-const myContext = ['え？ちょっと待って、納期が今日までなんだよね？遅れたら、責任取れるの？'];
-
-const usertype = {
-  answer1: '自分の成長を実感できたとき',
-  answer2: '部下の挑戦を応援してくれる人',
-  answer3: '自分の中で納得できること',
-  answer4: 'どちらも全力。仕事が充実すればプライベートも充実する',
-  answer5: '助け合いやチームワークが強い',
-  character: '',
-  created_at: '2025-06-27T10:35:25.232Z',
-  hash: 'aaa',
-  id: 1,
-  nickname: 'ゆうたろう',
-  org_code: '99999',
-  salt: '111',
-  search_id: 1001,
-};
+import axios from 'axios';
 
 function ConversationLogPage() {
   const location = useLocation();
@@ -48,6 +27,7 @@ function ConversationLogPage() {
   const [transcripts, setTranscripts] = useState([]);
   const navigate = useNavigate();
   const [sendData, setSendData] = useState({});
+  const [load, setLoad] = useState(false);
 
   console.log('🍓 ~ ConversationLogPage ~ receiveAnswer:', receiveAnswer);
 
@@ -56,16 +36,25 @@ function ConversationLogPage() {
       res.json(),
     );
 
-    // console.log('🍓 ~ text ~ data:', data.status);
     // console.log('🍓 ~ text ~ data.text:', data.text);
     if (data.status === 'completed') {
+      setLoad(false);
       setTranscripts(data.text);
       receiveAnswer.transcript = data.text;
     } else if (data.status === 'in_progress') {
+      setLoad(true);
       setTimeout(async () => await text(mp3File), 5000);
     } else {
       console.error('文字起こしに失敗：', data.reason);
     }
+  };
+
+  const analysis = async () => {
+    await axios
+      .put(`${BASE_URL}/api/conversations/read/${receiveAnswer.transcript_url}`)
+      .then((res) => console.log(res.data.message));
+
+    navigate('/actual/suggestion', { state: { data: sendData } });
   };
   useEffect(() => {
     (async () => {
@@ -84,63 +73,72 @@ function ConversationLogPage() {
       <Container
         marginTop="60px"
         paddingTop="60px">
-        <ScrollArea
-          type="always"
-          maxHeight="447px">
-          <VStack>
-            {transcripts.map((transcript) => {
-              return transcript.speaker_label === 'spk_0' ? (
-                <>
-                  <Flex
-                    className="message-bubble"
-                    direction="row"
-                    justify="end">
-                    <Box
-                      className="message-bubble--mine"
-                      bg="primary"
-                      margin="3"
-                      rounded="lg"
-                      padding="2"
-                      width="80%">
-                      {transcript.transcript}
+        {load ? (
+          <Loading
+            variant="oval"
+            fontSize="6xl"
+            color={`red.500`}
+          />
+        ) : (
+          <ScrollArea
+            type="always"
+            maxHeight="447px">
+            <VStack>
+              {transcripts.map((transcript) => {
+                return transcript.speaker_label === 'spk_0' ? (
+                  <>
+                    <Flex
+                      className="message-bubble"
+                      direction="row"
+                      justify="end"
+                      key={transcript.id}>
+                      <Box
+                        className="message-bubble--mine"
+                        bg="primary"
+                        margin="3"
+                        rounded="lg"
+                        padding="2"
+                        width="80%">
+                        {transcript.transcript}
+                      </Box>
+                    </Flex>
+                  </>
+                ) : (
+                  <Box key={transcript.id}>
+                    <Box marginBottom="2px">
+                      <Avatar
+                        name={receiveAnswer.nickname}
+                        size="sm"
+                      />
+                      {receiveAnswer.nickname}
                     </Box>
-                  </Flex>
-                </>
-              ) : (
-                <>
-                  <Box marginBottom="2px">
-                    <Avatar
-                      name={receiveAnswer.nickname}
-                      size="sm"
-                    />
-                    {receiveAnswer.nickname}
+                    <Flex
+                      direction="row"
+                      className="message-bubble"
+                      marginLeft="15px">
+                      <Box
+                        className="message-bubble--other"
+                        bg="gray.50"
+                        margin="3"
+                        rounded="lg"
+                        padding="2"
+                        width="80%">
+                        {transcript.transcript}
+                      </Box>
+                    </Flex>
                   </Box>
-                  <Flex
-                    direction="row"
-                    className="message-bubble"
-                    marginLeft="15px">
-                    <Box
-                      className="message-bubble--other"
-                      bg="gray.50"
-                      margin="3"
-                      rounded="lg"
-                      padding="2"
-                      width="80%">
-                      {transcript.transcript}
-                    </Box>
-                  </Flex>
-                </>
-              );
-            })}
-          </VStack>
-        </ScrollArea>
+                );
+              })}
+            </VStack>
+          </ScrollArea>
+        )}
         <IconButton
           colorScheme="primary"
           width="120px"
           marginLeft="auto"
           // marginBottom="10px"
           // marginTop="10px"
-          onClick={() => navigate('/actual/suggestion', { state: { data: sendData } })}
+          onClick={analysis}
           icon={
             <Image
               src={analysisIcon}
