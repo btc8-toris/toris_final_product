@@ -4,6 +4,7 @@ import approvedIcon from '/approved.svg';
 import { Text, IconButton, Center, VStack, Container, Image } from '@yamada-ui/react';
 import Header from '../../../components/header/Header';
 import { useNavigate } from 'react-router';
+import Footer from '../../../components/footer/Footer';
 
 function ApprovalPage() {
   const [pairArrow, setPairArrow] = useState(false);
@@ -24,7 +25,7 @@ function ApprovalPage() {
 
   useEffect(() => {
     if (pairArrow && userArrow) {
-      navigate('/actual/listen');
+      setTimeout(() => navigate('/actual/listen'), 800);
     }
   }, [userArrow, pairArrow]);
 
@@ -39,7 +40,7 @@ function ApprovalPage() {
           marginTop="60px"
           paddingTop="60px">
           <VStack
-            marginTop="50px"
+            marginTop="15px"
             align="center"
             gap="60px">
             <IconButton
@@ -57,7 +58,7 @@ function ApprovalPage() {
             <Text
               fontSize="18px"
               textAlign="center"
-              color="#FF9100">
+              color="#FF5500">
               -注意-
               <br />
               相手の承認なしに録音した内容を
@@ -81,6 +82,7 @@ function ApprovalPage() {
               }></IconButton>
           </VStack>
         </Container>
+        <Footer />
       </Container>
     </>
   );
