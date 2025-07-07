@@ -38,6 +38,7 @@ function PartnerPage() {
   const [list, setList] = useState([]);
   const [answer, setanswer] = useState(''); //画面遷移時に渡す質問の回答。本来はobjectだがuseeffectの初回マウントを回避させるために空文字を初期値にしている
   const [listFlag, setlistFlag] = useState(true); //ID入力中にリスト非表示にするためのフラグ true:表示　false:非表示
+  const [searchFlag, setsearchFlag] = useState(false); //検索結果表示中にサンプルユーザーを消すためのフラグ　true:非表示　false:表示
   const { user, BASE_URL } = useContext(context);
 
   useEffect(() => {
@@ -99,6 +100,7 @@ function PartnerPage() {
     }
     setList(response.data);
     setlistFlag(true);
+    setsearchFlag(true);
   }
 
   function getSerachID(e) {
@@ -109,7 +111,7 @@ function PartnerPage() {
       noIDFlag = true;
       setList(demoIniMember);
       setlistFlag(true);
-      console.log('💀 ~ getSerachID ~ demoIniMember:', demoIniMember);
+      setsearchFlag(false);
     }
   }
 
@@ -193,11 +195,15 @@ function PartnerPage() {
             <Box
               textAlign="left"
               width="100%">
-              <Text
-                fontSize="20px"
-                paddingLeft="30px">
-                ユーザーサンプル
-              </Text>
+              {searchFlag ? (
+                ''
+              ) : (
+                <Text
+                  fontSize="20px"
+                  paddingLeft="30px">
+                  ユーザーサンプル
+                </Text>
+              )}
             </Box>
 
             <VStack

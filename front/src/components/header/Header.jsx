@@ -31,6 +31,7 @@ const Header = ({ title }) => {
       <Flex
         bg="#3e4a59"
         position="fixed"
+        zIndex={1000}
         direction="row"
         justify="space-around"
         align="center"

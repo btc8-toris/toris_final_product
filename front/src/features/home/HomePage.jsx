@@ -23,7 +23,7 @@ import warningIcon from '/warning.svg';
 import axios from 'axios';
 import copyIcon from '/copy_icon.svg';
 
-let myID = 0;
+// let myID = 0;
 
 function HomePage() {
   const navigate = useNavigate();
@@ -31,6 +31,7 @@ function HomePage() {
   console.log('💀 ~ HomePage ~ user:', user);
   const [circle, setCircle] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [myID, setMyID] = useState(null);
   const test = ['A君', 'B君', 'C君'];
   let setIconFlag = 0;
 
@@ -54,7 +55,8 @@ function HomePage() {
         setIconFlag = 4;
       } else {
         setIconFlag = 1;
-        myID = response.data[0].search_id;
+        setMyID(response.data[0].search_id);
+        // myID = response.data[0].search_id;
       }
       setCircle(setIconFlag);
       console.log('💀 ~ getMySearchID ~ setIconFlag:', setIconFlag);

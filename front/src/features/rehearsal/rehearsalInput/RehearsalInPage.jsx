@@ -30,11 +30,14 @@ function RehearsalInPage() {
   const location = useLocation();
   const receiveAnswer = location.state?.data; //選択したユーザーのニックネームと質問の回答を前のページから受け継ぐ
   const [answerAndInput, setAnswerAndInput] = useState({});
+  const [inputValue, setInputValue] = useState(''); //感情分析のSWを10文字以上入力時に有効になるようにするために追加
 
   //-------------------ボタンクリック/入力値変化時の関数はこの下に記載----------------------
 
   function getInput(e) {
+    setInputValue(e.target.value);
     receiveAnswer['input'] = e.target.value; //もともとの回答に今回の入力情報を追加(オブジェクトにキーを追加してその値に入力)
+
     setAnswerAndInput(receiveAnswer); //次ページに渡すためStateを更新
   }
 
@@ -57,10 +60,10 @@ function RehearsalInPage() {
           <Label fontSize="14px">相手に伝えたいこと</Label>
           <Textarea
             onChange={getInput}
-            fontSize="14px"
+            fontSize="17px"
             height="100%"
             width="100%"
-            placeholder=""
+            placeholder="10文字以上で入力してください"
           />
         </FormControl>
         <Button
@@ -69,6 +72,7 @@ function RehearsalInPage() {
           width="120px"
           marginTop="100px"
           marginLeft="195px"
+          disabled={inputValue.length < 10}
           onClick={() => navigate('/rehearsal/output', { state: { data: answerAndInput } })}>
           感情分析
         </Button>
