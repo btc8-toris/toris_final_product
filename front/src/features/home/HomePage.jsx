@@ -68,7 +68,8 @@ function HomePage() {
       }
       setCircle(setIconFlag);
     }
-    getMySearchID(user.userId);
+    (async () => await getMySearchID(user.userId))();
+    // await getMySearchID(user.userId);
   }, []);
 
   //---------------最近話した人の取得------------------------
@@ -92,7 +93,8 @@ function HomePage() {
       }
       setTalkPersons(preTalkPersons);
     }
-    getTalkPersons(user.userId);
+    (async () => await getTalkPersons(user.userId))();
+    // getTalkPersons(user.userId);
   }, []);
 
   //------------------フィードバック待ちの取得---------------------
@@ -122,7 +124,8 @@ function HomePage() {
       console.log('💀 ~ getWaitingAna ~ response:', response.data);
       setWaitingItems(preWaitingInfo);
     }
-    getWaitingAna(user.userId);
+    (async () => await getWaitingAna(user.userId))();
+    // getWaitingAna(user.userId);
   }, []);
   //--------------初回読み込み時にのみ作動するuseefect一覧終了-------------------------
 
@@ -143,7 +146,7 @@ function HomePage() {
   }, [myID]);
 
   //-------------------ボタンクリック/入力値変化時の関数はこの下に記載----------------------
-  async function selectPerson(e) {
+  function selectPerson(e) {
     const id = Number(e.currentTarget.dataset.index);
     const keysToKeep = ['id', 'nickname', 'answer1', 'answer2', 'answer3', 'answer4', 'answer5'];
     const newObject = Object.fromEntries(
@@ -153,7 +156,7 @@ function HomePage() {
     setanswer(newObject);
   }
 
-  async function selectFB(e) {
+  function selectFB(e) {
     const id = Number(e.currentTarget.dataset.index);
 
     const keysToKeep = [
