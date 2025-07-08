@@ -92,7 +92,11 @@ function ListenConversationPage() {
         const blob = recorder.getBlob();
         onStop();
         const newRecording = blob;
+        receiveAnswer.transcript_url =
+          Math.random().toString(32).substring(2) + new Date().getTime().toString(32);
+
         setRecordings(newRecording);
+
         await logPost();
         setSave(true);
         setTimeout(() => setSave(false), 10000);
@@ -109,7 +113,6 @@ function ListenConversationPage() {
   }, [recordings]);
 
   const post = async (mp3File) => {
-    console.log(recordings);
     if (recordings) {
       const formData = new FormData();
       formData.append('audio', recordings);
