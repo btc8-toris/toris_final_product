@@ -4,20 +4,13 @@ import {
   Container,
   Flex,
   Text,
-  For,
-  Grid,
-  GridItem,
   Input,
-  Radio,
-  RadioGroup,
   Avatar,
   VStack,
   IconButton,
   Heading,
-  HStack,
   InputGroup,
   InputRightElement,
-  Center,
 } from '@yamada-ui/react';
 import React from 'react';
 import { useEffect, useState, useContext } from 'react';
@@ -120,6 +113,7 @@ function PartnerPage() {
 
   return (
     <Container
+      color="tertiary"
       centerContent="true"
       p="0">
       <Flex

@@ -1,15 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import unapprovedIcon from '/unapproved.svg';
 import approvedIcon from '/approved.svg';
 import { Text, IconButton, Center, VStack, Container, Image } from '@yamada-ui/react';
 import Header from '../../../components/header/Header';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import Footer from '../../../components/footer/Footer';
+import { context } from '../../../app/App';
 
 function ApprovalPage() {
   const [pairArrow, setPairArrow] = useState(false);
   const [userArrow, setUserArrow] = useState(false);
+  const [sendData, setSendData] = useState({});
   const navigate = useNavigate();
+  const location = useLocation();
+  const { BASE_URL } = useContext(context);
+
+  const receiveAnswer = location.state.data;
 
   const pairClick = () => {
     setPairArrow(!pairArrow);
@@ -24,8 +30,9 @@ function ApprovalPage() {
   }, []);
 
   useEffect(() => {
+    setSendData(receiveAnswer);
     if (pairArrow && userArrow) {
-      setTimeout(() => navigate('/actual/listen'), 800);
+      setTimeout(() => navigate('/actual/listen', { state: { data: sendData } }), 800);
     }
   }, [userArrow, pairArrow]);
 

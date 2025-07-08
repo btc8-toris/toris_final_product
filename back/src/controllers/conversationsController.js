@@ -70,8 +70,8 @@ module.exports = {
   },
 
   async readFlag(req, res) {
-    const id = req.params.id;
-    await conversationsModel.changeFlag(id);
+    const transcript_url = req.params.transcript_url;
+    await conversationsModel.changeFlag(transcript_url);
     res.status(200).json({ message: '既読に変更しました' });
   },
 };

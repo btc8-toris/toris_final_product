@@ -51,7 +51,7 @@ module.exports = {
     return await db(CONVERSATIONS_TABLE).insert(data);
   },
 
-  async changeFlag(id) {
-    return await db(CONVERSATIONS_TABLE).where('id', id).update('read_flag', true);
+  async changeFlag(transcript_url) {
+    return await db(CONVERSATIONS_TABLE).where('transcript_url', transcript_url).update('read_flag', true);
   },
 };

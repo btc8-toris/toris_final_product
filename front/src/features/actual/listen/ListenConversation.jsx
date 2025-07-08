@@ -1,4 +1,4 @@
-import { Container, IconButton, Text, VStack, Image, Motion, Flex } from '@yamada-ui/react';
+import { Container, IconButton, Text, VStack, Image, Motion, Flex, Box } from '@yamada-ui/react';
 import React from 'react';
 import { useEffect, useState, useContext } from 'react';
 import RecordRTC from 'recordrtc';
@@ -11,13 +11,18 @@ import { context } from '../../../app/App';
 import Footer from '../../../components/footer/Footer';
 import recordingIcon from '/recording.svg';
 import saveIcon from '/save.svg';
+import axios from 'axios';
+import { useLocation } from 'react-router';
 
 function ListenConversationPage() {
   const [recorder, setRecorder] = useState(null);
   const [recordings, setRecordings] = useState();
   const [listening, setListening] = useState(false);
-  const { BASE_URL } = useContext(context);
+  const { BASE_URL, JSON_HEADER } = useContext(context);
   const [save, setSave] = useState(false);
+  const [startTime, setStartTime] = useState(null);
+  const location = useLocation();
+  const receiveAnswer = location.state.data;
 
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const recognition = new SpeechRecognition();
@@ -56,7 +61,7 @@ function ListenConversationPage() {
       const newRecorder = new RecordRTC(stream, { type: 'audio' });
       newRecorder.startRecording();
       setRecorder(newRecorder);
-
+      setStartTime(new Date());
       onStart();
     } catch (error) {
       if (error) {
@@ -65,13 +70,30 @@ function ListenConversationPage() {
     }
   };
 
+  const logPost = async () => {
+    const stopTime = new Date();
+    const time = Math.abs((stopTime.getTime() - startTime.getTime()) / 1000);
+    const data = {
+      pair_id: receiveAnswer.pairId,
+      transcript_url: receiveAnswer.transcript_url,
+      conversation_time: time,
+      read_flag: false,
+    };
+    console.log('🍓 ~ logPost ~ data:', data);
+
+    await axios.post(`${BASE_URL}/api/conversations/transcripts`, data, JSON_HEADER).then((res) => {
+      console.log(res.data.message);
+    });
+  };
+
   const stopRecording = () => {
     if (recorder) {
-      recorder.stopRecording(() => {
+      recorder.stopRecording(async () => {
         const blob = recorder.getBlob();
         onStop();
         const newRecording = blob;
         setRecordings(newRecording);
+        await logPost();
         setSave(true);
         setTimeout(() => setSave(false), 10000);
       });
@@ -81,8 +103,7 @@ function ListenConversationPage() {
   useEffect(() => {
     if (recordings) {
       (async () => {
-        const mp3File = Math.random().toString(32).substring(2) + new Date().getTime().toString(32);
-        await post(mp3File);
+        await post(receiveAnswer.transcript_url);
       })();
     }
   }, [recordings]);
@@ -117,7 +138,26 @@ function ListenConversationPage() {
         gap="none"
         p="0">
         {listening ? (
-          <></>
+          <>
+            <Flex
+              bg="#3e4a59"
+              position="fixed"
+              zIndex={1000}
+              direction="row"
+              justify="space-around"
+              align="center"
+              width="100%"
+              height="52px"
+              top={0}>
+              <Text
+                zIndex={0}
+                position="absolute"
+                fontSize="20px"
+                color="white">
+                ふたり対話
+              </Text>
+            </Flex>
+          </>
         ) : (
           <>
             <Header title={'ふたり対話'} />
@@ -126,6 +166,7 @@ function ListenConversationPage() {
         {save ? (
           <Flex
             width="100%"
+            zIndex={1100}
             justify="flex-end">
             <Motion
               animate={{ opacity: [1, 0, 1] }}
@@ -140,10 +181,12 @@ function ListenConversationPage() {
             </Motion>
           </Flex>
         ) : (
-          <></>
+          <Box
+            marginTop="5px"
+            height="40px"></Box>
         )}
         <Container
-          marginTop="60px"
+          marginTop="15px"
           paddingTop="60px">
           <VStack alignItems="center">
             <Text
