@@ -87,7 +87,9 @@ function ListenConversationPage() {
   };
 
   const stopRecording = () => {
+    console.log('🍓 ~ stopRecording ~ recorder:', recorder);
     if (recorder) {
+      console.log('🍟');
       recorder.stopRecording(async () => {
         const blob = recorder.getBlob();
         onStop();
@@ -103,6 +105,23 @@ function ListenConversationPage() {
       });
     }
   };
+
+  useEffect(() => {
+    let timeoutId;
+    if (listening) {
+      timeoutId = setTimeout(() => {
+        stopRecording();
+      }, 300000);
+    } else {
+      clearTimeout(timeoutId);
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [listening]);
 
   useEffect(() => {
     if (recordings) {
