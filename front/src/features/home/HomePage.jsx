@@ -42,6 +42,7 @@ function HomePage() {
   let setIconFlag = 0;
 
   const handleCopy = async () => {
+    console.log('📋 コピー実行: myID =', myID);
     try {
       await navigator.clipboard.writeText(myID);
       setCopied(true);
@@ -53,9 +54,12 @@ function HomePage() {
 
   useEffect(() => {
     async function getMySearchID(id) {
+      console.log('👤 ユーザー情報 user.userId:', id);
       const response = await axios.get(`/api/users/myInfo/${id}`);
+      console.log('✅ setMyID で設定する search_id:', response.data[0].search_id);
 
-      if (response.data[0].search_id === null) {
+      if (response.data[0].search_id === null || response.data[0].search_id === undefined) {
+        console.log('📛 search_id が null または undefined');
         setIconFlag = 4;
       } else {
         setIconFlag = 1;
@@ -79,6 +83,9 @@ function HomePage() {
     }
   }, [answerWaiting]);
 
+  useEffect(() => {
+    console.log('🟡 myID useEffect: 現在の値 =>', myID);
+  }, [myID]);
   //---------------最近話した人の取得------------------------
   useEffect(() => {
     async function getTalkPersons(id) {
