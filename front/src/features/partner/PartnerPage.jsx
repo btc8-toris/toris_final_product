@@ -21,9 +21,8 @@ import searchIcon from '/search.svg';
 import { context } from '../../app/App';
 
 //----------レンダリング時に値が消えて欲しくない変数を以下に格納---------
-let searchID; //初期値設定不可、関数内への移動禁止 => 動かなくなります
-let noIDFlag = true; //検索したIDがないことを判断するためのフラグ false:IDなし  true:IDあり
 const demoIniMember = [];
+const color = ['#69C0D9', '#EDEB68', '#EDBE6D', '#BBBBFA', '#90EE90', '#F28989'];
 //----------レンダリング時に値が消えて欲しくない変数を上に格納---------
 
 function PartnerPage() {
@@ -33,6 +32,9 @@ function PartnerPage() {
   const [listFlag, setlistFlag] = useState(true); //ID入力中にリスト非表示にするためのフラグ true:表示　false:非表示
   const [searchFlag, setsearchFlag] = useState(false); //検索結果表示中にサンプルユーザーを消すためのフラグ　true:非表示　false:表示
   const { user, BASE_URL } = useContext(context);
+  const [noIDFlag, setnoIDFlag] = useState(true);
+  const [oneColor, setColor] = useState('');
+  const [searchID, setSearchID] = useState('');
 
   useEffect(() => {
     async function get6PersonsData() {
@@ -45,6 +47,37 @@ function PartnerPage() {
     }
     get6PersonsData();
   }, []);
+
+  useEffect(() => {
+    console.log('💀 ~ useEffect ~ searchID:', searchID);
+    switch (searchID) {
+      case 1001:
+        setColor('#69C0D9');
+        break;
+
+      case 1002:
+        setColor('#EDEB68');
+        break;
+
+      case 1003:
+        setColor('#EDBE6D');
+        break;
+
+      case 1004:
+        setColor('#BBBBFA');
+        break;
+
+      case 1005:
+        setColor('#90EE90');
+        break;
+
+      case 1006:
+        setColor('#F28989');
+        break;
+      default:
+        setColor('#c4c4c4');
+    }
+  }, [searchID]);
 
   useEffect(() => {
     if (answer) {
@@ -88,9 +121,9 @@ function PartnerPage() {
   async function search() {
     const response = await axios.get(`${BASE_URL}/api/users/oneuser/${searchID}`);
     if (response.data.length === 0) {
-      noIDFlag = false;
+      setnoIDFlag(false);
     } else {
-      noIDFlag = true;
+      setnoIDFlag(true);
     }
     setList(response.data);
     setlistFlag(true);
@@ -98,11 +131,11 @@ function PartnerPage() {
   }
 
   function getSerachID(e) {
-    searchID = Number(e.currentTarget.value);
+    setnoIDFlag(true);
+    setSearchID(Number(e.currentTarget.value));
     if (searchID !== 0) {
       setlistFlag(false);
     } else {
-      noIDFlag = true;
       setList(demoIniMember);
       setlistFlag(true);
       setsearchFlag(false);
@@ -110,7 +143,6 @@ function PartnerPage() {
   }
 
   //-------------------ボタンクリック/入力値変化時の関数はこの上に記載----------------------
-
   return (
     <Container
       color="tertiary"
@@ -129,6 +161,8 @@ function PartnerPage() {
           size="sm"
           marginLeft="230px"
           marginTop="5px"
+          bg="#c4c4c4"
+          color="tertiary"
           name={user.nickName}
         />
       </Flex>
@@ -200,34 +234,67 @@ function PartnerPage() {
                 </Text>
               )}
             </Box>
-
-            <VStack
-              gap="sm"
-              align="center">
-              {list.map((obj, index) => {
-                return (
-                  <Button
-                    key={obj.id}
-                    data-index={index}
-                    height="50px"
-                    width="315px"
-                    variant="outline"
-                    fontSize="14px"
-                    sx={{
-                      textAlign: 'left',
-                      justifyContent: 'flex-start',
-                    }}
-                    onClick={selectPerson}>
-                    <Avatar
-                      size="sm"
-                      align="left"
-                      name={obj.nickname}
-                    />
-                    {obj.nickname}
-                  </Button>
-                );
-              })}
-            </VStack>
+            {searchFlag ? (
+              <VStack
+                gap="sm"
+                align="center">
+                {list.map((obj, index) => {
+                  return (
+                    <Button
+                      key={obj.id}
+                      data-index={index}
+                      height="50px"
+                      width="315px"
+                      variant="outline"
+                      fontSize="14px"
+                      sx={{
+                        textAlign: 'left',
+                        justifyContent: 'flex-start',
+                      }}
+                      onClick={selectPerson}>
+                      <Avatar
+                        size="sm"
+                        align="left"
+                        bg={oneColor}
+                        color="tertiary"
+                        name={obj.nickname}
+                      />
+                      {obj.nickname}
+                    </Button>
+                  );
+                })}
+              </VStack>
+            ) : (
+              <VStack
+                gap="sm"
+                align="center">
+                {list.map((obj, index) => {
+                  return (
+                    <Button
+                      key={obj.id}
+                      data-index={index}
+                      height="50px"
+                      width="315px"
+                      variant="outline"
+                      fontSize="14px"
+                      sx={{
+                        textAlign: 'left',
+                        justifyContent: 'flex-start',
+                      }}
+                      onClick={selectPerson}>
+                      <Avatar
+                        size="sm"
+                        align="left"
+                        bg={color[index]}
+                        color="tertiary"
+                        name={obj.nickname}
+                      />
+                      {obj.nickname}
+                    </Button>
+                  );
+                })}
+              </VStack>
+            )}
           </>
         ) : //三項演算子の後半開始
         noIDFlag ? (

@@ -59,7 +59,7 @@ exports.seed = async function (knex) {
       search_id: 1004,
     },
     {
-      nickname: 'Ponta',
+      nickname: 'ポンタ',
       org_code: '99999',
       salt: '115',
       hash: 'aae',
@@ -72,7 +72,7 @@ exports.seed = async function (knex) {
       search_id: 1005,
     },
     {
-      nickname: 'Wentz',
+      nickname: 'ウエンツ',
       org_code: '99999',
       salt: '116',
       hash: 'aaf',

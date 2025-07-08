@@ -13,6 +13,8 @@ const SmallAvatar = ({ nickName }) => {
       <Avatar
         size={'md'}
         name={nickName}
+        bg="#c4c4c4"
+        color="tertiary"
       />
       <Text
         fontSize="16px"
