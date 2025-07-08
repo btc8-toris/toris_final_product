@@ -105,7 +105,7 @@ function SignupForm() {
               <Input
                 pr="4.5rem"
                 type={isShow ? 'text' : 'password'}
-                placeholder="your password"
+                placeholder="パスワード"
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
                 size="lg"
