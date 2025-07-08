@@ -52,6 +52,7 @@ function HomePage() {
     }
   };
 
+  //--------------初回読み込み時にのみ作動するuseefect一覧開始-------------------------
   useEffect(() => {
     async function getMySearchID(id) {
       console.log('👤 ユーザー情報 user.userId:', id);
@@ -64,28 +65,12 @@ function HomePage() {
       } else {
         setIconFlag = 1;
         setMyID(response.data[0].search_id);
-        // myID = response.data[0].search_id;
       }
       setCircle(setIconFlag);
     }
     getMySearchID(user.userId);
   }, []);
 
-  useEffect(() => {
-    if (answer) {
-      navigate('/mode', { state: { data: answer } });
-    }
-  }, [answer]);
-
-  useEffect(() => {
-    if (answerWaiting) {
-      navigate('/actual/conversationlog', { state: { data: answerWaiting } });
-    }
-  }, [answerWaiting]);
-
-  useEffect(() => {
-    console.log('🟡 myID useEffect: 現在の値 =>', myID);
-  }, [myID]);
   //---------------最近話した人の取得------------------------
   useEffect(() => {
     async function getTalkPersons(id) {
@@ -139,6 +124,23 @@ function HomePage() {
     }
     getWaitingAna(user.userId);
   }, []);
+  //--------------初回読み込み時にのみ作動するuseefect一覧終了-------------------------
+
+  useEffect(() => {
+    if (answer) {
+      navigate('/mode', { state: { data: answer } });
+    }
+  }, [answer]);
+
+  useEffect(() => {
+    if (answerWaiting) {
+      navigate('/actual/conversationlog', { state: { data: answerWaiting } });
+    }
+  }, [answerWaiting]);
+
+  useEffect(() => {
+    console.log('🟡 myID useEffect: 現在の値 =>', myID);
+  }, [myID]);
 
   //-------------------ボタンクリック/入力値変化時の関数はこの下に記載----------------------
   async function selectPerson(e) {
