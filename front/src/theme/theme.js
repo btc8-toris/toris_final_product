@@ -7,6 +7,7 @@ const customTheme = extendTheme({
       secondary: 'mintyFresh.500',
       tertiary: 'cavalry.500',
       danger: 'mysticRed.500',
+      white: '#ffffff',
 
       classicGreen: {
         50: '#d8f3de',
