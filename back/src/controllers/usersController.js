@@ -14,7 +14,11 @@ module.exports = {
 
   async myInfoGet(req, res) {
     my_id = req.params.id;
+    console.log('💀 ~ myInfoGet ~ my_id:', my_id);
+
     const data = await userModel.getMyInfo(my_id);
+    console.log('💀 ~ myInfoGet ~ data:', data);
+
     res.status(200).json(data);
   },
 

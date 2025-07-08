@@ -7,22 +7,23 @@ module.exports = {
 
   //デモ用の6人の情報を取得する
   async get6persons() {
-    return db(USERS_TABLE).where('org_code', '99999');
+    return await db(USERS_TABLE).where('org_code', '99999');
   },
 
   //一人のユーザー情報を取得(🚀一旦は全情報を取得。必要に応じてここで加工) ※検索用IDで取得
   async selectUser(search_id) {
-    return db(USERS_TABLE).where('search_id', search_id);
+    return await db(USERS_TABLE).where('search_id', search_id);
   },
 
   //自分と同じ部署のユーザー情報を取得(🚀一旦は全情報を取得。必要に応じてここで加工)
   async selectSameOrgUser(org_code) {
-    return db(USERS_TABLE).where('org_code', org_code);
+    return await db(USERS_TABLE).where('org_code', org_code);
   },
 
   //自分のユーザー情報を取得
   async getMyInfo(my_id) {
-    return db(USERS_TABLE).where('id', my_id);
+    console.log('getMyInfoに来たよ');
+    return await db(USERS_TABLE).where('id', my_id);
   },
 
   //質問に対する回答を登録
