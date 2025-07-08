@@ -1,4 +1,4 @@
-import { Box, Container,  Image } from '@yamada-ui/react';
+import { Box, Container, Image } from '@yamada-ui/react';
 import React, { useState } from 'react';
 import appLogo from '/appLogo.png';
 import LoginForm from './LoginForm';
@@ -10,13 +10,16 @@ function LoginPage() {
   return (
     <Container
       centerContent="true"
+      color="tertiary"
       gap="none"
       p="0">
-      <Box
-        width="100%">
+      <Box width="100%">
         <Image src={appLogo} />
       </Box>
-      <LoginOrSignup isLogin={isLogin} setIsLogin={setIsLogin}/>
+      <LoginOrSignup
+        isLogin={isLogin}
+        setIsLogin={setIsLogin}
+      />
       {isLogin ? <LoginForm /> : <SignupForm />}
     </Container>
   );

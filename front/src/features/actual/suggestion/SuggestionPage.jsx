@@ -97,6 +97,7 @@ function SuggestionPage() {
   return (
     <Container
       centerContent="true"
+      color="tertiary"
       gap="none"
       p="0">
       <Header title={'フィードバック'} />

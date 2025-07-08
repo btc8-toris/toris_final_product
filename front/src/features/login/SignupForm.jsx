@@ -73,6 +73,7 @@ function SignupForm() {
     <Container
       centerContent="true"
       p="0"
+      color="tertiary"
       // bg="blackAlpha.50"
     >
       <Box

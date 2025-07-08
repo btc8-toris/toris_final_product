@@ -9,7 +9,11 @@ const BigAvatar = ({ nickName }) => {
         bg="#c4c4c4"
         color="tertiary"
       />
-      <Text fontSize="23px">{nickName}</Text>
+      <Text
+        fontSize="23px"
+        color="tertiary">
+        {nickName}
+      </Text>
     </VStack>
   );
 };

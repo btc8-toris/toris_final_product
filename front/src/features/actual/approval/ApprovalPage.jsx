@@ -40,6 +40,7 @@ function ApprovalPage() {
   return (
     <>
       <Container
+        color="tertiary"
         centerContent="true"
         gap="none"
         p="0">

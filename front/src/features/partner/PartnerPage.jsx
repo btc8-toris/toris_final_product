@@ -155,6 +155,7 @@ function PartnerPage() {
       <Flex
         direction="row"
         width="100%"
+        height="52px"
         align="center">
         <Heading
           fontSize="28px"
