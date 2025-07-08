@@ -80,7 +80,7 @@ function SignupForm() {
         width="85%"
         paddingTop="5">
         <Heading>ようこそ！</Heading>
-        <form onSubmit={(e) => handleSignupAndLogin(e)}>
+        <form onSubmit={async (e) => await handleSignupAndLogin(e)}>
           <FormControl
             marginTop="4"
             label="ニックネーム">

@@ -89,7 +89,7 @@ function SuggestionPage() {
     };
 
     //
-    // contactAI();
+    // (async () => await contactAI())();
   }, []);
 
   console.log(answers);

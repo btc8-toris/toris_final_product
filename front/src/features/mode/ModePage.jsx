@@ -45,7 +45,9 @@ function ModePage() {
       }
       setsendAnswer(receiveAnswer);
     }
-    addPairsId();
+    (async () => await addPairsId())();
+
+    // addPairsId();
   }, []);
 
   return (

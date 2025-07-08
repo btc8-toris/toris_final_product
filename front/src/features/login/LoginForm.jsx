@@ -91,7 +91,7 @@ function LoginForm() {
       <Box
         width="85%"
         paddingTop="5">
-        <form onSubmit={(e) => handleLogin(e)}>
+        <form onSubmit={async (e) => await handleLogin(e)}>
           <FormControl
             marginTop="4"
             invalid={nickNameError || passwordError}

@@ -111,8 +111,7 @@ function RehearsalOutPage() {
         setIsLoading(false); //完了時にローディングOFF
       }
     };
-
-    contactAI();
+    (async () => await contactAI())();
   }, []);
 
   return (

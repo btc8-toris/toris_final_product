@@ -42,6 +42,7 @@ function HomePage() {
   let setIconFlag = 0;
 
   const handleCopy = async () => {
+    console.log('📋 コピー実行: myID =', myID);
     try {
       await navigator.clipboard.writeText(myID);
       setCopied(true);
@@ -51,33 +52,26 @@ function HomePage() {
     }
   };
 
+  //--------------初回読み込み時にのみ作動するuseefect一覧開始-------------------------
   useEffect(() => {
     async function getMySearchID(id) {
-      const response = await axios.get(`/api/users/myInfo/${id}`);
+      console.log('👤 ユーザー情報 user.userId:', id);
+      console.log('URL', `${BASE_URL}/api/users/myInfo/${id}`);
+      const response = await axios.get(`${BASE_URL}/api/users/myInfo/${id}`);
+      console.log('✅ setMyID で設定する search_id:', response.data[0].search_id);
 
-      if (response.data[0].search_id === null) {
+      if (response.data[0].search_id === null || response.data[0].search_id === undefined) {
+        console.log('📛 search_id が null または undefined');
         setIconFlag = 4;
       } else {
         setIconFlag = 1;
         setMyID(response.data[0].search_id);
-        // myID = response.data[0].search_id;
       }
       setCircle(setIconFlag);
     }
-    getMySearchID(user.userId);
+    (async () => await getMySearchID(user.userId))();
+    // await getMySearchID(user.userId);
   }, []);
-
-  useEffect(() => {
-    if (answer) {
-      navigate('/mode', { state: { data: answer } });
-    }
-  }, [answer]);
-
-  useEffect(() => {
-    if (answerWaiting) {
-      navigate('/actual/conversationlog', { state: { data: answerWaiting } });
-    }
-  }, [answerWaiting]);
 
   //---------------最近話した人の取得------------------------
   useEffect(() => {
@@ -100,7 +94,8 @@ function HomePage() {
       }
       setTalkPersons(preTalkPersons);
     }
-    getTalkPersons(user.userId);
+    (async () => await getTalkPersons(user.userId))();
+    // getTalkPersons(user.userId);
   }, []);
 
   //------------------フィードバック待ちの取得---------------------
@@ -130,11 +125,29 @@ function HomePage() {
       console.log('💀 ~ getWaitingAna ~ response:', response.data);
       setWaitingItems(preWaitingInfo);
     }
-    getWaitingAna(user.userId);
+    (async () => await getWaitingAna(user.userId))();
+    // getWaitingAna(user.userId);
   }, []);
+  //--------------初回読み込み時にのみ作動するuseefect一覧終了-------------------------
+
+  useEffect(() => {
+    if (answer) {
+      navigate('/mode', { state: { data: answer } });
+    }
+  }, [answer]);
+
+  useEffect(() => {
+    if (answerWaiting) {
+      navigate('/actual/conversationlog', { state: { data: answerWaiting } });
+    }
+  }, [answerWaiting]);
+
+  useEffect(() => {
+    console.log('🟡 myID useEffect: 現在の値 =>', myID);
+  }, [myID]);
 
   //-------------------ボタンクリック/入力値変化時の関数はこの下に記載----------------------
-  async function selectPerson(e) {
+  function selectPerson(e) {
     const id = Number(e.currentTarget.dataset.index);
     const keysToKeep = ['id', 'nickname', 'answer1', 'answer2', 'answer3', 'answer4', 'answer5'];
     const newObject = Object.fromEntries(
@@ -144,7 +157,7 @@ function HomePage() {
     setanswer(newObject);
   }
 
-  async function selectFB(e) {
+  function selectFB(e) {
     const id = Number(e.currentTarget.dataset.index);
 
     const keysToKeep = [
