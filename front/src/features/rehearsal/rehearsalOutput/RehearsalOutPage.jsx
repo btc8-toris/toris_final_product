@@ -44,7 +44,7 @@ function RehearsalOutPage() {
     'きっとこれは私に伝わった',
     'もっとこうして伝えて欲しかった',
   ];
-  const {BASE_URL} =useContext(context)
+  const { BASE_URL } = useContext(context);
 
   console.log('💀 ~ RehearsalOutPage ~ receiveAnswerInput:', receiveAnswerInput);
 
@@ -111,8 +111,7 @@ function RehearsalOutPage() {
         setIsLoading(false); //完了時にローディングOFF
       }
     };
-
-    contactAI();
+    (async () => await contactAI())();
   }, []);
 
   return (

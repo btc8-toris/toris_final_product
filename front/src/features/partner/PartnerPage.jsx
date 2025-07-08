@@ -42,10 +42,14 @@ function PartnerPage() {
       const response = await axios.get(`${BASE_URL}/api/users/demo`);
       for (let obj of response.data) {
         demoIniMember.push(obj);
+        console.log('💀 ~ get6PersonsData ~ demoIniMember:', demoIniMember);
       }
+
       setList(response.data);
     }
-    get6PersonsData();
+    (async () => await get6PersonsData())();
+
+    // get6PersonsData();
   }, []);
 
   useEffect(() => {

@@ -75,7 +75,7 @@ function MediaRecorer() {
           marginTop="4"
           direction="column"
           align="center">
-            ↓カラー
+          ↓カラー
           <Box marginTop="3">
             <Button
               colorScheme="primary"
