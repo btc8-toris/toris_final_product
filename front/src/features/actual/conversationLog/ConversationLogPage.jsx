@@ -10,6 +10,7 @@ import {
   IconButton,
   Image,
   Loading,
+  Center,
 } from '@yamada-ui/react';
 import './ContextFrame.css';
 import Header from '../../../components/header/Header';
@@ -27,7 +28,7 @@ function ConversationLogPage() {
   const [transcripts, setTranscripts] = useState([]);
   const navigate = useNavigate();
   const [sendData, setSendData] = useState({});
-  const [load, setLoad] = useState(false);
+  const [load, setLoad] = useState(true);
 
   console.log('🍓 ~ ConversationLogPage ~ receiveAnswer:', receiveAnswer);
 
@@ -72,17 +73,21 @@ function ConversationLogPage() {
       <Header title={'対話ログ'} />
       <Container
         marginTop="60px"
-        paddingTop="60px">
+        paddingTop="60px"
+        // centerContent="true"
+      >
         {load ? (
-          <Loading
-            variant="oval"
-            fontSize="6xl"
-            color={`red.500`}
-          />
+          <Center>
+            <Loading
+              variant="oval"
+              fontSize="6xl"
+              color={`red.500`}
+            />
+          </Center>
         ) : (
           <ScrollArea
-            type="always"
-            maxHeight="447px">
+            maxHeight="447px"
+            type="scroll">
             <VStack>
               {transcripts.map((transcript) => {
                 return transcript.speaker_label === 'spk_0' ? (
@@ -90,9 +95,9 @@ function ConversationLogPage() {
                     <Flex
                       className="message-bubble"
                       direction="row"
-                      justify="end"
-                      key={transcript.id}>
+                      justify="end">
                       <Box
+                        key={transcript.id}
                         className="message-bubble--mine"
                         bg="primary"
                         margin="3"

@@ -39,15 +39,15 @@ module.exports = {
     });
   },
   // AWSを無闇に使用しないようにコメントアウト
-  // async sendS3(uploadParams) {
-  //   return await s3.send(new PutObjectCommand(uploadParams));
-  // },
+  async sendS3(uploadParams) {
+    return await s3.send(new PutObjectCommand(uploadParams));
+  },
 
   async sendTranscribe(command) {
     return await transcribe.send(command);
   },
   // AWSを無闇に使用しないようにコメントアウト
-  // async getUrl(commandInfo, validTime) {
-  //   return await getSignedUrl(s3, commandInfo, validTime);
-  // },
+  async getUrl(commandInfo, validTime) {
+    return await getSignedUrl(s3, commandInfo, validTime);
+  },
 };

@@ -189,7 +189,9 @@ function ListenConversationPage() {
           <Flex
             width="100%"
             zIndex={1100}
-            justify="flex-end">
+            display="flex"
+            justifyContent="flex-end"
+            pointerEvents="none">
             <Motion
               animate={{ opacity: [1, 0, 1] }}
               transition={{ duration: 1, repeat: Infinity }}>

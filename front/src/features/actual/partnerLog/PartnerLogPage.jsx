@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Header from '../../../components/header/Header';
-import { Button, Container, Text, VStack, Flex, ScrollArea, HStack } from '@yamada-ui/react';
+import { Button, Container, Text, VStack, Flex, ScrollArea, HStack, Box } from '@yamada-ui/react';
 import { useNavigate } from 'react-router';
 import Footer from '../../../components/footer/Footer';
 import { Accordion, AccordionItem } from '@yamada-ui/react';
@@ -24,9 +24,9 @@ function PartnerLogPage() {
   console.log('🍓 ~ PartnerLogPage ~ receiveAnswer:', receiveAnswer);
 
   const getLog = async () => {
-    // const pairID = receiveAnswer.pairId;
+    const pairID = receiveAnswer.pairId;
 
-    const pairID = 1;
+    // const pairID = 1;
     await axios.get(`${BASE_URL}/api/conversations/log/${pairID}`).then((res) => {
       if (res.status === 200) {
         setPastLogs(res.data);
@@ -76,6 +76,7 @@ function PartnerLogPage() {
                 bg="secondary"
                 color="primary"
                 borderRadius="5px"
+                // maxHeight="220px"
                 sx={{
                   '& svg': {
                     color: 'primary', // ← ここで矢印の色を指定
@@ -87,51 +88,51 @@ function PartnerLogPage() {
                 fontWeight="bold"
                 label="過去の対話ログ">
                 <ScrollArea
-                  type="scroll"
-                  maxHeight="150px">
-                  <VStack
-                    paddingTop="md"
-                    gap="5px">
-                    {logExist ? (
-                      <Text textAlign="center">過去の対話ログはありません</Text>
-                    ) : (
-                      pastLogs.map((log, index) => {
-                        const url = log.transcript_url;
-                        const date = log.created_at;
-                        const time = Number(log.conversation_time);
-                        const min = Math.floor(time / 60);
-                        const sec = ('00' + Math.trunc(time % 60)).slice(-2);
-                        return (
-                          <Button
-                            key={index}
-                            marginRight="5px"
-                            marginLeft="5px"
-                            variant="ghost"
-                            padding="md"
-                            bg="white"
-                            height="50px"
-                            value={url}
-                            onClick={(e) => logNav(e)}>
-                            <Flex
-                              justify={'space-between'}
-                              align="center"
-                              width="100%">
-                              <HStack>
-                                <Text>{format(date, 'MM/dd')}</Text>
-                                <Text>{format(date, 'HH:mm')}</Text>
-                              </HStack>
-                              <HStack gap="10px">
-                                <Clock4Icon color="primary" />
-                                <Text>
-                                  {min}:{sec}
-                                </Text>
-                              </HStack>
-                            </Flex>
-                          </Button>
-                        );
-                      })
-                    )}
-                  </VStack>
+                  type="always"
+                  h="150px">
+                    <VStack
+                      paddingTop="md"
+                      gap="5px">
+                      {logExist ? (
+                        <Text textAlign="center">過去の対話ログはありません</Text>
+                      ) : (
+                        pastLogs.map((log, index) => {
+                          const url = log.transcript_url;
+                          const date = log.created_at;
+                          const time = Number(log.conversation_time);
+                          const min = Math.floor(time / 60);
+                          const sec = ('00' + Math.trunc(time % 60)).slice(-2);
+                          return (
+                            <Button
+                              key={index}
+                              marginRight="5px"
+                              marginLeft="5px"
+                              variant="ghost"
+                              padding="md"
+                              bg="white"
+                              height="50px"
+                              value={url}
+                              onClick={(e) => logNav(e)}>
+                              <Flex
+                                justify={'space-between'}
+                                align="center"
+                                width="100%">
+                                <HStack>
+                                  <Text>{format(date, 'MM/dd')}</Text>
+                                  <Text>{format(date, 'HH:mm')}</Text>
+                                </HStack>
+                                <HStack gap="10px">
+                                  <Clock4Icon color="primary" />
+                                  <Text>
+                                    {min}:{sec}
+                                  </Text>
+                                </HStack>
+                              </Flex>
+                            </Button>
+                          );
+                        })
+                      )}
+                    </VStack>
                 </ScrollArea>
               </AccordionItem>
             </Accordion>
