@@ -56,7 +56,7 @@ function HomePage() {
   useEffect(() => {
     async function getMySearchID(id) {
       console.log('👤 ユーザー情報 user.userId:', id);
-      const response = await axios.get(`/api/users/myInfo/${id}`);
+      const response = await axios.get(`${BASE_URL}/api/users/myInfo/${id}`);
       console.log('✅ setMyID で設定する search_id:', response.data[0].search_id);
 
       if (response.data[0].search_id === null || response.data[0].search_id === undefined) {
