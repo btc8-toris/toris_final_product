@@ -55,6 +55,8 @@ function PartnerPage() {
 
   useEffect(() => {
     if (answer) {
+      console.log('💀 ~ useEffect ~ answer:', answer);
+
       navigate('/mode', { state: { data: answer } });
     }
   }, [answer]);
@@ -62,7 +64,6 @@ function PartnerPage() {
   //-------------------ボタンクリック/入力値変化時の関数はこの下に記載----------------------
 
   async function selectPerson(e) {
-    let selectArray = [];
     const id = Number(e.currentTarget.dataset.index);
     const keysToKeep = ['id', 'nickname', 'answer1', 'answer2', 'answer3', 'answer4', 'answer5'];
     const newObject = Object.fromEntries(
