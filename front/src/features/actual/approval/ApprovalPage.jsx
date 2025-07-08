@@ -6,6 +6,7 @@ import Header from '../../../components/header/Header';
 import { useNavigate, useLocation } from 'react-router';
 import Footer from '../../../components/footer/Footer';
 import { context } from '../../../app/App';
+import warningIcon from '/warning.svg';
 
 function ApprovalPage() {
   const [pairArrow, setPairArrow] = useState(false);
@@ -65,8 +66,12 @@ function ApprovalPage() {
             <Text
               fontSize="18px"
               textAlign="center"
-              color="#FF5500">
-              -注意-
+              color="tertiary">
+              <Image
+                src={warningIcon}
+                alt="注意"
+              />
+              注意
               <br />
               相手の承認なしに録音した内容を
               <br />

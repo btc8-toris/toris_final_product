@@ -87,18 +87,41 @@ function ListenConversationPage() {
   };
 
   const stopRecording = () => {
+    console.log('🍓 ~ stopRecording ~ recorder:', recorder);
     if (recorder) {
+      console.log('🍟');
       recorder.stopRecording(async () => {
         const blob = recorder.getBlob();
         onStop();
         const newRecording = blob;
+        receiveAnswer.transcript_url =
+          Math.random().toString(32).substring(2) + new Date().getTime().toString(32);
+
         setRecordings(newRecording);
+
         await logPost();
         setSave(true);
         setTimeout(() => setSave(false), 10000);
       });
     }
   };
+
+  useEffect(() => {
+    let timeoutId;
+    if (listening) {
+      timeoutId = setTimeout(() => {
+        stopRecording();
+      }, 300000);
+    } else {
+      clearTimeout(timeoutId);
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [listening]);
 
   useEffect(() => {
     if (recordings) {
@@ -109,7 +132,6 @@ function ListenConversationPage() {
   }, [recordings]);
 
   const post = async (mp3File) => {
-    console.log(recordings);
     if (recordings) {
       const formData = new FormData();
       formData.append('audio', recordings);
