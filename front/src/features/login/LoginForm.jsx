@@ -86,6 +86,7 @@ function LoginForm() {
   return (
     <Container
       centerContent="true"
+      color="tertiary"
       p="0">
       <Box
         width="85%"

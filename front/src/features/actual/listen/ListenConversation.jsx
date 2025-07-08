@@ -157,6 +157,7 @@ function ListenConversationPage() {
     <>
       <Container
         centerContent="true"
+        color="tertiary"
         gap="none"
         p="0">
         {listening ? (

@@ -59,6 +59,7 @@ function PartnerLogPage() {
     <>
       <Container
         centerContent="true"
+        color="tertiary"
         gap="none"
         p="0">
         <Header title={'ふたり対話'} />
@@ -90,49 +91,49 @@ function PartnerLogPage() {
                 <ScrollArea
                   type="always"
                   h="150px">
-                    <VStack
-                      paddingTop="md"
-                      gap="5px">
-                      {logExist ? (
-                        <Text textAlign="center">過去の対話ログはありません</Text>
-                      ) : (
-                        pastLogs.map((log, index) => {
-                          const url = log.transcript_url;
-                          const date = log.created_at;
-                          const time = Number(log.conversation_time);
-                          const min = Math.floor(time / 60);
-                          const sec = ('00' + Math.trunc(time % 60)).slice(-2);
-                          return (
-                            <Button
-                              key={index}
-                              marginRight="5px"
-                              marginLeft="5px"
-                              variant="ghost"
-                              padding="md"
-                              bg="white"
-                              height="50px"
-                              value={url}
-                              onClick={(e) => logNav(e)}>
-                              <Flex
-                                justify={'space-between'}
-                                align="center"
-                                width="100%">
-                                <HStack>
-                                  <Text>{format(date, 'MM/dd')}</Text>
-                                  <Text>{format(date, 'HH:mm')}</Text>
-                                </HStack>
-                                <HStack gap="10px">
-                                  <Clock4Icon color="primary" />
-                                  <Text>
-                                    {min}:{sec}
-                                  </Text>
-                                </HStack>
-                              </Flex>
-                            </Button>
-                          );
-                        })
-                      )}
-                    </VStack>
+                  <VStack
+                    paddingTop="md"
+                    gap="5px">
+                    {logExist ? (
+                      <Text textAlign="center">過去の対話ログはありません</Text>
+                    ) : (
+                      pastLogs.map((log, index) => {
+                        const url = log.transcript_url;
+                        const date = log.created_at;
+                        const time = Number(log.conversation_time);
+                        const min = Math.floor(time / 60);
+                        const sec = ('00' + Math.trunc(time % 60)).slice(-2);
+                        return (
+                          <Button
+                            key={index}
+                            marginRight="5px"
+                            marginLeft="5px"
+                            variant="ghost"
+                            padding="md"
+                            bg="white"
+                            height="50px"
+                            value={url}
+                            onClick={(e) => logNav(e)}>
+                            <Flex
+                              justify={'space-between'}
+                              align="center"
+                              width="100%">
+                              <HStack>
+                                <Text>{format(date, 'MM/dd')}</Text>
+                                <Text>{format(date, 'HH:mm')}</Text>
+                              </HStack>
+                              <HStack gap="10px">
+                                <Clock4Icon color="primary" />
+                                <Text>
+                                  {min}:{sec}
+                                </Text>
+                              </HStack>
+                            </Flex>
+                          </Button>
+                        );
+                      })
+                    )}
+                  </VStack>
                 </ScrollArea>
               </AccordionItem>
             </Accordion>

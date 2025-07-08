@@ -45,19 +45,21 @@ function RehearsalInPage() {
 
   return (
     <Container
+      color="tertiary"
       centerContent="true"
       p="0">
-      <Header title={'ひとり対話'} />
+      <Header title={receiveAnswer.nickname} />
 
-      <SmallAvatar nickName={receiveAnswer.nickname} />
+      {/* <SmallAvatar nickName={receiveAnswer.nickname} /> */}
 
       <Box
+        marginTop="120px"
         paddingLeft="5px"
         align="left">
         <FormControl
           height="276px"
           width="315px">
-          <Label fontSize="14px">相手に伝えたいこと</Label>
+          <Label fontSize="18px">相手に伝えたいこと</Label>
           <Textarea
             onChange={getInput}
             fontSize="17px"

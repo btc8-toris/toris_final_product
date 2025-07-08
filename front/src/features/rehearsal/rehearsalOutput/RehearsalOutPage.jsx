@@ -40,11 +40,11 @@ function RehearsalOutPage() {
   const receiveAnswerInput = location.state?.data; //選択したユーザーのニックネームと質問の回答を前のページから受け継ぐ
   const [isLoading, setIsLoading] = useState(false);
   const fbFormat = [
-    'きっと私はこう思った',
-    'きっとこれは私に伝わった',
-    'もっとこうして伝えて欲しかった',
+    '感じたこと',
+    '伝わったこと',
+    'こう伝えて欲しかった',
   ];
-  const {BASE_URL} =useContext(context)
+  const { BASE_URL } = useContext(context);
 
   console.log('💀 ~ RehearsalOutPage ~ receiveAnswerInput:', receiveAnswerInput);
 
@@ -117,10 +117,12 @@ function RehearsalOutPage() {
 
   return (
     <Container
+      color="tertiary"
       centerContent="true"
       p="0">
-      <Header title={'フィードバック'} />
-      <SmallAvatar nickName={receiveAnswerInput.nickname} />
+      <Header title={receiveAnswerInput.nickname} />
+      {/* <SmallAvatar nickName={receiveAnswerInput.nickname} /> */}
+      <Text height="120px" fontSize="14px">心の声</Text>
 
       {isLoading ? (
         <Loading

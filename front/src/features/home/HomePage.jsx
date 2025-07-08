@@ -169,13 +169,15 @@ function HomePage() {
 
   return (
     <Container
+      color="tertiary"
       centerContent="true"
       position="relative"
       p="0">
       <Flex
         direction="row"
         width="100%"
-        align="center">
+        align="center"
+        height="52px">
         <Heading
           fontSize="28px"
           marginLeft="30px">
