@@ -185,6 +185,8 @@ function HomePage() {
           size="sm"
           marginLeft="203px"
           marginTop="5px"
+          bg="#c4c4c4"
+          color="tertiary"
           name={user.nickName}
         />
       </Flex>
