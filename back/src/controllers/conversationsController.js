@@ -2,12 +2,20 @@ const conversationsModel = require('../models/Conversations');
 
 module.exports = {
   async resentPair(req, res) {
+    console.log('resentPairに来たよ');
     const userId = req.params.user_id;
-    const data = await conversationsModel.getRecentPair(userId);
+    const predata = await conversationsModel.getRecentPair(userId);
+    const data = predata.filter(
+      (element, index, self) => self.findIndex((e) => e.nickname === element.nickname) === index
+    );
+    console.log('💀 ~ resentPair ~ data:', data);
+
     if (data.length > 1) {
+      console.log('💀 ~ resentPair ~ data:', data);
+
       data.sort((first, second) => second.created_at - first.created_at);
-      if (data.length > 6) {
-        data.splice(6, data.length - 6);
+      if (data.length > 3) {
+        data.splice(3, data.length - 3);
       }
     } else if (data.length === 0) {
       return res.status(204).json({ message: '最近会話した人はいません' });
