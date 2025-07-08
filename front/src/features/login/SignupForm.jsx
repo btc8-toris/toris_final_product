@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Container,
+  Flex,
   FormControl,
   Heading,
   IconButton,
@@ -20,6 +21,7 @@ import { useNavigate } from 'react-router';
 function SignupForm() {
   const [nickName, setNickName] = useState('');
   const [password, setPassword] = useState('');
+  const [isHaveAccount, setIsHaveAccount] = useState(false);
   const [isShow, setIsShow] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
@@ -40,29 +42,39 @@ function SignupForm() {
   const handleSignupAndLogin = async (e) => {
     e.preventDefault();
     const data = { nickName, password };
-    //アカウント登録
+    //すでに登録済のアカウントか確認
     await axios
-      .post(`${BASE_URL}/api/auth/register`, data, JSON_HEADER)
-      .then(
-        //登録したアカウントでlogin
-        async () => await axios.post(`${BASE_URL}/api/auth/login`, data, JSON_HEADER),
-      )
+      .post(`${BASE_URL}/api/auth/login`, data, JSON_HEADER)
       .then((response) => {
-        console.log(response.data.data);
-        login(JSON.stringify(response.data.data));
-        navigate('/home');
+        setIsHaveAccount(true);
       })
-      .catch(function (error) {
-        console.error(error);
+      .catch(async () => {
+        console.log('アカウント登録に移行します。');
+        await axios
+          .post(`${BASE_URL}/api/auth/register`, data, JSON_HEADER)
+          .then(
+            //登録したアカウントでlogin
+            async () => await axios.post(`${BASE_URL}/api/auth/login`, data, JSON_HEADER),
+          )
+          .then((response) => {
+            console.log(response.data.data);
+            login(JSON.stringify(response.data.data));
+            navigate('/home');
+          })
+          .catch(function (error) {
+            console.error(error);
+          });
       });
   };
+
+  //アカウント登録
 
   return (
     <Container
       centerContent="true"
       p="0"
       // bg="blackAlpha.50"
-      >
+    >
       <Box
         width="85%"
         paddingTop="5">
@@ -122,12 +134,27 @@ function SignupForm() {
             marginTop="15"
             marginBottom="15"
             color="white"
-            colorScheme='primary'
+            colorScheme="primary"
             rounded="50"
             disabled={!(nickName && password && !passwordError)}>
             登録してログイン
           </Button>
         </form>
+        {isHaveAccount && (
+          <Flex
+            marginTop="3"
+            direction="row">
+            <Box
+              hight="46px"
+              width="5px"
+              bg="mysticRed.500"></Box>
+            <Box
+              paddingLeft="3"
+              bg="white">
+              <Text color="mysticRed.500">アカウント登録できませんでした。</Text>
+            </Box>
+          </Flex>
+        )}
       </Box>
     </Container>
   );

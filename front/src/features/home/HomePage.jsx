@@ -13,6 +13,7 @@ import {
   Icon,
   Image,
   IconButton,
+  HStack,
 } from '@yamada-ui/react';
 import React from 'react';
 import { useNavigate } from 'react-router';
@@ -22,17 +23,22 @@ import { useEffect, useState, useContext } from 'react';
 import warningIcon from '/warning.svg';
 import axios from 'axios';
 import copyIcon from '/copy_icon.svg';
+import { format } from 'date-fns';
+import { Clock4Icon } from '@yamada-ui/lucide';
 
 // let myID = 0;
 
 function HomePage() {
   const navigate = useNavigate();
-  const { user } = useContext(context);
-  console.log('💀 ~ HomePage ~ user:', user);
+  const { user, BASE_URL } = useContext(context);
   const [circle, setCircle] = useState(0);
   const [copied, setCopied] = useState(false);
   const [myID, setMyID] = useState(null);
-  const test = ['A君', 'B君', 'C君'];
+  const [talkPersons, setTalkPersons] = useState([]);
+  const [waitingItems, setWaitingItems] = useState([]);
+  const [answer, setanswer] = useState(''); //最近話した人からの画面遷移時に渡す質問の回答。本来はobjectだがuseeffectの初回マウントを回避させるために空文字を初期値にしている
+  const [answerWaiting, setAnswerWaiting] = useState(''); //フィードバック待ちからの画面遷移時に渡す質問の回答。本来はobjectだがuseeffectの初回マウントを回避させるために空文字を初期値にしている
+
   let setIconFlag = 0;
 
   const handleCopy = async () => {
@@ -49,8 +55,6 @@ function HomePage() {
     async function getMySearchID(id) {
       const response = await axios.get(`/api/users/myInfo/${id}`);
 
-      console.log('💀 ~ getMySearchID ~ response.data:', response.data);
-
       if (response.data[0].search_id === null) {
         setIconFlag = 4;
       } else {
@@ -59,10 +63,109 @@ function HomePage() {
         // myID = response.data[0].search_id;
       }
       setCircle(setIconFlag);
-      console.log('💀 ~ getMySearchID ~ setIconFlag:', setIconFlag);
     }
     getMySearchID(user.userId);
   }, []);
+
+  useEffect(() => {
+    if (answer) {
+      navigate('/mode', { state: { data: answer } });
+    }
+  }, [answer]);
+
+  useEffect(() => {
+    if (answerWaiting) {
+      navigate('/actual/conversationlog', { state: { data: answerWaiting } });
+    }
+  }, [answerWaiting]);
+
+  //---------------最近話した人の取得------------------------
+  useEffect(() => {
+    async function getTalkPersons(id) {
+      const preTalkPersons = [];
+      const response = await axios.get(`${BASE_URL}/api/conversations/recentpair/${id}`);
+      if (response.data.length > 1) {
+        for (const obj of response.data) {
+          const temporary = await axios.get(`${BASE_URL}/api/users/myInfo/${obj.partner_id}`);
+          preTalkPersons.push(temporary.data[0]);
+        }
+      } else if (response.data.length === 1) {
+        const temporary = await axios.get(
+          `${BASE_URL}/api/users/myInfo/${response.data[0].partner_id}`,
+        );
+
+        preTalkPersons.push(temporary.data[0]);
+      } else {
+        preTalkPersons.length = 0;
+      }
+      setTalkPersons(preTalkPersons);
+    }
+    getTalkPersons(user.userId);
+  }, []);
+
+  //------------------フィードバック待ちの取得---------------------
+  useEffect(() => {
+    async function getWaitingAna(id) {
+      const preWaitingInfo = [];
+      const response = await axios.get(`${BASE_URL}/api/conversations/feedback/${id}`);
+
+      if (response.data.length > 1) {
+        for (const obj of response.data) {
+          const res = await axios.get(`${BASE_URL}/api/users/myInfo/${obj.partner_id}`);
+          const temporary = { ...res.data[0], ...obj };
+          preWaitingInfo.push(temporary);
+        }
+      } else if (response.data.length === 1) {
+        const res = await axios.get(`${BASE_URL}/api/users/myInfo/${response.data[0].partner_id}`);
+        console.log(res.data[0]);
+        console.log(response.data[0]);
+
+        const temporary = { ...res.data[0], ...response.data[0] };
+        console.log('💀 ~ getWaitingAna ~ temporary:', temporary);
+
+        preWaitingInfo.push(temporary);
+      } else {
+        preWaitingInfo.length = 0;
+      }
+      console.log('💀 ~ getWaitingAna ~ response:', response.data);
+      setWaitingItems(preWaitingInfo);
+    }
+    getWaitingAna(user.userId);
+  }, []);
+
+  //-------------------ボタンクリック/入力値変化時の関数はこの下に記載----------------------
+  async function selectPerson(e) {
+    const id = Number(e.currentTarget.dataset.index);
+    const keysToKeep = ['id', 'nickname', 'answer1', 'answer2', 'answer3', 'answer4', 'answer5'];
+    const newObject = Object.fromEntries(
+      Object.entries(talkPersons[id]).filter(([key]) => keysToKeep.includes(key)),
+    );
+
+    setanswer(newObject);
+  }
+
+  async function selectFB(e) {
+    const id = Number(e.currentTarget.dataset.index);
+
+    const keysToKeep = [
+      'id',
+      'nickname',
+      'answer1',
+      'answer2',
+      'answer3',
+      'answer4',
+      'answer5',
+      'pairId',
+      'transcript_url',
+    ];
+    const newObject = Object.fromEntries(
+      Object.entries(waitingItems[id]).filter(([key]) => keysToKeep.includes(key)),
+    );
+
+    setAnswerWaiting(newObject);
+  }
+
+  //-------------------ボタンクリック/入力値変化時の関数はこの上に記載----------------------
 
   return (
     <Container
@@ -173,6 +276,7 @@ function HomePage() {
         <Accordion
           toggle
           width="100%"
+          variant="unstyled"
           marginLeft="18px">
           <AccordionItem
             width="339px"
@@ -192,28 +296,29 @@ function HomePage() {
             <VStack
               gap="sm"
               align="center">
-              {test.map((obj, index) => {
+              {talkPersons.map((obj, index) => {
                 return (
                   <Button
-                    //  key={obj.id}
+                    key={obj.id}
                     data-index={index}
                     height="50px"
                     width="315px"
-                    backgroundColor="white"
+                    bg="white"
                     variant="ghost"
                     fontSize="14px"
                     sx={{
                       textAlign: 'left',
                       justifyContent: 'flex-start',
                     }}
-                    //  onClick={selectPerson}
-                  >
+                    onClick={selectPerson}>
                     <Avatar
                       size="sm"
                       align="left"
-                      name={obj}
+                      bg="#c4c4c4"
+                      color="tertiary"
+                      name={obj.nickname}
                     />
-                    {obj}
+                    {obj.nickname}
                   </Button>
                 );
               })}
@@ -236,29 +341,48 @@ function HomePage() {
             }}>
             <VStack
               gap="sm"
-              align="center">
-              {test.map((obj, index) => {
+              align="left"
+              marginLeft="-10px">
+              {waitingItems.map((log, index) => {
+                const date = log.created_at;
+                const time = Number(log.conversation_time);
+                const min = Math.floor(time / 60);
+                const sec = ('00' + Math.trunc(time % 60)).slice(-2);
                 return (
                   <Button
-                    //  key={obj.id}
+                    key={log.id}
                     data-index={index}
-                    height="50px"
-                    width="315px"
+                    marginRight="5px"
+                    marginLeft="5px"
                     variant="ghost"
-                    backgroundColor="white"
+                    padding="md"
+                    bg="white"
                     fontSize="14px"
-                    sx={{
-                      textAlign: 'left',
-                      justifyContent: 'flex-start',
-                    }}
-                    //  onClick={selectPerson}
-                  >
+                    height="50px"
+                    onClick={selectFB}>
                     <Avatar
                       size="sm"
                       align="left"
-                      name={obj}
+                      bg="#c4c4c4"
+                      color="tertiary"
+                      name={log.nickname}
                     />
-                    {obj}
+                    {log.nickname}
+                    <Flex
+                      justify={'space-between'}
+                      align="center"
+                      width="100%">
+                      <HStack>
+                        <Text>{format(date, 'MM/dd')}</Text>
+                        <Text>{format(date, 'HH:mm')}</Text>
+                      </HStack>
+                      <HStack gap="10px">
+                        <Clock4Icon style={{ width: '16px', height: '16px', color: 'primary' }} />
+                        <Text>
+                          {min}:{sec}
+                        </Text>
+                      </HStack>
+                    </Flex>
                   </Button>
                 );
               })}

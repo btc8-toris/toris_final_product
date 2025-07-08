@@ -14,7 +14,8 @@ module.exports = {
       .select(
         `${CONVERSATIONS_TABLE}.pair_id`,
         'users.nickname',
-        `${CONVERSATIONS_TABLE}.created_at`
+        `${CONVERSATIONS_TABLE}.created_at`,
+        'partner_id'
       );
   },
 
@@ -30,7 +31,8 @@ module.exports = {
         'users.nickname',
         `${CONVERSATIONS_TABLE}.conversation_time`,
         `${CONVERSATIONS_TABLE}.transcript_url`,
-        `${CONVERSATIONS_TABLE}.created_at`
+        `${CONVERSATIONS_TABLE}.created_at`,
+        'partner_id'
       );
   },
 

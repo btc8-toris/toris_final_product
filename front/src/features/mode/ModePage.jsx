@@ -23,13 +23,14 @@ import Header from '../../components/header/Header';
 import { useLocation } from 'react-router-dom';
 import BigAvatar from '../../components/Avatar/BigAvatar';
 import { context } from '../../app/App';
+import Footer from '../../components/footer/Footer';
 
 function ModePage() {
   const location = useLocation();
   const navigate = useNavigate();
   const receiveAnswer = location.state?.data; //選択したユーザーのニックネームと質問の回答を前のページから受け継ぐ
   const [sendAnswer, setsendAnswer] = useState({});
-  const { user , BASE_URL} = useContext(context);
+  const { user, BASE_URL } = useContext(context);
 
   useEffect(() => {
     async function addPairsId() {
@@ -80,6 +81,7 @@ function ModePage() {
           </Button>
         </Flex>
       </VStack>
+      <Footer onIndex={0} />
     </Container>
   );
 }
