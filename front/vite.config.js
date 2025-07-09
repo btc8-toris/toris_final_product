@@ -10,6 +10,7 @@ export default defineConfig({
       devOptions: { enabled: true },
       manifest: {
         name: 'Tact App',
+        short_name: 'Tact',
         display: 'standalone',
         icons: [
           {
