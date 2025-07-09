@@ -14,7 +14,7 @@ export default defineConfig({
         icons: [
           {
             sizes: '192x192',
-            src: 'takt_192x192.png',
+            src: 'tact_192x192.png',
             type: 'image/png',
           },
           {

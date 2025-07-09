@@ -63,11 +63,13 @@ function HomePage() {
       if (response.data[0].search_id === null || response.data[0].search_id === undefined) {
         console.log('📛 search_id が null または undefined');
         setIconFlag = 4;
+        setCircle(setIconFlag);
       } else {
         setIconFlag = 1;
         setMyID(response.data[0].search_id);
+        setCircle(setIconFlag);
       }
-      setCircle(setIconFlag);
+      // setCircle(setIconFlag);
     }
     (async () => await getMySearchID(user.userId))();
     // await getMySearchID(user.userId);
