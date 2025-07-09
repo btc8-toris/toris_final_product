@@ -19,7 +19,8 @@ const SmallAvatar = ({ nickName }) => {
       <Text
         fontSize="16px"
         marginLeft="10px"
-        marginTop="13px">
+        marginTop="13px"
+        color="tertiary">
         {nickName}
       </Text>
     </Flex>

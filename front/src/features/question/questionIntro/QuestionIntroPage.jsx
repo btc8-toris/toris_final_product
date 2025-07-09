@@ -10,30 +10,39 @@ function QuestionIntroPage() {
     <Container
       //   centerContent="true"
       // gap="none"
+
       color="tertiary"
       p="0">
-      <Heading
-        fontSize="28px"
-        marginLeft="30px">
-        価値観
-      </Heading>
+      <Flex
+        direction="row"
+        width="100%"
+        height="52px"
+        align="center">
+        <Heading
+          fontSize="28px"
+          marginLeft="30px">
+          価値観
+        </Heading>
+      </Flex>
       <Container>
         <Box
           marginTop="15"
           marginBottom="5"
-          marginLeft="30px"
-          marginRight="30px"
+          marginLeft="20px"
+          marginRight="20px"
           fontSize="17px">
-          <Text letterSpacing="1.7px">
+          <Text
+            letterSpacing="2px"
+            lineHeight="27px">
             あなたの価値観を見つけましょう。これから5つの質問に答えていただくことで、あなたが大切にしている考え方や、理想の働き方が見えてきます。
           </Text>
           <Text
-            letterSpacing="1.7px"
+            letterSpacing="2px"
             as="ins"
             fontWeight="bold">
             深く考えすぎず、直感で選んでください。
           </Text>
-          <Text letterSpacing="1.7px">（全5問・所要時間約1分）</Text>
+          <Text letterSpacing="2px">（全5問・所要時間約1分）</Text>
           <Text
             marginTop="15px"
             letterSpacing="1.3px"

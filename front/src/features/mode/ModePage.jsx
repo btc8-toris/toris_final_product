@@ -53,6 +53,7 @@ function ModePage() {
   return (
     <Container
       centerContent="true"
+      color="tertiary"
       p="0">
       <Header title={'ユーザー選択'} />
       <VStack

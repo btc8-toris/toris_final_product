@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Header from '../../../components/header/Header';
-import { Button, Container, Text, VStack, Flex, ScrollArea, HStack } from '@yamada-ui/react';
+import { Button, Container, Text, VStack, Flex, ScrollArea, HStack, Box } from '@yamada-ui/react';
 import { useNavigate } from 'react-router';
 import Footer from '../../../components/footer/Footer';
 import { Accordion, AccordionItem } from '@yamada-ui/react';
@@ -24,9 +24,9 @@ function PartnerLogPage() {
   console.log('🍓 ~ PartnerLogPage ~ receiveAnswer:', receiveAnswer);
 
   const getLog = async () => {
-    // const pairID = receiveAnswer.pairId;
+    const pairID = receiveAnswer.pairId;
 
-    const pairID = 1;
+    // const pairID = 1;
     await axios.get(`${BASE_URL}/api/conversations/log/${pairID}`).then((res) => {
       if (res.status === 200) {
         setPastLogs(res.data);
@@ -59,6 +59,7 @@ function PartnerLogPage() {
     <>
       <Container
         centerContent="true"
+        color="tertiary"
         gap="none"
         p="0">
         <Header title={'ふたり対話'} />
@@ -76,6 +77,7 @@ function PartnerLogPage() {
                 bg="secondary"
                 color="primary"
                 borderRadius="5px"
+                // maxHeight="220px"
                 sx={{
                   '& svg': {
                     color: 'primary', // ← ここで矢印の色を指定
@@ -87,8 +89,9 @@ function PartnerLogPage() {
                 fontWeight="bold"
                 label="過去の対話ログ">
                 <ScrollArea
-                  type="scroll"
-                  maxHeight="150px">
+                  type="always"
+                  maxHeight="150px"
+                >
                   <VStack
                     paddingTop="md"
                     gap="5px">

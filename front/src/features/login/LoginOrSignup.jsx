@@ -1,15 +1,15 @@
 import { Box, Flex } from '@yamada-ui/react';
 import React from 'react';
 
-function LoginOrSignup({isLogin, setIsLogin}) {
-
-    const loginBorderBottom = isLogin ? 'solid 3px' : 'solid 1px';
-    const newAccountBorderBottom = isLogin ? 'solid 1px' : 'solid 3px';
+function LoginOrSignup({ isLogin, setIsLogin }) {
+  const loginBorderBottom = isLogin ? 'solid 3px' : 'solid 1px';
+  const newAccountBorderBottom = isLogin ? 'solid 1px' : 'solid 3px';
 
   return (
     <Flex
       dir="row"
       width="100%"
+      color="tertiary"
       justify="center">
       <Box
         as="button"

@@ -110,6 +110,7 @@ function QuestionPage() {
   };
   return (
     <Container
+      color="tertiary"
       centerContent="true"
       gap="none"
       p="0">
@@ -129,10 +130,14 @@ function QuestionPage() {
               key={qIndex}
               p="5">
               {/* <Text>{`【質問 ${qIndex + 1}】`}</Text> */}
-              <Text marginBottom="15px">{question}</Text>
+              <Text
+                marginBottom="15px"
+                fontWeight="bold">
+                {question}
+              </Text>
               <VStack>
                 <RadioGroup
-                  gap="3px"
+                  gap="7px"
                   value={answerValue[qIndex]}
                   onChange={(selectedVal) => createAnswer(selectedVal, qIndex)}>
                   <For each={answers[qIndex]}>

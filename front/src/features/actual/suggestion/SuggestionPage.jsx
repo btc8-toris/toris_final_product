@@ -27,7 +27,9 @@ function SuggestionPage() {
     const contactAI = async () => {
       try {
         setIsLoading(true); //開始時にローディング
-
+        const transcripts = receiveAnswer.transcript((obj) => {
+          return { transcript: obj.transcript, speaker_label: obj.speaker_label };
+        });
         // 投げかけ方法を考えるtranscriptの中に会話は保存
         const res = await axios.post(
           `${BASE_URL}/api/llm/questions`,
@@ -46,7 +48,8 @@ function SuggestionPage() {
             質問5の回答：${receiveAnswer.answer4}
 
             上記の価値観を持つあなたと上司は以下の会話をしました。
-            投げかける言葉：${receiveAnswer.transcript}
+            あなたはspeaker_labelがspk_1で上司がspk_0です
+            ${transcripts}
 
             その投げかけに関して、以下に関して回答を返してください。
             ①きっとあなた自身はこう思った
@@ -97,6 +100,7 @@ function SuggestionPage() {
   return (
     <Container
       centerContent="true"
+      color="tertiary"
       gap="none"
       p="0">
       <Header title={'フィードバック'} />

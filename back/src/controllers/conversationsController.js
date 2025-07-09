@@ -32,8 +32,8 @@ module.exports = {
       data.sort((first, second) => second.created_at - first.created_at);
     }
 
-    if (data.length > 6) {
-      data.splice(6, data.length - 6);
+    if (data.length > 3) {
+      data.splice(3, data.length - 3);
     }
     return res.status(200).json(data);
   },
