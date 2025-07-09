@@ -1,42 +1,17 @@
 import React, { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  For,
-  Grid,
-  GridItem,
-  Input,
-  Radio,
-  RadioGroup,
-  Avatar,
-  FormControl,
-  Label,
-  Card,
-  CardHeader,
-  Heading,
-  CardBody,
-  Text,
-  Loading,
-  HStack,
-  IconButton,
-  Center,
-} from '@yamada-ui/react';
+import { Container, ScrollArea, FormControl, Label, Text, Loading, Center } from '@yamada-ui/react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import Footer from '../../../components/footer/Footer';
 import Header from '../../../components/header/Header';
-import SmallAvatar from '../../../components/Avatar/SmallAvatar';
 import { context } from '../../../app/App';
 let resTextProposal = '';
 let answer1 = '';
 const answers = [];
 
 function RehearsalOutPage() {
-  const navigate = useNavigate();
   const location = useLocation();
   const receiveAnswerInput = location.state?.data; //選択したユーザーのニックネームと質問の回答を前のページから受け継ぐ
   const [isLoading, setIsLoading] = useState(false);
@@ -65,7 +40,7 @@ function RehearsalOutPage() {
             質問4：仕事とプライベートの理想の関係性は？
             質問4の回答：${receiveAnswerInput.answer4}
             質問5:仕事で最も大事だと思う文化・雰囲気は？
-            質問5の回答：${receiveAnswerInput.answer4}
+            質問5の回答：${receiveAnswerInput.answer5}
 
             上記の価値観を持つあなたに対して以下の言葉を投げかけます。
             投げかける言葉：${receiveAnswerInput.input}
@@ -77,13 +52,13 @@ function RehearsalOutPage() {
 
             回答のフォーマットは必ず以下にしてください。
             ・回答①
-            ここに①の回答を70字程度で記入してください。
+            ここに①の回答を100字程度で記入してください。
             
             ・回答②
-            ここに②の回答を70字程度で記入してください
+            ここに②の回答を100字程度で記入してください
 
             ・回答③
-            ここに③の回答を70字程度で記入してください
+            ここに③の回答を100字程度で記入してください
 
           `,
           },
@@ -121,13 +96,6 @@ function RehearsalOutPage() {
         marginTop="60px"
         paddingTop="60px">
         {/* <SmallAvatar nickName={receiveAnswerInput.nickname} /> */}
-        <Text
-          height="20px"
-          fontSize="18px"
-          fontWeight="bold"
-          marginLeft="30px">
-          心の声
-        </Text>
 
         {isLoading ? (
           <Center>
@@ -139,29 +107,40 @@ function RehearsalOutPage() {
           </Center>
         ) : (
           <>
-            {answers.map((elm, index) => {
-              return (
-                <FormControl
-                  key={index}
-                  // height="97px"
-                  width="315px"
-                  marginLeft="30px"
-                  marginRight="30px"
-                  marginTop="10px">
-                  <Label
-                    fontWeight="bold"
-                    fontSize="16px">
-                    {fbFormat[index]}
-                  </Label>
-                  <Text
-                    fontSize="14px"
-                    height="100%"
-                    width="100%">
-                    {elm}
-                  </Text>
-                </FormControl>
-              );
-            })}
+            <Text
+              height="20px"
+              fontSize="18px"
+              fontWeight="bold"
+              marginLeft="30px">
+              心の声
+            </Text>
+            <ScrollArea
+              type="always"
+              maxHeight="480px">
+              {answers.map((elm, index) => {
+                return (
+                  <FormControl
+                    key={index}
+                    // height="97px"
+                    width="275px"
+                    marginLeft="30px"
+                    marginRight="30px"
+                    marginTop="10px">
+                    <Label
+                      fontWeight="bold"
+                      fontSize="16px">
+                      {fbFormat[index]}
+                    </Label>
+                    <Text
+                      fontSize="14px"
+                      height="100%"
+                      width="100%">
+                      {elm}
+                    </Text>
+                  </FormControl>
+                );
+              })}
+            </ScrollArea>
           </>
         )}
       </Container>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
-import splashIcon from '/tact_192x192_kadomaru.png';
+import splashIcon from '/tact_192x192.png';
 import { Container, Flex, Image } from '@yamada-ui/react';
 
 function SplashPage() {
