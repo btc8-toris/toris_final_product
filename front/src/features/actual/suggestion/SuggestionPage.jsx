@@ -4,7 +4,7 @@ import Header from '../../../components/header/Header';
 import Footer from '../../../components/footer/Footer';
 import { context } from '../../../app/App';
 import { useLocation, useNavigate } from 'react-router';
-import { Container, Box, FormControl, Label, Textarea, Button, Loading } from '@yamada-ui/react';
+import { Container, FormControl, Label, Loading, Center, Text } from '@yamada-ui/react';
 import SmallAvatar from '../../../components/Avatar/SmallAvatar';
 import axios from 'axios';
 
@@ -15,11 +15,7 @@ function SuggestionPage() {
 
   const [answers, setAnswers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const fbFormat = [
-    'きっと私はこう思った',
-    'きっとこれは私に伝わった',
-    'もっとこうして伝えて欲しかった',
-  ];
+  const fbFormat = ['感じたこと', '伝わったこと', 'こう伝えて欲しかった'];
   const { BASE_URL } = useContext(context);
 
   // ここでAIへ壁打ちする関数をマウント時に一回呼び出す
@@ -27,9 +23,11 @@ function SuggestionPage() {
     const contactAI = async () => {
       try {
         setIsLoading(true); //開始時にローディング
-        const transcripts = receiveAnswer.transcript((obj) => {
+        const transcripts = receiveAnswer.transcript.map((obj) => {
           return { transcript: obj.transcript, speaker_label: obj.speaker_label };
         });
+        console.log('🍓 ~ transcripts ~ transcripts:', transcripts);
+
         // 投げかけ方法を考えるtranscriptの中に会話は保存
         const res = await axios.post(
           `${BASE_URL}/api/llm/questions`,
@@ -74,7 +72,7 @@ function SuggestionPage() {
             },
           },
         );
-        resTextProposal = res.data.data.choices[0].message.content;
+        const resTextProposal = res.data.data.choices[0].message.content;
 
         const answer1 = resTextProposal.match(/・回答①\n([\s\S]*?)\n・回答②/); // 戻り値は配列なのに注意
         const answer2 = resTextProposal.match(/・回答②\n([\s\S]*?)\n・回答③/); // 戻り値は配列なのに注意
@@ -92,7 +90,7 @@ function SuggestionPage() {
     };
 
     //
-    // (async () => await contactAI())();
+    (async () => await contactAI())();
   }, []);
 
   console.log(answers);
@@ -103,30 +101,46 @@ function SuggestionPage() {
       color="tertiary"
       gap="none"
       p="0">
-      <Header title={'フィードバック'} />
+      <Header title={receiveAnswer.nickname} />
       <Container
         marginTop="60px"
         paddingTop="60px">
-        <SmallAvatar nickName={receiveAnswer.nickname} />
+        <Text
+          height="20px"
+          fontSize="18px"
+          fontWeight="bold"
+          marginLeft="30px">
+          心の声
+        </Text>
+
+        {/* <SmallAvatar nickName={receiveAnswer.nickname} /> */}
         {/* AIからの解答結果を表示 */}
-        {/* {isLoading ? (
-          <Loading
-            variant="oval"
-            fontSize="6xl"
-            color={`red.500`}
-          />
+        {isLoading ? (
+          <Center>
+            <Loading
+              variant="oval"
+              fontSize="6xl"
+              color={`red.500`}
+            />
+          </Center>
         ) : (
           <>
             {answers.map((elm, index) => {
               return (
                 <FormControl
                   key={index}
-                  height="97px"
-                  width="315px"
-                  marginTop="20px">
-                  <Label fontSize="14px">{fbFormat[index]}</Label>
+                  // height="100px"
+                  width="285px"
+                  marginTop="10px"
+                  marginLeft="30px"
+                  marginRight="30px">
+                  <Label
+                    fontWeight="bold"
+                    fontSize="16px">
+                    {fbFormat[index]}
+                  </Label>
                   <Text
-                    fontSize="12px"
+                    fontSize="14px"
                     height="100%"
                     width="100%">
                     {elm}
@@ -135,7 +149,7 @@ function SuggestionPage() {
               );
             })}
           </>
-        )} */}
+        )}
       </Container>
       <Footer />
     </Container>

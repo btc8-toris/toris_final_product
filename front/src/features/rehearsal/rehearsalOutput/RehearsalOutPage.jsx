@@ -22,6 +22,7 @@ import {
   Loading,
   HStack,
   IconButton,
+  Center,
 } from '@yamada-ui/react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
@@ -39,11 +40,7 @@ function RehearsalOutPage() {
   const location = useLocation();
   const receiveAnswerInput = location.state?.data; //選択したユーザーのニックネームと質問の回答を前のページから受け継ぐ
   const [isLoading, setIsLoading] = useState(false);
-  const fbFormat = [
-    '感じたこと',
-    '伝わったこと',
-    'こう伝えて欲しかった',
-  ];
+  const fbFormat = ['感じたこと', '伝わったこと', 'こう伝えて欲しかった'];
   const { BASE_URL } = useContext(context);
 
   console.log('💀 ~ RehearsalOutPage ~ receiveAnswerInput:', receiveAnswerInput);
@@ -120,38 +117,55 @@ function RehearsalOutPage() {
       centerContent="true"
       p="0">
       <Header title={receiveAnswerInput.nickname} />
-      {/* <SmallAvatar nickName={receiveAnswerInput.nickname} /> */}
-      <Text height="120px" fontSize="14px">心の声</Text>
+      <Container
+        marginTop="60px"
+        paddingTop="60px">
+        {/* <SmallAvatar nickName={receiveAnswerInput.nickname} /> */}
+        <Text
+          height="20px"
+          fontSize="18px"
+          fontWeight="bold"
+          marginLeft="30px">
+          心の声
+        </Text>
 
-      {isLoading ? (
-        <Loading
-          variant="oval"
-          fontSize="6xl"
-          color={`red.500`}
-        />
-      ) : (
-        <>
-          {answers.map((elm, index) => {
-            return (
-              <FormControl
-                key={index}
-                height="97px"
-                width="315px"
-                marginTop="20px">
-                <Label fontSize="14px">{fbFormat[index]}</Label>
-                <Text
-                  fontSize="12px"
-                  height="100%"
-                  width="100%">
-                  {elm}
-                </Text>
-              </FormControl>
-            );
-          })}
-        </>
-      )}
-
-      <Footer onIndex={2} />
+        {isLoading ? (
+          <Center>
+            <Loading
+              variant="oval"
+              fontSize="6xl"
+              color={`red.500`}
+            />
+          </Center>
+        ) : (
+          <>
+            {answers.map((elm, index) => {
+              return (
+                <FormControl
+                  key={index}
+                  // height="97px"
+                  width="315px"
+                  marginLeft="30px"
+                  marginRight="30px"
+                  marginTop="10px">
+                  <Label
+                    fontWeight="bold"
+                    fontSize="16px">
+                    {fbFormat[index]}
+                  </Label>
+                  <Text
+                    fontSize="14px"
+                    height="100%"
+                    width="100%">
+                    {elm}
+                  </Text>
+                </FormControl>
+              );
+            })}
+          </>
+        )}
+      </Container>
+      <Footer />
     </Container>
   );
 }

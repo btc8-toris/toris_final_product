@@ -100,7 +100,7 @@ function ConversationLogPage() {
                       <Box
                         key={transcript.id}
                         className="message-bubble--mine"
-                        bg="primary"
+                        bg="#D2F1E7"
                         margin="3"
                         rounded="lg"
                         padding="2"
