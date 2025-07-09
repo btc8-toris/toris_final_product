@@ -13,7 +13,9 @@ function LoginPage() {
       color="tertiary"
       gap="none"
       p="0">
-      <Box width="100%">
+      <Box
+        marginTop="20px"
+        width="100%">
         <Image src={appLogo} />
       </Box>
       <LoginOrSignup

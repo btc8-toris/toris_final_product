@@ -90,7 +90,8 @@ function PartnerLogPage() {
                 label="過去の対話ログ">
                 <ScrollArea
                   type="always"
-                  h="150px">
+                  maxHeight="150px"
+                >
                   <VStack
                     paddingTop="md"
                     gap="5px">
