@@ -11,6 +11,14 @@ import BigAvatar from '../../../components/Avatar/BigAvatar';
 import { useLocation } from 'react-router';
 import { context } from '../../../app/App';
 
+const sampleLogs = [
+  {
+    transcript_url: 'sample',
+    created_at: '2025-07-07 14:15:23',
+    conversation_time: '115',
+  },
+];
+
 function PartnerLogPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -31,7 +39,12 @@ function PartnerLogPage() {
       if (res.status === 200) {
         setPastLogs(res.data);
       } else {
-        setLogExist(true);
+        if (Number(receiveAnswer.id) >= 1 && Number(receiveAnswer.id) <= 6) {
+          setPastLogs(sampleLogs);
+          setLogExist(false);
+        } else {
+          setLogExist(true);
+        }
       }
     });
   };
@@ -90,8 +103,7 @@ function PartnerLogPage() {
                 label="過去の対話ログ">
                 <ScrollArea
                   type="always"
-                  maxHeight="150px"
-                >
+                  maxHeight="150px">
                   <VStack
                     paddingTop="md"
                     gap="5px">

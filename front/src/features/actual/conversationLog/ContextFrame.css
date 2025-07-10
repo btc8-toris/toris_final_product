@@ -35,7 +35,7 @@
   width: 0;
   height: 0;
   border: 24px solid transparent;
-  border-bottom-color: #3bbc54; /* 吹き出しの背景色と同じ */
+  border-bottom-color: #D2F1E7; /* 吹き出しの背景色と同じ */
   border-right: 0; /* 右側を切り落とす */
   transform: translateY(-50%); /* しっぽの垂直位置調整 */
   z-index: 2;
