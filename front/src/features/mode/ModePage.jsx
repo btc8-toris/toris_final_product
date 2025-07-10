@@ -68,8 +68,8 @@ function ModePage() {
             fullRounded={true}
             size="xl"
             colorScheme="primary"
-            onClick={(e) => {
-              e.currentTarget.blur();
+            onTouchStart={(e) => e.currentTarget.blur()}
+            onClick={() => {
               navigate('/rehearsal/input', { state: { data: sendAnswer } });
             }}>
             ひとり対話
@@ -79,9 +79,9 @@ function ModePage() {
             fullRounded={true}
             size="xl"
             colorScheme="primary"
-            onClick={(e) => {
-              e.currentTarget.blur();
-              navigate('/rehearsal/input', { state: { data: sendAnswer } });
+            onTouchStart={(e) => e.currentTarget.blur()}
+            onClick={() => {
+              navigate('/actual/partnerlog', { state: { data: sendAnswer } });
             }}>
             ふたり対話
           </Button>
