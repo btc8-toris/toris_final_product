@@ -50,8 +50,6 @@ function RehearsalInPage() {
       p="0">
       <Header title={receiveAnswer.nickname} />
 
-      {/* <SmallAvatar nickName={receiveAnswer.nickname} /> */}
-
       <Box
         marginTop="120px"
         paddingLeft="5px"

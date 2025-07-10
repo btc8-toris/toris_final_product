@@ -416,7 +416,7 @@ function ConversationLogPage() {
             <VStack>
               {transcripts.map((transcript, index) => {
                 return transcript.speaker_label === 'spk_0' ? (
-                  <>
+                  <React.Fragment key={index}>
                     <Flex
                       className="message-bubble"
                       direction="row"
@@ -432,7 +432,7 @@ function ConversationLogPage() {
                         {transcript.transcript}
                       </Box>
                     </Flex>
-                  </>
+                  </React.Fragment>
                 ) : (
                   <Box key={index}>
                     <Box marginBottom="2px">

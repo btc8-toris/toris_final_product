@@ -88,8 +88,6 @@ function PartnerLogPage() {
                 sx={{
                   '& svg': {
                     color: 'primary', // ← ここで矢印の色を指定
-                    // width: '32px', // ← 幅を指定
-                    // height: '32px', // ← 高さを指定
                   },
                 }}
                 fontSize="15px"

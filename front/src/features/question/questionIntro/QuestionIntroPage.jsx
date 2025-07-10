@@ -8,9 +8,6 @@ function QuestionIntroPage() {
 
   return (
     <Container
-      //   centerContent="true"
-      // gap="none"
-
       color="tertiary"
       p="0">
       <Flex
