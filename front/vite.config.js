@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+//コミットようにコメント追加
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -9,8 +10,9 @@ export default defineConfig({
     VitePWA({
       devOptions: { enabled: true },
       manifest: {
-        name: 'Tact App',
+        name: 'TacT',
         short_name: 'TacT',
+        start_url: '/',
         display: 'standalone',
         icons: [
           {
