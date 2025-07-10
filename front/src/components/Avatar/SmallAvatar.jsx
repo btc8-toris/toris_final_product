@@ -1,8 +1,6 @@
 import { Flex, Avatar, Text } from '@yamada-ui/react';
 
 const SmallAvatar = ({ nickName }) => {
-  console.log('💀 ~ SmallAvatar ~ nickName:', nickName);
-
   return (
     <Flex
       paddingTop="70px"

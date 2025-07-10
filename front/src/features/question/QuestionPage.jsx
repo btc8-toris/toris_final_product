@@ -70,9 +70,6 @@ function QuestionPage() {
   const createAnswer = (selectedVal, index) => {
     const newValue = answerValue.map((val, i) => (i === index ? selectedVal : val));
     const newVword = answerword.map((val, i) => (i === index ? answers[index][selectedVal] : val));
-    console.log('💀 ~ createAnswer ~ newVword:', newVword);
-    console.log('💀 ~ createAnswer ~ newValue:', newValue);
-
     setAnswerValue(newValue);
     setAnswerWord(newVword);
   };
@@ -100,7 +97,6 @@ function QuestionPage() {
     await axios
       .put(`${BASE_URL}/api/users/ans_all/${user.userId}`, sendData, JSON_HEADER)
       .then((respose) => {
-        console.log('response', respose.data);
         login(JSON.stringify(respose.data));
         navigate('/question/complete');
       })
@@ -118,10 +114,6 @@ function QuestionPage() {
       <Container
         marginTop="60px"
         paddingTop="60px">
-        {/* <Box>
-          質問に答えることで、あなたの大切にしている 価値観や理想の働き方を確認させて頂きます。
-          直感で選んでください。＜全５問＞
-        </Box> */}
         <For each={questions}>
           {(question, qIndex) => (
             <Card
@@ -129,7 +121,6 @@ function QuestionPage() {
               bg="#D2F1E7"
               key={qIndex}
               p="5">
-              {/* <Text>{`【質問 ${qIndex + 1}】`}</Text> */}
               <Text
                 marginBottom="15px"
                 fontWeight="bold">

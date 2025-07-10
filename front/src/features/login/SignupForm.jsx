@@ -49,7 +49,6 @@ function SignupForm() {
         setIsHaveAccount(true);
       })
       .catch(async () => {
-        console.log('アカウント登録に移行します。');
         await axios
           .post(`${BASE_URL}/api/auth/register`, data, JSON_HEADER)
           .then(
@@ -57,7 +56,6 @@ function SignupForm() {
             async () => await axios.post(`${BASE_URL}/api/auth/login`, data, JSON_HEADER),
           )
           .then((response) => {
-            console.log(response.data.data);
             login(JSON.stringify(response.data.data));
             navigate('/home');
           })

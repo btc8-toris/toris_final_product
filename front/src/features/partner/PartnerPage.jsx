@@ -42,18 +42,14 @@ function PartnerPage() {
       const response = await axios.get(`${BASE_URL}/api/users/demo`);
       for (let obj of response.data) {
         demoIniMember.push(obj);
-        console.log('💀 ~ get6PersonsData ~ demoIniMember:', demoIniMember);
       }
 
       setList(response.data);
     }
     (async () => await get6PersonsData())();
-
-    // get6PersonsData();
   }, []);
 
   useEffect(() => {
-    console.log('💀 ~ useEffect ~ searchID:', searchID);
     switch (searchID) {
       case 1001:
         setColor('#69C0D9');
@@ -85,8 +81,6 @@ function PartnerPage() {
 
   useEffect(() => {
     if (answer) {
-      console.log('💀 ~ useEffect ~ answer:', answer);
-
       navigate('/mode', { state: { data: answer } });
     }
   }, [answer]);
@@ -223,98 +217,94 @@ function PartnerPage() {
         </InputRightElement>
       </InputGroup>
 
-      {
-        listFlag === true && noIDFlag === true ? (
-          <>
-            <Box
-              textAlign="left"
-              width="100%">
-              {searchFlag ? (
-                ''
-              ) : (
-                <Text
-                  fontSize="20px"
-                  paddingLeft="30px">
-                  ユーザーサンプル
-                </Text>
-              )}
-            </Box>
-            {searchFlag ? (
-              <VStack
-                gap="sm"
-                align="center">
-                {list.map((obj, index) => {
-                  return (
-                    <Button
-                      key={obj.id}
-                      data-index={index}
-                      height="50px"
-                      width="315px"
-                      variant="outline"
-                      fontSize="14px"
-                      sx={{
-                        textAlign: 'left',
-                        justifyContent: 'flex-start',
-                      }}
-                      onClick={selectPerson}>
-                      <Avatar
-                        size="sm"
-                        align="left"
-                        bg={oneColor}
-                        color="tertiary"
-                        name={obj.nickname}
-                      />
-                      {obj.nickname}
-                    </Button>
-                  );
-                })}
-              </VStack>
-            ) : (
-              <VStack
-                gap="sm"
-                align="center">
-                {list.map((obj, index) => {
-                  return (
-                    <Button
-                      key={obj.id}
-                      data-index={index}
-                      height="50px"
-                      width="315px"
-                      variant="outline"
-                      fontSize="14px"
-                      sx={{
-                        textAlign: 'left',
-                        justifyContent: 'flex-start',
-                      }}
-                      onClick={selectPerson}>
-                      <Avatar
-                        size="sm"
-                        align="left"
-                        bg={color[index]}
-                        color="tertiary"
-                        name={obj.nickname}
-                      />
-                      {obj.nickname}
-                    </Button>
-                  );
-                })}
-              </VStack>
-            )}
-          </>
-        ) : //三項演算子の後半開始
-        noIDFlag ? (
-          ''
-        ) : (
+      {listFlag === true && noIDFlag === true ? (
+        <>
           <Box
-            align="center"
-            marginTop="100px">
-            <Text fontSize="18px">入力されたIDでは見つかりませんでした</Text>
-            <Text fontSize="14px">IDに間違いがないかご確認ください。</Text>
+            textAlign="left"
+            width="100%">
+            {searchFlag ? (
+              ''
+            ) : (
+              <Text
+                fontSize="20px"
+                paddingLeft="30px">
+                ユーザーサンプル
+              </Text>
+            )}
           </Box>
-        )
-
-        // '' //三項演算子の後半終了
-      }
+          {searchFlag ? (
+            <VStack
+              gap="sm"
+              align="center">
+              {list.map((obj, index) => {
+                return (
+                  <Button
+                    key={obj.id}
+                    data-index={index}
+                    height="50px"
+                    width="315px"
+                    variant="outline"
+                    fontSize="14px"
+                    sx={{
+                      textAlign: 'left',
+                      justifyContent: 'flex-start',
+                    }}
+                    onClick={selectPerson}>
+                    <Avatar
+                      size="sm"
+                      align="left"
+                      bg={oneColor}
+                      color="tertiary"
+                      name={obj.nickname}
+                    />
+                    {obj.nickname}
+                  </Button>
+                );
+              })}
+            </VStack>
+          ) : (
+            <VStack
+              gap="sm"
+              align="center">
+              {list.map((obj, index) => {
+                return (
+                  <Button
+                    key={obj.id}
+                    data-index={index}
+                    height="50px"
+                    width="315px"
+                    variant="outline"
+                    fontSize="14px"
+                    sx={{
+                      textAlign: 'left',
+                      justifyContent: 'flex-start',
+                    }}
+                    onClick={selectPerson}>
+                    <Avatar
+                      size="sm"
+                      align="left"
+                      bg={color[index]}
+                      color="tertiary"
+                      name={obj.nickname}
+                    />
+                    {obj.nickname}
+                  </Button>
+                );
+              })}
+            </VStack>
+          )}
+        </>
+      ) : //三項演算子の後半開始
+      noIDFlag ? (
+        ''
+      ) : (
+        <Box
+          align="center"
+          marginTop="100px">
+          <Text fontSize="18px">入力されたIDでは見つかりませんでした</Text>
+          <Text fontSize="14px">IDに間違いがないかご確認ください。</Text>
+        </Box>
+      )}
 
       <Footer onIndex={2} />
     </Container>

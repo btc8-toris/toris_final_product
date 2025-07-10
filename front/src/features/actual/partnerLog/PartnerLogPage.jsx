@@ -27,14 +27,10 @@ function PartnerLogPage() {
   const { BASE_URL } = useContext(context);
   const [logExist, setLogExist] = useState(false);
   const [sendData, setSendData] = useState({});
-  console.log('💀 ~ PartnerLogPage ~ sendData:', sendData);
-
-  console.log('🍓 ~ PartnerLogPage ~ receiveAnswer:', receiveAnswer);
 
   const getLog = async () => {
     const pairID = receiveAnswer.pairId;
 
-    // const pairID = 1;
     await axios.get(`${BASE_URL}/api/conversations/log/${pairID}`).then((res) => {
       if (res.status === 200) {
         setPastLogs(res.data);
@@ -66,8 +62,6 @@ function PartnerLogPage() {
     navigate('/actual/conversationlog', { state: { data: sendData } });
   };
 
-  console.log(logExist);
-
   return (
     <>
       <Container
@@ -94,8 +88,6 @@ function PartnerLogPage() {
                 sx={{
                   '& svg': {
                     color: 'primary', // ← ここで矢印の色を指定
-                    // width: '32px', // ← 幅を指定
-                    // height: '32px', // ← 高さを指定
                   },
                 }}
                 fontSize="15px"

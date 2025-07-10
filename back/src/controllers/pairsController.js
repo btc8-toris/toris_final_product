@@ -2,7 +2,6 @@ const pairsModel = require('../models/Pairs');
 
 module.exports = {
   async addPairs(req, res) {
-    console.log('💀 ~ addPairs ~ req.body:', req.body);
     try {
       const { user_id, partner_id } = req.body;
 

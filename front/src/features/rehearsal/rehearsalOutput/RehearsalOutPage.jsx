@@ -18,8 +18,6 @@ function RehearsalOutPage() {
   const fbFormat = ['感じたこと', '伝わったこと', 'こう伝えて欲しかった'];
   const { BASE_URL } = useContext(context);
 
-  console.log('💀 ~ RehearsalOutPage ~ receiveAnswerInput:', receiveAnswerInput);
-
   // ここでAIへ壁打ちする関数をマウント時に一回呼び出す
   useEffect(() => {
     const contactAI = async () => {
@@ -95,8 +93,6 @@ function RehearsalOutPage() {
       <Container
         marginTop="60px"
         paddingTop="60px">
-        {/* <SmallAvatar nickName={receiveAnswerInput.nickname} /> */}
-
         {isLoading ? (
           <Center>
             <Loading
@@ -116,12 +112,11 @@ function RehearsalOutPage() {
             </Text>
             <ScrollArea
               type="always"
-              maxHeight="480px">
+              maxHeight="460px">
               {answers.map((elm, index) => {
                 return (
                   <FormControl
                     key={index}
-                    // height="97px"
                     width="275px"
                     marginLeft="30px"
                     marginRight="30px"

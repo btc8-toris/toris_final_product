@@ -37,7 +37,6 @@ function ModePage() {
       const response = await axios.get(`${BASE_URL}/api/pairs/${user.userId}`); //自分と会話したことがあるペアIDを全取得
       for (let obj of response.data) {
         if (obj.partner_id === receiveAnswer.id) {
-          // receiveAnswer['pairId'] = 1;
           receiveAnswer['pairId'] = obj.id;
 
           break;
@@ -46,8 +45,6 @@ function ModePage() {
       setsendAnswer(receiveAnswer);
     }
     (async () => await addPairsId())();
-
-    // addPairsId();
   }, []);
 
   return (

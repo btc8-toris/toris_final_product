@@ -11,7 +11,6 @@ import axios from 'axios';
 function SuggestionPage() {
   const location = useLocation();
   const receiveAnswer = location.state.data;
-  console.log('🍓 ~ SuggestionPage ~ receiveAnswer:', receiveAnswer);
 
   const [answers, setAnswers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +25,6 @@ function SuggestionPage() {
         const transcripts = receiveAnswer.transcript.map((obj) => {
           return { transcript: obj.transcript, speaker_label: obj.speaker_label };
         });
-        console.log('🍓 ~ transcripts ~ transcripts:', transcripts);
 
         // 投げかけ方法を考えるtranscriptの中に会話は保存
         const res = await axios.post(
@@ -90,8 +88,6 @@ function SuggestionPage() {
     (async () => await contactAI())();
   }, []);
 
-  console.log(answers);
-
   return (
     <Container
       centerContent="true"
@@ -102,8 +98,6 @@ function SuggestionPage() {
       <Container
         marginTop="60px"
         paddingTop="60px">
-        {/* <SmallAvatar nickName={receiveAnswer.nickname} /> */}
-        {/* AIからの解答結果を表示 */}
         {isLoading ? (
           <Center>
             <Loading
@@ -123,12 +117,11 @@ function SuggestionPage() {
             </Text>
             <ScrollArea
               type="always"
-              maxHeight="480px">
+              maxHeight="460px">
               {answers.map((elm, index) => {
                 return (
                   <FormControl
                     key={index}
-                    // height="100px"
                     width="275px"
                     marginTop="10px"
                     marginLeft="30px"

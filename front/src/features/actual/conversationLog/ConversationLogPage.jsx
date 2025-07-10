@@ -356,14 +356,11 @@ function ConversationLogPage() {
   const [sendData, setSendData] = useState({});
   const [load, setLoad] = useState(true);
 
-  console.log('🍓 ~ ConversationLogPage ~ receiveAnswer:', receiveAnswer);
-
   const text = async (mp3File) => {
     const data = await fetch(`${BASE_URL}/api/voices/transcription-result/${mp3File}`).then((res) =>
       res.json(),
     );
 
-    // console.log('🍓 ~ text ~ data.text:', data.text);
     if (data.status === 'completed') {
       setLoad(false);
       setTranscripts(data.text);
@@ -377,9 +374,7 @@ function ConversationLogPage() {
   };
 
   const analysis = async () => {
-    await axios
-      .put(`${BASE_URL}/api/conversations/read/${receiveAnswer.transcript_url}`)
-      .then((res) => console.log(res.data.message));
+    await axios.put(`${BASE_URL}/api/conversations/read/${receiveAnswer.transcript_url}`);
 
     navigate('/actual/suggestion', { state: { data: sendData } });
   };
@@ -394,8 +389,7 @@ function ConversationLogPage() {
       })();
     }
     setSendData(receiveAnswer);
-  }, [receiveAnswer]);
-  console.log('🍓 ~ ConversationLogPage ~ transcripts:', transcripts);
+  }, []);
 
   return (
     <Container
@@ -406,9 +400,7 @@ function ConversationLogPage() {
       <Header title={'対話ログ'} />
       <Container
         marginTop="60px"
-        paddingTop="60px"
-        // centerContent="true"
-      >
+        paddingTop="60px">
         {load ? (
           <Center>
             <Loading
@@ -419,12 +411,12 @@ function ConversationLogPage() {
           </Center>
         ) : (
           <ScrollArea
-            maxHeight="447px"
+            maxHeight="427px"
             type="scroll">
             <VStack>
               {transcripts.map((transcript, index) => {
                 return transcript.speaker_label === 'spk_0' ? (
-                  <>
+                  <React.Fragment key={index}>
                     <Flex
                       className="message-bubble"
                       direction="row"
@@ -440,7 +432,7 @@ function ConversationLogPage() {
                         {transcript.transcript}
                       </Box>
                     </Flex>
-                  </>
+                  </React.Fragment>
                 ) : (
                   <Box key={index}>
                     <Box marginBottom="2px">
@@ -476,8 +468,6 @@ function ConversationLogPage() {
           colorScheme="primary"
           width="120px"
           marginLeft="auto"
-          // marginBottom="10px"
-          // marginTop="10px"
           onClick={analysis}
           icon={
             <Image
