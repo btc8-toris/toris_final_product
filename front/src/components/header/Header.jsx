@@ -42,7 +42,7 @@ const Header = ({ title }) => {
           onClick={() => navigate(-1)}
           zIndex={1}
           left="-42%"
-          variant="ghost"
+          variant="link"
           size="30"
           icon={
             <img
