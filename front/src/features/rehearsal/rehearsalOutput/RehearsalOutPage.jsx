@@ -94,10 +94,11 @@ function RehearsalOutPage() {
         marginTop="60px"
         paddingTop="60px">
         {isLoading ? (
-          <Center>
+          <Center marginTop="200px">
             <Loading
               variant="oval"
-              fontSize="6xl"
+              // fontSize="6xl"
+              fontSize="100px"
               color={`red.500`}
             />
           </Center>
