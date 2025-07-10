@@ -9,8 +9,9 @@ export default defineConfig({
     VitePWA({
       devOptions: { enabled: true },
       manifest: {
-        name: 'Tact App',
+        name: 'TacT',
         short_name: 'TacT',
+        start_url: '/',
         display: 'standalone',
         icons: [
           {
