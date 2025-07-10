@@ -42,7 +42,6 @@ function PartnerPage() {
       const response = await axios.get(`${BASE_URL}/api/users/demo`);
       for (let obj of response.data) {
         demoIniMember.push(obj);
-        console.log('💀 ~ get6PersonsData ~ demoIniMember:', demoIniMember);
       }
 
       setList(response.data);
@@ -53,7 +52,6 @@ function PartnerPage() {
   }, []);
 
   useEffect(() => {
-    console.log('💀 ~ useEffect ~ searchID:', searchID);
     switch (searchID) {
       case 1001:
         setColor('#69C0D9');
@@ -85,8 +83,6 @@ function PartnerPage() {
 
   useEffect(() => {
     if (answer) {
-      console.log('💀 ~ useEffect ~ answer:', answer);
-
       navigate('/mode', { state: { data: answer } });
     }
   }, [answer]);

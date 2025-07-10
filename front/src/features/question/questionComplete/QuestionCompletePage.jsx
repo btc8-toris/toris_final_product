@@ -8,7 +8,6 @@ import checkIcon from '/check.svg';
 function QuestionCompletePage() {
   const { user } = useContext(context);
   const navigate = useNavigate();
-  console.log(user);
 
   return (
     <Container

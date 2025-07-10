@@ -127,10 +127,6 @@ function HomePage() {
     }
   }, [answerWaiting]);
 
-  useEffect(() => {
-    console.log('🟡 myID useEffect: 現在の値 =>', myID);
-  }, [myID]);
-
   //-------------------ボタンクリック/入力値変化時の関数はこの下に記載----------------------
   function selectPerson(e) {
     const id = Number(e.currentTarget.dataset.index);

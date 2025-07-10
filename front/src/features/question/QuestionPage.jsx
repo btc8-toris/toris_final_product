@@ -70,9 +70,6 @@ function QuestionPage() {
   const createAnswer = (selectedVal, index) => {
     const newValue = answerValue.map((val, i) => (i === index ? selectedVal : val));
     const newVword = answerword.map((val, i) => (i === index ? answers[index][selectedVal] : val));
-    console.log('💀 ~ createAnswer ~ newVword:', newVword);
-    console.log('💀 ~ createAnswer ~ newValue:', newValue);
-
     setAnswerValue(newValue);
     setAnswerWord(newVword);
   };
@@ -100,7 +97,6 @@ function QuestionPage() {
     await axios
       .put(`${BASE_URL}/api/users/ans_all/${user.userId}`, sendData, JSON_HEADER)
       .then((respose) => {
-        console.log('response', respose.data);
         login(JSON.stringify(respose.data));
         navigate('/question/complete');
       })
