@@ -1,7 +1,6 @@
 import { Box, Button, Flex } from '@yamada-ui/react';
 import React from 'react';
 import { useState, useRef } from 'react';
-// import './App.css';
 
 function MediaRecorer() {
   const [audioURL, setAudioURL] = useState(null);
@@ -19,11 +18,7 @@ function MediaRecorer() {
 
     mediaRecorderRef.current.onstop = () => {
       const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' }); //ここでマイクで取り込んだ音声をファイル化している
-
-      console.log('💀 ~ startRecording ~ audioBlob:', audioBlob);
       const url = URL.createObjectURL(audioBlob); //ここで作成した音声のURLを作成している
-      console.log('💀 ~ startRecording ~ url:', url);
-
       setAudioURL(url);
       audioChunksRef.current = []; // リセット
     };

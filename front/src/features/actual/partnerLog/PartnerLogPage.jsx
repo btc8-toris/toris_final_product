@@ -27,14 +27,10 @@ function PartnerLogPage() {
   const { BASE_URL } = useContext(context);
   const [logExist, setLogExist] = useState(false);
   const [sendData, setSendData] = useState({});
-  console.log('💀 ~ PartnerLogPage ~ sendData:', sendData);
-
-  console.log('🍓 ~ PartnerLogPage ~ receiveAnswer:', receiveAnswer);
 
   const getLog = async () => {
     const pairID = receiveAnswer.pairId;
 
-    // const pairID = 1;
     await axios.get(`${BASE_URL}/api/conversations/log/${pairID}`).then((res) => {
       if (res.status === 200) {
         setPastLogs(res.data);
@@ -65,8 +61,6 @@ function PartnerLogPage() {
     receiveAnswer.transcript_url = e.currentTarget.value;
     navigate('/actual/conversationlog', { state: { data: sendData } });
   };
-
-  console.log(logExist);
 
   return (
     <>

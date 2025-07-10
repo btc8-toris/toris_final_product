@@ -22,7 +22,6 @@ module.exports = {
 
   //自分のユーザー情報を取得
   async getMyInfo(my_id) {
-    console.log('getMyInfoに来たよ');
     return await db(USERS_TABLE).where('id', my_id);
   },
 
@@ -43,19 +42,4 @@ module.exports = {
       )
       .first();
   },
-  // async writeAnswer1(user_id, answer) {
-  //   await db(USERS_TABLE).where('id', user_id).update('answer1', answer);
-  // },
-  // async writeAnswer2(user_id, answer) {
-  //   await db(USERS_TABLE).where('id', user_id).update(answer);
-  // },
-  // async writeAnswer3(user_id, answer) {
-  //   await db(USERS_TABLE).where('id', user_id).update(answer);
-  // },
-  // async writeAnswer4(user_id, answer) {
-  //   await db(USERS_TABLE).where('id', user_id).update(answer);
-  // },
-  // async writeAnswer5(user_id, answer) {
-  //   await db(USERS_TABLE).where('id', user_id).update(answer);
-  // },
 };

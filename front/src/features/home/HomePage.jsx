@@ -26,8 +26,6 @@ import copyIcon from '/copy_icon.svg';
 import { format } from 'date-fns';
 import { Clock4Icon } from '@yamada-ui/lucide';
 
-// let myID = 0;
-
 function HomePage() {
   const navigate = useNavigate();
   const { user, BASE_URL } = useContext(context);
@@ -42,7 +40,6 @@ function HomePage() {
   let setIconFlag = 0;
 
   const handleCopy = async () => {
-    console.log('📋 コピー実行: myID =', myID);
     try {
       await navigator.clipboard.writeText(myID);
       setCopied(true);
@@ -55,13 +52,9 @@ function HomePage() {
   //--------------初回読み込み時にのみ作動するuseefect一覧開始-------------------------
   useEffect(() => {
     async function getMySearchID(id) {
-      console.log('👤 ユーザー情報 user.userId:', id);
-      console.log('URL', `${BASE_URL}/api/users/myInfo/${id}`);
       const response = await axios.get(`${BASE_URL}/api/users/myInfo/${id}`);
-      console.log('✅ setMyID で設定する search_id:', response.data[0].search_id);
 
       if (response.data[0].search_id === null || response.data[0].search_id === undefined) {
-        console.log('📛 search_id が null または undefined');
         setIconFlag = 4;
         setCircle(setIconFlag);
       } else {
@@ -69,10 +62,8 @@ function HomePage() {
         setMyID(response.data[0].search_id);
         setCircle(setIconFlag);
       }
-      // setCircle(setIconFlag);
     }
     (async () => await getMySearchID(user.userId))();
-    // await getMySearchID(user.userId);
   }, []);
 
   //---------------最近話した人の取得------------------------
@@ -97,7 +88,6 @@ function HomePage() {
       setTalkPersons(preTalkPersons);
     }
     (async () => await getTalkPersons(user.userId))();
-    // getTalkPersons(user.userId);
   }, []);
 
   //------------------フィードバック待ちの取得---------------------
@@ -114,21 +104,14 @@ function HomePage() {
         }
       } else if (response.data.length === 1) {
         const res = await axios.get(`${BASE_URL}/api/users/myInfo/${response.data[0].partner_id}`);
-        console.log(res.data[0]);
-        console.log(response.data[0]);
-
         const temporary = { ...res.data[0], ...response.data[0] };
-        console.log('💀 ~ getWaitingAna ~ temporary:', temporary);
-
         preWaitingInfo.push(temporary);
       } else {
         preWaitingInfo.length = 0;
       }
-      console.log('💀 ~ getWaitingAna ~ response:', response.data);
       setWaitingItems(preWaitingInfo);
     }
     (async () => await getWaitingAna(user.userId))();
-    // getWaitingAna(user.userId);
   }, []);
   //--------------初回読み込み時にのみ作動するuseefect一覧終了-------------------------
 

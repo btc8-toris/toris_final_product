@@ -79,17 +79,14 @@ function ListenConversationPage() {
       conversation_time: time,
       read_flag: false,
     };
-    console.log('🍓 ~ logPost ~ data:', data);
 
-    await axios.post(`${BASE_URL}/api/conversations/transcripts`, data, JSON_HEADER).then((res) => {
-      console.log(res.data.message);
-    });
+    await axios
+      .post(`${BASE_URL}/api/conversations/transcripts`, data, JSON_HEADER)
+      .then((res) => {});
   };
 
   const stopRecording = () => {
-    console.log('🍓 ~ stopRecording ~ recorder:', recorder);
     if (recorder) {
-      console.log('🍟');
       recorder.stopRecording(async () => {
         const blob = recorder.getBlob();
         onStop();
